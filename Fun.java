@@ -5,15 +5,15 @@
 	import java.util.logging.Logger;
 	import javax.swing.JFrame;
 	 
-	public class Moving {
+	public class Fun {
 	 
 	    public static void main(String[] args) {
-	        new Moving();
+	        new Fun();
 	    }
 	    JFrame window;
 	    BufferedImage img;
 	 
-	    public Moving() {
+	    public Fun() {
 	        img = new BufferedImage(1000, 200, BufferedImage.OPAQUE);
 	        window = new JFrame() {
 	 
