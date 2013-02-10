@@ -12,44 +12,46 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-  
 
-public class Main extends JFrame { 
+
+public class Main extends JFrame {
 	int x = 200;
-    int y = 150;
+  int y = 150;
+
   public void paintComponent(Graphics g) {
     g.setColor(Color.blue);
     g.fillOval(100, 100, 100, 100);
     g.setColor(Color.red);
     g.fillOval(700, 100, 100, 100);
     g.setColor(Color.gray);
-    g.fillRect(x, y, 10, 10);  
- 
+    g.fillRect(x, y, 10, 10);
+
   }
+
   JFrame window;
   BufferedImage img;
-  
+
   class fleet extends JPanel
   {
 	  JFrame window;
 	  BufferedImage img;
-	 
+
 	    public fleet() {
 	        img = new BufferedImage(1000, 200, BufferedImage.OPAQUE);
 	        window = new JFrame() {
-	 
+
 	            public void paint(Graphics g) {
 	                g.drawImage(img, 0, 0, rootPane);
 	            }
 	        };
-	 
+
 	        window.setSize(1000,200);
 	        window.setLocationRelativeTo(null);
 	        window.setDefaultCloseOperation(window.EXIT_ON_CLOSE);
 	        window.setVisible(true);
 	        animate();
 	    }
-	 
+
 	    public void animate() {
 	        Graphics g = img.getGraphics();
 	        for (int i = 0; i < 640; i += 10) {
@@ -66,7 +68,7 @@ public class Main extends JFrame {
 	        }
 	    }
   }
-  
+
   class DrawPane extends JPanel{
     public void paintComponent(Graphics g){
         g.setColor(Color.blue);
@@ -75,41 +77,41 @@ public class Main extends JFrame {
         g.fillOval(900, 100, 100, 100);
      }
  }
-  
-  	public Main() { 
+
+public Main() {
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    setSize(screenSize.width,screenSize.height);  
-    setDefaultCloseOperation(EXIT_ON_CLOSE);  
-    JLayeredPane lp = getLayeredPane();  
-      
-    //galaxy background  
-    lp.setPreferredSize(new Dimension(screenSize.width,screenSize.height));  
-    JPanel p1 = new JPanel();  
-    p1.setLayout(new BorderLayout());  
-    p1.setBounds(0, 0, screenSize.width,screenSize.height);  
-    JLabel background=new JLabel(new ImageIcon("C:\\Documents\\school\\UoE\\inf1\\oop\\project KAMB\\galaxy.jpg")); 
-    p1.setBackground(Color.red);  
-    p1.add(background, BorderLayout.NORTH);  
-    lp.add(p1, new Integer(1));  
-      
-    //planets  
+    setSize(screenSize.width,screenSize.height);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    JLayeredPane lp = getLayeredPane();
+
+    //galaxy background
+    lp.setPreferredSize(new Dimension(screenSize.width,screenSize.height));
+    JPanel p1 = new JPanel();
+    p1.setLayout(new BorderLayout());
+    p1.setBounds(0, 0, screenSize.width,screenSize.height);
+    JLabel background=new JLabel(new ImageIcon("galaxy.jpg"));
+    p1.setBackground(Color.red);
+    p1.add(background, BorderLayout.NORTH);
+    lp.add(p1, new Integer(1));
+
+    //planets
     JPanel planet=new DrawPane();
-    planet.setLayout(new BorderLayout());  
-    planet.setBounds(100, 0, 1000,200); 
-    lp.add(planet, new Integer(2));  
-    
+    planet.setLayout(new BorderLayout());
+    planet.setBounds(100, 0, 1000,200);
+    lp.add(planet, new Integer(2));
+
    // JPanel fleet=new fleet();
-    //fleet.setLayout(new BorderLayout());  
-    //fleet.setBounds(100, 0, 1000,200); 
-    //lp.add(fleet, new Integer(3));  
-      
-      
-    setVisible(true);  
-  }  
-  
-  public static void main(String[] args) {  
-    new Main();  
-   
-      
-  }  
-}  
+    //fleet.setLayout(new BorderLayout());
+    //fleet.setBounds(100, 0, 1000,200);
+    //lp.add(fleet, new Integer(3));
+
+
+    setVisible(true);
+  }
+
+  public static void main(String[] args) {
+    new Main();
+
+
+  }
+}
