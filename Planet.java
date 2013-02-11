@@ -87,6 +87,10 @@ public class Planet
         }
     }
     
+    /**
+     * @return a boolean stating whether or not the given coordinate is 'inside' the
+     * planet. Can be used for testing mouse-click-selection.
+     */
     public boolean isCoordinateInside(int x, int y)
     {
         //TODO Is the coordinate's distance from the centre coordinate less than the radius?
