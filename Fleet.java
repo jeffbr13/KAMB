@@ -67,8 +67,8 @@ public class Fleet implements Drawable
      */
     public boolean isClickInside(int x, int y)
     {
-        //TODO Is the given coordinate's distance from the centre coordinate less than the clickRadius?
-        return false;
+        //Is the given coordinate's distance from the centre coordinate less than (or equal) the clickRadius?
+        return (this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)<=clickRadius*clickRadius;
     }
     
     /**

@@ -93,8 +93,8 @@ public class Planet implements Drawable
      */
     public boolean isCoordinateInside(int x, int y)
     {
-        //TODO Is the coordinate's distance from the centre coordinate less than the radius?
-        return false;
+        //Is the coordinate's distance from the centre coordinate less than (or equal) the radius?
+        return (this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)<=radius*radius;
     }
 	
 }
