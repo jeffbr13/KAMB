@@ -6,7 +6,8 @@ import javax.imageio.ImageIO;
 
 
 /**
- *
+ * The Fleet class is constructed with its starting x and y co-ordinates, as well
+ * those of where it is meant to end.
  */
 public class Fleet implements Drawable
 {

@@ -23,6 +23,7 @@ public class Planet implements Drawable
 	this.y = y;
 	this.radius = radius;
 	
+	// FIXME: relate the radius of the planet to the size of the BufferedImage representing it.
 	try {
 	    File f = new File("resources/images/planets/planet1.png");
 	    this.bufferedImage = ImageIO.read(f);

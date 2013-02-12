@@ -13,14 +13,20 @@ public class Universe
     private Drawable[] drawableEntities;
     
     /*
-     * This genera
+     * This generates a universe of the appropriate width, height, and number
+     * of planets present, and arranged in a satisfactory order.
      */
     public Universe(int width, int height, int numPlanets)
     {
         this.width = width;
         this.height = height;
         
-        //TODO: generate planets.
+        this.planets = new Planet[numPlanets];
+        for (int i=0; i < numPlanets; i++) {
+            // FIXME: default values place a planet at (50,50), with a radius of 40. 
+            this.planets[i] = new Planet(50,50,40);
+        }
+        //TODO: ensure generated planets are a sensible distance apart, and have a sensible radius.
     }
     
     public void addPlanet(Planet p)
