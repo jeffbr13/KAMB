@@ -89,7 +89,7 @@ public Main() {
     JPanel p1 = new JPanel();
     p1.setLayout(new BorderLayout());
     p1.setBounds(0, 0, screenSize.width,screenSize.height);
-    JLabel background=new JLabel(new ImageIcon("galaxy.jpg"));
+    JLabel background=new JLabel(new ImageIcon("resources/images/backgrounds/galaxy1.jpg"));
     p1.setBackground(Color.red);
     p1.add(background, BorderLayout.NORTH);
     lp.add(p1, new Integer(1));
