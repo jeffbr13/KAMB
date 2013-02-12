@@ -2,14 +2,13 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
+
 /**
- * @author jeffbr
  *
  */
-public class Fleet
+public class Fleet implements Drawable
 {
     private int x;
     private int y;
@@ -52,8 +51,7 @@ public class Fleet
     public int getX()
     {
         return this.x;
-    }
-     
+    }  
     /**
      * @return the `y` co-ordinate of the fleet.
      */
@@ -71,7 +69,6 @@ public class Fleet
         //TODO Is the given coordinate's distance from the centre coordinate less than the clickRadius?
         return false;
     }
-    
     
     /**
      * Draw the planet on the given Graphics2D object.

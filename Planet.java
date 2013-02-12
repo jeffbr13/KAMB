@@ -5,11 +5,10 @@ import java.io.File;
 import java.io.IOException;
 
 
-
 /**
  * The Planet class is constructed with the x and y co-ordinates, as well as a radius.
  */
-public class Planet
+public class Planet implements Drawable
 {
     private int x;
     private int y;
