@@ -10,9 +10,9 @@ import java.io.IOException;
  */
 public class Planet implements Drawable
 {
-    private int x;
-    private int y;
-    private int radius;
+    public int x;
+    public int y;
+    public int radius;
     private int ships;
     private BufferedImage bufferedImage;
     
