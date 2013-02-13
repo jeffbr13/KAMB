@@ -20,9 +20,16 @@ public class Fleet implements Drawable
     private int destinationX;
     private int destinationY;
     
+    
     private BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
-    private int speed = 100; // arbitrary speed value
+    private double speed = 100; // arbitrary speed value
+    
+    
+    //Distance between the planets and the time it'll take the fleet.
+    private double distance, time,frame;
+    //Game Frames Per Second... would rather have this in a higher order class than this!
+    public static int GAME_FPS = 120;
     
     
     public Fleet(int currentX, int currentY, int destinationX, int destinationY)
@@ -34,6 +41,14 @@ public class Fleet implements Drawable
         
         this.destinationX = destinationX;
         this.destinationY = destinationY;
+        
+        
+        //Calculates distance between planets.
+        distance=Math.sqrt((this.destinationX-startX)*(this.destinationX-startY)+(this.destinationX-startY)*(this.destinationY-startY));
+        //Calculates time by S/v and then takes what portion of the distance it must pass in 1 frame.
+        time=distance/speed;
+        frame=1/(GAME_FPS*time);
+        
         
         try {
             File f = new File("resources/images/fleets/fleet1.png");
@@ -83,11 +98,15 @@ public class Fleet implements Drawable
      * Update the internal state of the fleet based on how much time has passed.
      * Do this to a fleet before you draw it on screen, otherwise it won't update!
      */
-    public void update(long nanosecondsPassed)
+    public void update()//long nanosecondsPassed)
     {
-        //TODO: change X and Y coords as a function of the time passed since the last
+        //Change X and Y coords as a function of the time passed since the last
         // update, and `this.speed`
         //NOTE: system.nanoTime() is not necessarily accurate to the real world, but *is*
         // internally consistent. Just FYI...
+    	
+    	//Made the speed a constant. It always changes with the same-ish distance per frame.
+    	x+=(double)(destinationX-startX)*frame;
+        y+=(double)(destinationY-startY)*frame;
     }
 }
