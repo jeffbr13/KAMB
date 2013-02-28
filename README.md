@@ -24,8 +24,11 @@ Make the graphics prettier!
 Take charge of the Planet class, implementing the following:
 
 * public Planet(int x, int y, int radius) // construct the planet, and
-    ensure everything (including the image) is set up to be used
-* public getImage() // get a drawable image of the planet
+    ensure everything (including the image) is set up to be used  
+--- Done... I think.
+
+* public getImage() // get a drawable image of the planet  
+--- Done.
 
 
 ### Ben and Kim

@@ -26,7 +26,6 @@ public class Universe
     
     private Planet[] planets;
     private Drawable[] drawableEntities;
-    private BufferedImage[] planetImgs;
     
     /*
      * This generates a universe of the appropriate width, height, and number
@@ -39,23 +38,25 @@ public class Universe
         n=numPlanets;
         this.planets = new Planet[n];
         
-        /*
-        Make an array that holds the planet images and make the 3-rd value of the planet
-        constructor be the image. NOT the radius since it's gonna be the same for all planets
-        anyway. Also all the images need to be the same size. I've named that array planetImgs.
-        It should have predetermined "values" and size depending on the number of images we have
-        and they have to be enteres manualy each. I'm not gonna outright do this until you guys agree.
-        */
+        int r;
+        
         int x,y,img,i,j;
         for(i=0;i<n;i++)
         {
          //Chooses a random image for the planet.
-         img=random.nextInt(planetImgs.length);
+         img=random.nextInt(Planet.imagesNum);
+         
+         r=50;
+         /**
+          * To do: Decide what we're going to do with the radiuses and how they are generated.
+          * Atanas
+          */
+         
          do
          {
           //Chooses random coordinates.
-          x=random.nextInt(width-planetImgs[img].getWidth());
-          y=random.nextInt(height-planetImgs[img].getWidth());
+          x=random.nextInt(width-r*2);
+          y=random.nextInt(height-r*2);
           for(j=0;j<i-1;j++)
           {
            //Checks if the current randoms are ok with all current planets one at a time:
@@ -69,10 +70,7 @@ public class Universe
           //Checks if we reached the end of the loop and therefore the current coordinates are ok.
          }
          while(j<i-1);
-         //Make them take image as a third construction parameter and delete this while
-         //uncommenting the other one.
-         planets[i]=new Planet(x,y,40);
-         //planets[i]=new Planet(x,y,planetImgs[img]);
+         planets[i]=new Planet(x,y,r,img);
         }
     }
     
