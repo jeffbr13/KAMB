@@ -53,11 +53,11 @@ public class Universe
             int minPlanetSize = 20;
             int maxPlanetSize = 60;
             
-            int planetX = Math.max(minDistanceFromEdges, this.randomGenerator.nextInt( (this.getWidth() - minDistanceFromEdges) ));
-            int planetY = Math.max(minDistanceFromEdges, this.randomGenerator.nextInt( (this.getHeight() - minDistanceFromEdges) ));
+            int planetX = Math.max(minDistanceFromEdges, Universe.randomGenerator.nextInt( (this.getWidth() - minDistanceFromEdges) ));
+            int planetY = Math.max(minDistanceFromEdges, Universe.randomGenerator.nextInt( (this.getHeight() - minDistanceFromEdges) ));
             // planet must be at least minDistanceFromEdges units from the sides
             
-            int planetR = Math.max(minPlanetSize, this.randomGenerator.nextInt(maxPlanetSize));
+            int planetR = Math.max(minPlanetSize, Universe.randomGenerator.nextInt(maxPlanetSize));
             // planet must have a radius larger than minPlanetSize and smaller than 
             
             Planet planet = new Planet(planetX, planetY, planetR);

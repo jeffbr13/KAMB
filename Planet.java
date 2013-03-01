@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
  */
-public class Planet //implements Drawable
+public class Planet implements Position //Drawable
 {
     public int x;
     public int y;
@@ -93,6 +93,13 @@ public class Planet //implements Drawable
         return y;
     }
     
+    public double distanceFrom(Position p) {
+        
+        int dx = this.getX() - p.getX();
+        int dy = this.getY() - p.getY();
+        
+        return Math.sqrt( (dx * dx) + (dy * dy) );
+    }
     
     /**
      * @return the radius of the planet.

@@ -14,5 +14,5 @@ public interface Position
     public int getX();
     public int getY();
     
-    public int distanceFrom(Position p);
+    public double distanceFrom(Position p);
 }
