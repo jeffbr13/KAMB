@@ -31,6 +31,12 @@ Take charge of the Planet class, implementing the following:
 --- Done.
 
 
-### Ben and Kim
+### Kim
+
+* Update Fleet class so that all necessary methods are public, and attributes have getters/setters if needed.
+* Update Game class to use the right methods or getters and setters.
+
+
+### Ben
 
 Integrate the universe class with the Game object.
