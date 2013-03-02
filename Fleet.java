@@ -4,22 +4,53 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
 /**
  * The Fleet class is constructed with its starting x and y co-ordinates, as well
  * those of where it is meant to end.
  */
-public class Fleet implements Drawable
-{
+/**
+ * Edited by KM
+ */
+public class Fleet implements Drawable{
     private int x;
     private int y;
 
-    // FIXME: These are basically stored orders for fleet movements, and so we'll make these less hacky.
-    int startX;
-    int startY;
-    int destinationX;
-    int destinationY;
+    private int startX;
+    private int startY;
+    private int destinationX;
+    private int destinationY;
     
+    /**
+     * @return the starting 'x' co-ordinate of the fleet
+     */
+    public int getStartX(){
+        return this.startX;
+    }
+    
+    /**
+     * @return the starting 'y' co-ordinate of the fleet
+     */
+    public int getStartY(){
+        return this.startY;
+    }
+    
+    /**
+     * @return the 'x' co-ordinate of the fleets destination
+     */
+    public int getDestinationX(){
+        return this.destinationX;
+    }
+    
+    /**
+     * @return the 'y' co-ordinate of the fleets destination
+     */
+    public int getDestinationY(){
+        return this.destinationY;
+    }
+    
+    public double getFrame(){
+    	return (double) this.frame;
+    }
     
     BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
@@ -32,8 +63,7 @@ public class Fleet implements Drawable
     public static int GAME_FPS = 120;
     
     
-    public Fleet(int currentX, int currentY, int destinationX, int destinationY)
-    {
+    public Fleet(int currentX, int currentY, int destinationX, int destinationY){
         this.x = currentX;
         this.y = currentY;
         this.startX = currentX;
@@ -51,28 +81,26 @@ public class Fleet implements Drawable
         
         
         try {
-            File f = new File("resources/images/fleets/fleet1.png");
+            File f = new File("rkesources/images/fleets/fleet1.png");
             this.bufferedImage = ImageIO.read(f);
         } catch (IOException e) {
         // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
     
      
     /**
      * @return the `x` co-ordinate of the fleet.
      */
-    public int getX()
-    {
+    public int getX(){
         return this.x;
     }  
+    
     /**
      * @return the `y` co-ordinate of the fleet.
      */
-    public int getY()
-    {
+    public int getY(){
         return this.y;
     }
     
@@ -89,8 +117,7 @@ public class Fleet implements Drawable
     /**
      * Draw the planet on the given Graphics2D object.
      */
-    public void draw(Graphics2D g2d)
-    {
+    public void draw(Graphics2D g2d){
         g2d.drawImage(this.bufferedImage, this.getX(), this.getY(), null);
     }
     

@@ -20,8 +20,8 @@ public class Game extends JComponent implements Runnable, MouseListener
     Thread animThread;
     int Action = 0;
 
-    Planet planet1 = new Planet (0,0,200);
-    Planet planet2 = new Planet (600,400,200);
+    Planet planet1 = new Planet (0,0,100);
+    Planet planet2 = new Planet (600,400,100);
 
     int planet1x = planet1.x;
     int planet1y = planet1.y;
@@ -58,7 +58,8 @@ public class Game extends JComponent implements Runnable, MouseListener
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
 
-        // sets the game interface
+        // sets the game interfacend Y coords as a function of the time passed since the last
+        // update, and `this.spee
         g2.drawImage(background, 0, 0, null);
         g2.drawImage(planet1.getImage(), planet1x, planet1y, null);
         g2.drawImage(planet2.getImage(), planet2x, planet2y, null);
@@ -82,10 +83,13 @@ public class Game extends JComponent implements Runnable, MouseListener
         g2.dispose();
     }
 
+    /**
+     * Edited by KM
+     */
     public void run() {
         for(int i=0; i<1000; i++) {
-            x2 += (double) (fleet2.destinationX - fleet2.startX) * fleet2.frame;
-            y2 += (double) (fleet2.destinationY - fleet2.startY) * fleet2.frame;
+            x2 += (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame();
+            y2 += (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame();
 
             try { Thread.sleep(50); }
             catch (InterruptedException e) {
