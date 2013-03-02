@@ -12,11 +12,19 @@ import java.util.Random;
  */
 public class Planet implements Position //Drawable
 {
+	//Top left corner coordinates.
     public int x;
     public int y;
+    
+    //Center coordinates.
+    private int xCenter,yCenter;
+    
     public int radius;
     public int ships;
     private BufferedImage image;
+    
+    
+    public Player owner;
    
     //Number of planet images we have.
     public static int imagesNum=18;
@@ -45,7 +53,7 @@ public class Planet implements Position //Drawable
         }
     }
     
-    BufferedImage resize(BufferedImage originalImage, int r)
+    private BufferedImage resize(BufferedImage originalImage, int r)
     {
     	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g = scaledBI.createGraphics();
@@ -58,6 +66,8 @@ public class Planet implements Position //Drawable
     {
 	 this.x = x;
 	 this.y = y;
+	 xCenter=x+radius;
+	 yCenter=y+radius;
 	 this.radius = radius;
 	 
 	 int i;
@@ -70,6 +80,8 @@ public class Planet implements Position //Drawable
     {
 	 this.x = x;
 	 this.y = y;
+	 xCenter=x+radius;
+	 yCenter=y+radius;
 	 this.radius = radius;
 	 image=resize(images[i],radius);
     }
@@ -89,6 +101,15 @@ public class Planet implements Position //Drawable
     public int getY()
     {
         return y;
+    }
+    
+    public int getXCenter()
+    {
+    	return xCenter; 
+    }
+    public int getYCenter()
+    {
+    	return yCenter;
     }
     
     public double distanceFrom(Position p) {
@@ -120,6 +141,21 @@ public class Planet implements Position //Drawable
     {
      return image;
     }
+    
+    public Player getPlayer()
+    {
+     return owner;
+    }
+    
+    public void setPlayer(Player p)
+    {
+     owner=p;
+    }
+    
+    public boolean belongsTo(Player p)
+    {
+     return owner==p;
+    }
 
     /**
      * @return draw the planet.
@@ -147,7 +183,7 @@ public class Planet implements Position //Drawable
     public boolean isCoordinateInside(int x, int y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
-        return (this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)<=radius*radius;
+        return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
 	
 }
