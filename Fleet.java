@@ -15,19 +15,19 @@ public class Fleet implements Drawable
     private int y;
 
     // FIXME: These are basically stored orders for fleet movements, and so we'll make these less hacky.
-    private int startX;
-    private int startY;
-    private int destinationX;
-    private int destinationY;
+    int startX;
+    int startY;
+    int destinationX;
+    int destinationY;
     
     
-    private BufferedImage bufferedImage;
+    BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
-    private double speed = 100; // arbitrary speed value
+    double speed = 100; // arbitrary speed value
     
     
     //Distance between the planets and the time it'll take the fleet.
-    private double distance, time,frame;
+    double distance, time,frame;
     //Game Frames Per Second... would rather have this in a higher order class than this!
     public static int GAME_FPS = 120;
     

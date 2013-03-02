@@ -16,7 +16,7 @@ import javax.swing.JComponent;
 
 public class Game extends JComponent implements Runnable, MouseListener
 {
-    BufferedImage background, p1, p2, fleetPic;
+    BufferedImage background, fleetPic;
     Thread animThread;
     int Action = 0;
 
@@ -38,14 +38,13 @@ public class Game extends JComponent implements Runnable, MouseListener
 
     public Game()
     {
-        try {
+        try 
+        {
             background = ImageIO.read(new File("resources/images/backgrounds/galaxy1.jpg"));
-            p1 = ImageIO.read(new File("resources/images/planets/planet1.png"));
-            p2 = ImageIO.read(new File("resources/images/planets/planet2.png"));
             fleetPic = ImageIO.read(new File("resources/images/fleets/fleet1.png"));
-        } catch (IOException e) {
-
-        }
+        } catch (IOException e) { }
+        
+        
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setOpaque(true);
@@ -61,8 +60,8 @@ public class Game extends JComponent implements Runnable, MouseListener
 
         // sets the game interface
         g2.drawImage(background, 0, 0, null);
-        g2.drawImage(p1, planet1x, planet1y, null);
-        g2.drawImage(p2, planet2x, planet2y, null);
+        g2.drawImage(planet1.getImage(), planet1x, planet1y, null);
+        g2.drawImage(planet2.getImage(), planet2x, planet2y, null);
         g2.drawImage(fleetPic, x1, y1, null);
         g2.drawImage(fleetPic, x2, y2, null);
 
