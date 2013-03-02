@@ -19,7 +19,7 @@ public class Planet implements Position //Drawable
     private BufferedImage image;
    
     //Number of planet images we have.
-    public static int imagesNum=20;
+    public static int imagesNum=18;
     //The planet images.
     public static BufferedImage[] images;
     
@@ -34,7 +34,7 @@ public class Planet implements Position //Drawable
         images=new BufferedImage [imagesNum];
         for(int i=1;i<=imagesNum;i++)
         {
-            s="resources/images/planets/planet"+Integer.toString(i)+".png";
+            s="\"/resources/images/planets/planet"+i+".png\"";
             try
             {
                 images[i-1] = ImageIO.read(new File(s));

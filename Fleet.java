@@ -52,13 +52,13 @@ public class Fleet implements Drawable{
     	return (double) this.frame;
     }
     
-    private BufferedImage bufferedImage;
+    BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
-    private double speed = 100; // arbitrary speed value
+    double speed = 100; // arbitrary speed value
     
     
     //Distance between the planets and the time it'll take the fleet.
-    private double distance, time,frame;
+    double distance, time,frame;
     //Game Frames Per Second... would rather have this in a higher order class than this!
     public static int GAME_FPS = 120;
     
