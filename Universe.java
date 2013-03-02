@@ -5,32 +5,63 @@
  */
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
+
+/**
+ * @author jeffbr
+ *
+ */
 public class Universe
 {
     private int width;
     private int height;
     private BufferedImage backgroundImage;
-    
+
     private ArrayList<Fleet> fleets; 
     private ArrayList<Planet> planets;
 
-    
+
     static private int margin = 100;   // minimum distance from edges
     static private int minPlanetSize = 20;
     static private int maxPlanetSize = 60;
     static private int minPlanetSeparation = 80;
-    
+
+    static private String backgroundImageLocation = "resources/images/backgrounds/galaxy1.jpg";
+
     private static Random randomGenerator = new Random();
 
+    /*
+     * Generate a universe with the given width and height.
+     * 
+     * The universe will have 2 planets and be at least Universe.minPlanetSeparation apart.
+     */
+    public Universe(int width, int height)
+    {
+        this(width, height, 2, Universe.minPlanetSeparation);
+    }
+
+    /*
+     * Generate a universe with the given width, height, and number of planets.
+     * 
+     * The planets will all be at least Universe.minPlanetSeparation apart.
+     * 
+     * @author jeffbr
+     */
+    public Universe(int width, int height, int initialNumberOfPlanets)
+    {
+        this(width, height, initialNumberOfPlanets, Universe.minPlanetSeparation);
+    }
 
     /*
      * This generates a universe of the appropriate width, height, and number
-     * of planets present, and arranged in a satisfactory order.
+     * of planets present, and at least minimumPlanetSeparation away from each other.
      * 
-     * BRJ
+     * @author jeffbr
      */
     public Universe(int width, int height, int initialNumberOfPlanets, int minimumPlanetSeparation)
     {
@@ -38,45 +69,53 @@ public class Universe
         this.height = height;
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
-        
+
         for (int i=0; i < initialNumberOfPlanets; i++) {
 
             Planet p = this.generatePlanet();
-            while (this.planetsFarEnoughAwayFrom(p) != true) {
+            while (this.planetsAllDistanceAwayFrom(p, minimumPlanetSeparation) != true) {
                 p = this.generatePlanet();
             }
             this.addPlanet(p);
             i++;
         }
 
+        try {
+            this.setBackground(ImageIO.read(new File(Universe.backgroundImageLocation)));
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
-    
-    
-    private boolean planetsFarEnoughAwayFrom(Position p)
+
+
+    private boolean planetsAllDistanceAwayFrom(Position p, int minimumPlanetSeparation)
     {
         ArrayList<Planet> ps = this.getPlanets();
         for (int i=0; i < ps.size(); i++) {
-            if (p.distanceFrom(ps.get(i)) > Universe.minPlanetSeparation) {
+            if (p.distanceFrom(ps.get(i)) > minimumPlanetSeparation) {
                 return false;
             }
         }
         return true;
     }
-    
-    
+
+
     private Planet generatePlanet()
     {
         int planetX = Universe.randomBetween(Universe.margin, (this.getWidth() - Universe.margin));
         int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin));
         // planet must be at least minDistanceFromEdges units from the sides
-        
+
         int planetR = Math.max(Universe.minPlanetSize, Universe.randomGenerator.nextInt(maxPlanetSize));
         // planet must have a radius larger than minPlanetSize and smaller than 
-        
+
         return new Planet(planetX, planetY, planetR);
     }
-    
-    
+
+
     static int randomBetween(int min, int max)
     {
         return Math.max(min, Universe.randomGenerator.nextInt(max));
@@ -114,11 +153,16 @@ public class Universe
         this.height = height;
     }
 
+    public void addFleet(Fleet f)
+    {
+        this.fleets.add(f);
+    }
+
     public void addPlanet(Planet p)
     {
         this.planets.add(p);
     }
-    
+
     public ArrayList<Fleet> getFleets()
     {
         return this.fleets;
@@ -127,11 +171,6 @@ public class Universe
     {
         return this.planets;
     }
-    public Drawable[] getDrawableEntities()
-    {
-        return this.drawableEntities;
-    }
-
 
     /**
      * @return the backgroundImage
@@ -141,7 +180,6 @@ public class Universe
         return backgroundImage;
     }
 
-
     /**
      * @param backgroundImage the backgroundImage to set
      */
@@ -149,5 +187,5 @@ public class Universe
     {
         this.backgroundImage = backgroundImage;
     }
-    
+
 }
