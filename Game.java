@@ -20,8 +20,8 @@ public class Game extends JComponent implements Runnable, MouseListener
     Thread animThread;
     int Action = 0;
 
-    Planet planet1 = new Planet (0,0,200);
-    Planet planet2 = new Planet (600,400,200);
+    Planet planet1 = new Planet (0,0,100);
+    Planet planet2 = new Planet (600,400,100);
 
     int planet1x = planet1.x;
     int planet1y = planet1.y;

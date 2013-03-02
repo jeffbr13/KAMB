@@ -30,14 +30,12 @@ public class Planet implements Position //Drawable
     //Reads all the planet images from their image files.
     static
     {
-        String s;
         images=new BufferedImage [imagesNum];
         for(int i=1;i<=imagesNum;i++)
         {
-            s="\"/resources/images/planets/planet"+i+".png\"";
             try
             {
-                images[i-1] = ImageIO.read(new File(s));
+                images[i-1] = ImageIO.read(new File("resources/images/planets/planet"+i+".png"));
             }
             catch (IOException e)
             {
@@ -63,6 +61,7 @@ public class Planet implements Position //Drawable
 	 this.radius = radius;
 	 
 	 int i;
+	 random=new Random();
 	 i=random.nextInt(imagesNum);
 	 image=resize(images[i],radius);
     }
