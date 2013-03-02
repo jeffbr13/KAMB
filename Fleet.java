@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * Edited by KM
  */
-public class Fleet implements Drawable{
+public class Fleet implements Drawable, Position{
     private int x;
     private int y;
 
@@ -19,6 +19,7 @@ public class Fleet implements Drawable{
     private int startY;
     private int destinationX;
     private int destinationY;
+    private Player owner;
     
     /**
      * @return the starting 'x' co-ordinate of the fleet
@@ -48,8 +49,18 @@ public class Fleet implements Drawable{
         return this.destinationY;
     }
     
+    /**
+     * @return the frame
+     */
     public double getFrame(){
     	return (double) this.frame;
+    }
+    
+    /**
+     * @return the player who owns the fleet
+     */
+    public Player getOwner(){
+    	return this.owner;
     }
     
     BufferedImage bufferedImage;
@@ -102,6 +113,16 @@ public class Fleet implements Drawable{
      */
     public int getY(){
         return this.y;
+    }
+    
+    /**
+     * @param p
+     * @return calculates the distance from surrounding objects
+     */
+    public double distanceFrom(Position p) {
+        int dx = this.getX() - p.getX();
+        int dy = this.getY() - p.getY();
+        return Math.sqrt( (dx * dx) + (dy * dy) );
     }
     
     /**
