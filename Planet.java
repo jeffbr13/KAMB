@@ -22,6 +22,9 @@ public class Planet implements Position //Drawable
     public int radius;
     public int ships;
     private BufferedImage image;
+    
+    
+    public Player owner;
    
     //Number of planet images we have.
     public static int imagesNum=18;
@@ -50,7 +53,7 @@ public class Planet implements Position //Drawable
         }
     }
     
-    BufferedImage resize(BufferedImage originalImage, int r)
+    private BufferedImage resize(BufferedImage originalImage, int r)
     {
     	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g = scaledBI.createGraphics();
@@ -137,6 +140,21 @@ public class Planet implements Position //Drawable
     public BufferedImage getImage()
     {
      return image;
+    }
+    
+    public Player getPlayer()
+    {
+     return owner;
+    }
+    
+    public void setPlayer(Player p)
+    {
+     owner=p;
+    }
+    
+    public boolean belongsTo(Player p)
+    {
+     return owner==p;
     }
 
     /**

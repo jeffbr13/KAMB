@@ -70,14 +70,14 @@ public class Game extends JComponent implements Runnable, MouseListener
         {
             g2.setColor(Color.YELLOW);
             g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1x+50, planet1y+50, 200, 200);
+            g2.drawOval(planet1x, planet1y, 200, 200);
 
         }
         if (Action ==2) 
         {
             g2.setColor(Color.YELLOW);
             g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2x+50, planet2y+50, 200, 200);
+            g2.drawOval(planet2x, planet2y, 200, 200);
 
         }
         g2.dispose();
@@ -110,8 +110,8 @@ public class Game extends JComponent implements Runnable, MouseListener
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        if((planet1.isCoordinateInside(mx -100, my-100))) Action = 1;
-        if((planet2.isCoordinateInside(mx -100, my-100))) Action = 2;
+        if((planet1.isCoordinateInside(mx, my))) Action = 1;
+        if((planet2.isCoordinateInside(mx, my))) Action = 2;
         repaint();
 
     }
