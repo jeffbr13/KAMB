@@ -22,5 +22,15 @@ public class Player
     {
         return number;
     }
+    
+    public boolean owns(Fleet f)
+    {
+    	return f.belongsTo(this);
+    }
+    
+    public boolean owns(Planet p)
+    {
+    	return p.belongsTo(this);
+    }
 
 }
