@@ -19,7 +19,7 @@ public class Fleet implements Drawable, Position{
     private int startY;
     private int destinationX;
     private int destinationY;
-    private Player owner;
+    private Player player;
     
     /**
      * @return the starting 'x' co-ordinate of the fleet
@@ -59,8 +59,12 @@ public class Fleet implements Drawable, Position{
     /**
      * @return the player who owns the fleet
      */
-    public Player getOwner(){
-    	return this.owner;
+    public Player getPlayer(){
+    	return this.player;
+    }
+    
+    public boolean belongsTo(Player p){
+    	return 
     }
     
     BufferedImage bufferedImage;
@@ -119,7 +123,7 @@ public class Fleet implements Drawable, Position{
      * @param p
      * @return calculates the distance from surrounding objects
      */
-    public double distanceFrom(Position p) {
+    public double distanceFrom(Position p){
         int dx = this.getX() - p.getX();
         int dy = this.getY() - p.getY();
         return Math.sqrt( (dx * dx) + (dy * dy) );
@@ -129,8 +133,7 @@ public class Fleet implements Drawable, Position{
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * fleet. Can be used for testing mouse-click-selection.
      */
-    public boolean isClickInside(int x, int y)
-    {
+    public boolean isClickInside(int x, int y){
         //Is the given coordinate's distance from the centre coordinate less than (or equal) the clickRadius?
         return (this.x-x)*(this.x-x)+(this.y-y)*(this.y-y)<=clickRadius*clickRadius;
     }
@@ -140,6 +143,14 @@ public class Fleet implements Drawable, Position{
      */
     public void draw(Graphics2D g2d){
         g2d.drawImage(this.bufferedImage, this.getX(), this.getY(), null);
+    }
+    
+    private BufferedImage resize(BufferedImage originalImage, int r){
+    	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
+    	Graphics2D g = scaledBI.createGraphics();
+    	g.drawImage(originalImage, 0, 0, r*2, r*2, null); 
+    	g.dispose();
+    	return scaledBI;
     }
     
     /**

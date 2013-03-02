@@ -50,7 +50,7 @@ public class Planet implements Position //Drawable
         }
     }
     
-    BufferedImage resize(BufferedImage originalImage, int r)
+    private BufferedImage resize(BufferedImage originalImage, int r)
     {
     	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g = scaledBI.createGraphics();
