@@ -5,3 +5,8 @@ bin
 *.jar
 *.war
 *.ear
+
+.classpath
+.metadata/
+.project
+
