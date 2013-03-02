@@ -30,22 +30,21 @@ public class Planet implements Position //Drawable
     //Reads all the planet images from their image files.
     static
     {
-     String s;
-   	 int i;
-   	 images=new BufferedImage [imagesNum];
-   	 for(i=1;i<=imagesNum;i++)
-   	 {
-      s="resources/images/planets/planet"+Integer.toString(i)+".png";
-   	  try
-   	  {
-   	   images[i-1] = ImageIO.read(new File(s));
-   	  }
-   	  catch (IOException e)
-   	  {
-   		// TODO Auto-generated catch block
-   		e.printStackTrace();
-   	  }
-   	 }
+        String s;
+        images=new BufferedImage [imagesNum];
+        for(int i=1;i<=imagesNum;i++)
+        {
+            s="resources/images/planets/planet"+Integer.toString(i)+".png";
+            try
+            {
+                images[i-1] = ImageIO.read(new File(s));
+            }
+            catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
     
     BufferedImage resize(BufferedImage originalImage, int r)

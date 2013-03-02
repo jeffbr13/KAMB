@@ -16,23 +16,16 @@ public class Universe
     
     private ArrayList<Fleet> fleets; 
     private ArrayList<Planet> planets;
+
+    
+    static private int margin = 100;   // minimum distance from edges
+    static private int minPlanetSize = 20;
+    static private int maxPlanetSize = 60;
+    static private int minPlanetSeparation = 80;
     
     private static Random randomGenerator = new Random();
-    
-    
-    //n= Number of planets.
-    public int n;
-    
-    //Used for getting random values.
-    private Random random;
-    
-    //How much do you want the distance between planets to be?
-    private int planetDistance=20;
-    
-    private Drawable[] drawableEntities;
-    
-    
-    
+
+
     /*
      * This generates a universe of the appropriate width, height, and number
      * of planets present, and arranged in a satisfactory order.
@@ -46,68 +39,55 @@ public class Universe
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
         
-        // TODO: spin this out into a separate method
         for (int i=0; i < initialNumberOfPlanets; i++) {
-            
-            int minDistanceFromEdges = 100;
-            int minPlanetSize = 20;
-            int maxPlanetSize = 60;
-            
-            int planetX = Math.max(minDistanceFromEdges, Universe.randomGenerator.nextInt( (this.getWidth() - minDistanceFromEdges) ));
-            int planetY = Math.max(minDistanceFromEdges, Universe.randomGenerator.nextInt( (this.getHeight() - minDistanceFromEdges) ));
-            // planet must be at least minDistanceFromEdges units from the sides
-            
-            int planetR = Math.max(minPlanetSize, Universe.randomGenerator.nextInt(maxPlanetSize));
-            // planet must have a radius larger than minPlanetSize and smaller than 
-            
-            Planet planet = new Planet(planetX, planetY, planetR);
-            this.addPlanet(planet);
+
+            Planet p = this.generatePlanet();
+            while (this.planetsFarEnoughAwayFrom(p) != true) {
+                p = this.generatePlanet();
+            }
+            this.addPlanet(p);
             i++;
         }
-        
-        
-        int r;
-        
-        int x,y,img,i,j;
-        for(i=0;i<n;i++)
-        {
-            //Chooses a random image for the planet.
-            img=random.nextInt(Planet.imagesNum);
 
-            r=50;
-            /**
-             * To do: Decide what we're going to do with the radiuses and how they are generated.
-             * Atanas
-             */
-
-            do
-            {
-                //Chooses random coordinates.
-                x=random.nextInt(width-r*2);
-                y=random.nextInt(height-r*2);
-                for(j=0;j<i-1;j++)
-                {
-                    //Checks if the current randoms are ok with all current planets one at a time:
-                    if((planets[j].x-x)*(planets[j].x-x)+(planets[j].y-y)*(planets[j].y-y)<(2*planets[j].radius+planetDistance)*(2*planets[j].radius+planetDistance))
-                    {
-                        //If they aren't far enough from some existing planet, I stop the loop and j remains
-                        //smaller than i-1; for the first planet it will be 0<0-1 so it'll always pass.
-                        break;
-                    }
-                }
-                //Checks if we reached the end of the loop and therefore the current coordinates are ok.
-            }
-            while(j<i-1);
-            planets[i]=new Planet(x,y,r,img);
-        }
     }
     
+    
+    private boolean planetsFarEnoughAwayFrom(Position p)
+    {
+        ArrayList<Planet> ps = this.getPlanets();
+        for (int i=0; i < ps.size(); i++) {
+            if (p.distanceFrom(ps.get(i)) > Universe.minPlanetSeparation) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    
+    private Planet generatePlanet()
+    {
+        int planetX = Universe.randomBetween(Universe.margin, (this.getWidth() - Universe.margin));
+        int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin));
+        // planet must be at least minDistanceFromEdges units from the sides
+        
+        int planetR = Math.max(Universe.minPlanetSize, Universe.randomGenerator.nextInt(maxPlanetSize));
+        // planet must have a radius larger than minPlanetSize and smaller than 
+        
+        return new Planet(planetX, planetY, planetR);
+    }
+    
+    
+    static int randomBetween(int min, int max)
+    {
+        return Math.max(min, Universe.randomGenerator.nextInt(max));
+    }
+
     /**
      * @return the width
      */
     public int getWidth()
     {
-        return width;
+        return this.width;
     }
 
     /**
@@ -136,30 +116,38 @@ public class Universe
 
     public void addPlanet(Planet p)
     {
-        this.planets.add(p)
+        this.planets.add(p);
     }
     
-    public void addFleet(Fleet f)
-    {
-    	/*
-    	Can't add fleets like that either. You're basically trying to change a value which is outside
-    	the array- remember an array is from 0 to it's length-1 and doesn't allow change of it's size.
-        this.fleets[fleets.length] = f;
-        */
-    }
-
-    
-    public Fleet[] getFleets()
+    public ArrayList<Fleet> getFleets()
     {
         return this.fleets;
     }
-    public Planet[] getPlanets()
+    public ArrayList<Planet> getPlanets()
     {
         return this.planets;
     }
     public Drawable[] getDrawableEntities()
     {
         return this.drawableEntities;
+    }
+
+
+    /**
+     * @return the backgroundImage
+     */
+    public BufferedImage getBackground()
+    {
+        return backgroundImage;
+    }
+
+
+    /**
+     * @param backgroundImage the backgroundImage to set
+     */
+    public void setBackground(BufferedImage backgroundImage)
+    {
+        this.backgroundImage = backgroundImage;
     }
     
 }
