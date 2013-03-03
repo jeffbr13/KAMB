@@ -26,9 +26,13 @@ public class Planet extends GamePiece
     //The planet images.
     public static BufferedImage[] images;
     
+    //Min and Max radius
+    public static int minRadius=50;
+    public static int maxRadius=100;
+    
     
     //Randomness.
-    private Random random;
+    private static Random random=new Random();
     
     //Reads all the planet images from their image files.
     static
@@ -48,18 +52,14 @@ public class Planet extends GamePiece
         }
     }
     
+    public Planet(int x, int y)
+    {
+     this(x, y, Universe.randomBetween(minRadius,maxRadius));
+    }
+    
     public Planet(int x, int y, int radius)
     {
-	 this.x = x;
-	 this.y = y;
-	 xCenter=x+radius;
-	 yCenter=y+radius;
-	 this.radius = radius;
-	 
-	 int i;
-	 random=new Random();
-	 i=random.nextInt(imagesNum);
-	 image=resize(images[i],radius);
+	 this(x, y, radius, random.nextInt(imagesNum));
     }
     
     public Planet(int x, int y, int radius, int i)

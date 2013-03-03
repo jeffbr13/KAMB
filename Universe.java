@@ -109,10 +109,7 @@ public class Universe
         int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin));
         // planet must be at least minDistanceFromEdges units from the sides
 
-        int planetR = Math.max(Universe.minPlanetSize, Universe.randomGenerator.nextInt(maxPlanetSize));
-        // planet must have a radius larger than minPlanetSize and smaller than 
-
-        return new Planet(planetX, planetY, planetR);
+        return new Planet(planetX, planetY);
     }
 
 
