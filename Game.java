@@ -105,8 +105,8 @@ public class Game extends JComponent implements Runnable, MouseListener
      */
     public void run() {
         for(int i=0; i<1000; i++) {
-            fleet2.setX( fleet2.getX() + (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame());
-            fleet2.setY( fleet2.getY() + (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame());
+            fleet2.setX( (int) (fleet2.getX() + (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame()));
+            fleet2.setY( (int) (fleet2.getY() + (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame()));
 
             try { Thread.sleep(50); }
             catch (InterruptedException e) {
