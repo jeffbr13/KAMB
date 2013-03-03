@@ -10,8 +10,10 @@ import java.util.Random;
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
  */
-public class Planet implements Position //Drawable
+public class Planet extends GamePiece
 {
+	
+	
 	//Top left corner coordinates.
     public int x;
     public int y;
@@ -94,7 +96,6 @@ public class Planet implements Position //Drawable
         return x;
     }
 
-    
     /**
      * @return the `y` co-ordinate of the planet.
      */
