@@ -19,7 +19,7 @@ public class Fleet implements Drawable, Position{
     private int startY;
     private int destinationX;
     private int destinationY;
-    private Player player;
+    private Player owner;
     
     /**
      * @return the starting 'x' co-ordinate of the fleet
@@ -60,14 +60,18 @@ public class Fleet implements Drawable, Position{
      * @return the player who owns the fleet
      */
     public Player getPlayer(){
-    	return this.player;
+    	return this.owner;
+    }
+        
+    public void setPlayer (Player p){
+    	owner = p;
     }
     
     public boolean belongsTo(Player p){
-    	return 
+    	return owner==p;
     }
     
-    BufferedImage bufferedImage;
+    private BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
     double speed = 100; // arbitrary speed value
     
@@ -96,14 +100,13 @@ public class Fleet implements Drawable, Position{
         
         
         try {
-            File f = new File("rkesources/images/fleets/fleet1.png");
+            File f = new File("resources/images/fleets/fleet1.png");
             this.bufferedImage = ImageIO.read(f);
         } catch (IOException e) {
         // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-    
      
     /**
      * @return the `x` co-ordinate of the fleet.
@@ -168,4 +171,8 @@ public class Fleet implements Drawable, Position{
     	x+=(double)(destinationX-startX)*frame;
         y+=(double)(destinationY-startY)*frame;
     }
+    
+	public BufferedImage getImage() {
+		return this.bufferedImage;
+	}
 }
