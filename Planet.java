@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
  */
-public class Planet extends GamePiece //Drawable
+public class Planet extends GamePiece
 {
     
     //Center coordinates.
@@ -46,15 +46,6 @@ public class Planet extends GamePiece //Drawable
                 e.printStackTrace();
             }
         }
-    }
-    
-    private BufferedImage resize(BufferedImage originalImage, int r)
-    {
-    	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
-    	Graphics2D g = scaledBI.createGraphics();
-    	g.drawImage(originalImage, 0, 0, r*2, r*2, null); 
-    	g.dispose();
-    	return scaledBI;
     }
     
     public Planet(int x, int y, int radius)

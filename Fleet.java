@@ -56,28 +56,6 @@ public class Fleet implements Drawable, Position{
     	return (double) this.frame;
     }
     
-    /**
-     * @return the player who owns the fleet
-     */
-    public Player getPlayer(){
-    	return this.owner;
-    }
-    
-    /**
-     * @param p sets the owner of the fleet
-     */
-    public void setPlayer (Player p){
-    	owner = p;
-    }
-    
-    /**
-     * @param p
-     * @return if the player owns the fleet
-     */
-    public boolean belongsTo(Player p){
-    	return owner==p;
-    }
-    
     private BufferedImage bufferedImage;
     private int clickRadius = 10; // 10px click radius
     double speed = 100; // arbitrary speed value
@@ -113,38 +91,6 @@ public class Fleet implements Drawable, Position{
         // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    }
-     
-    /**
-     * @return the `x` co-ordinate of the fleet.
-     */
-    public int getX(){
-        return this.x;
-    }  
-    
-    /**
-     * @return the `y` co-ordinate of the fleet.
-     */
-    public int getY(){
-        return this.y;
-    }
-    
-    public void setX(int x) {
-        this.x = x;
-    }
-    
-    public void setY(int y) {
-        this.y = y;
-    }
-    
-    /**
-     * @param p
-     * @return calculates the distance from surrounding objects
-     */
-    public double distanceFrom(Position p){
-        int dx = this.getX() - p.getX();
-        int dy = this.getY() - p.getY();
-        return Math.sqrt( (dx * dx) + (dy * dy) );
     }
     
     /**
@@ -187,7 +133,4 @@ public class Fleet implements Drawable, Position{
         y+=(double)(destinationY-startY)*frame;
     }
     
-	public BufferedImage getImage() {
-		return this.bufferedImage;
-	}
 }

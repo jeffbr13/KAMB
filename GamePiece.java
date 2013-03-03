@@ -12,11 +12,11 @@ import java.util.Random;
  */
 public class GamePiece implements Position, Drawable
 {
-	private int x,y;
-    public Player owner;
-    private BufferedImage image;
+	protected int x,y;
+	protected Player owner;
+    protected BufferedImage image;
     
-    private BufferedImage resize(BufferedImage originalImage, int r)
+    protected BufferedImage resize(BufferedImage originalImage, int r)
     {
     	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g = scaledBI.createGraphics();
