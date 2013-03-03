@@ -11,15 +11,12 @@ import javax.imageio.ImageIO;
 /**
  * Edited by KM
  */
-public class Fleet implements Drawable, Position{
-    private int x;
-    private int y;
+public class Fleet extends GamePiece{
 
     private int startX;
     private int startY;
     private int destinationX;
     private int destinationY;
-    private Player owner;
     
     /**
      * @return the starting 'x' co-ordinate of the fleet
@@ -107,14 +104,6 @@ public class Fleet implements Drawable, Position{
      */
     public void draw(Graphics2D g2d){
         g2d.drawImage(this.bufferedImage, this.getX(), this.getY(), null);
-    }
-    
-    private BufferedImage resize(BufferedImage originalImage, int r){
-    	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
-    	Graphics2D g = scaledBI.createGraphics();
-    	g.drawImage(originalImage, 0, 0, r*2, r*2, null); 
-    	g.dispose();
-    	return scaledBI;
     }
     
     /**
