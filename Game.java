@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -16,80 +17,96 @@ import javax.swing.JComponent;
 
 public class Game extends JComponent implements Runnable, MouseListener
 {
-    BufferedImage background, fleetPic;
     Thread animThread;
-    int Action = 0;
+//    BufferedImage background, fleetPic;
+    int clickAction = 0;
 
-    Planet planet1 = new Planet (0,0,100);
-    Planet planet2 = new Planet (600,400,100);
+    Universe universe;
 
-    int planet1x = planet1.x;
-    int planet1y = planet1.y;
-    int planet2x = planet2.x;
-    int planet2y = planet2.y;
 
-    Fleet fleet1 = new Fleet(0,0,600,400);
-    Fleet fleet2 = new Fleet(600,400,0,0);
+    private Planet planet1;
+    private Planet planet2;
 
-    int x1 = fleet1.getX();
-    int y1 = fleet1.getY();
-    int x2 = fleet2.getX();
-    int y2 = fleet2.getY();
-
+    private Fleet fleet1;
+    private Fleet fleet2;
+    
+    
     public Game()
     {
-        try 
-        {
-            background = ImageIO.read(new File("resources/images/backgrounds/galaxy1.jpg"));
-            fleetPic = ImageIO.read(new File("resources/images/fleets/fleet1.png"));
-        } catch (IOException e) { }
-        
-        
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
         setOpaque(true);
         setPreferredSize(screenSize);
         addMouseListener(this);
+
+        this.universe = new Universe(screenSize.width, screenSize.height, 2);
+        
+        
+        this.planet1 = new Planet (0,0,100);
+        this.planet2 = new Planet (600,400,100);
+        
+        this.fleet1 = new Fleet(0,0,600,400);
+        this.fleet2 = new Fleet(600,400,0,0);
+
 
         animThread = new Thread(this);
         animThread.start();
     }
 
-    public void paintComponent(Graphics g) {
+
+    
+    public void paintComponent(Graphics g)
+    {
         Graphics2D g2 = (Graphics2D) g.create();
+        
+        g2.drawImage(this.universe.getBackground(), 0, 0, null);
+        
+        g2.drawImage(planet1.getImage(), planet1.getX(), planet1.getY(), null);
+        g2.drawImage(planet2.getImage(), planet2.getX(), planet2.getY(), null);
+        g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
+        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
 
-        // sets the game interfacend Y coords as a function of the time passed since the last
-        // update, and `this.spee
-        g2.drawImage(background, 0, 0, null);
-        g2.drawImage(planet1.getImage(), planet1x, planet1y, null);
-        g2.drawImage(planet2.getImage(), planet2x, planet2y, null);
-        g2.drawImage(fleetPic, x1, y1, null);
-        g2.drawImage(fleetPic, x2, y2, null);
+        // draw all planets
+        ArrayList<Planet> planets = this.universe.getPlanets();
+        for (int i=0; i < planets.size(); i++) {
+            Planet p = planets.get(i);
+            g2.drawImage(p.getImage(), p.getX(), p.getY(), null);
+        }
 
-        if (Action ==1)
+        // draw all fleets
+        ArrayList<Fleet> fleets = this.universe.getFleets();
+        for (int i=0; i < fleets.size(); i++) {
+            Fleet f = fleets.get(i);
+            g2.drawImage(f.getImage(), f.getX(), f.getY(), null);
+        }
+
+        
+        if (clickAction == 1)
         {
             g2.setColor(Color.YELLOW);
             g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1x, planet1y, 200, 200);
+            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
 
         }
-        if (Action ==2) 
+        if (clickAction == 2) 
         {
             g2.setColor(Color.YELLOW);
             g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2x, planet2y, 200, 200);
+            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
 
         }
         g2.dispose();
     }
 
+    
     /**
      * Edited by KM
      */
     public void run() {
         for(int i=0; i<1000; i++) {
-            x2 += (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame();
-            y2 += (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame();
+            fleet2.setX( fleet2.getX() + (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame());
+            fleet2.setY( fleet2.getY() + (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame());
 
             try { Thread.sleep(50); }
             catch (InterruptedException e) {
@@ -110,8 +127,8 @@ public class Game extends JComponent implements Runnable, MouseListener
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        if((planet1.isCoordinateInside(mx, my))) Action = 1;
-        if((planet2.isCoordinateInside(mx, my))) Action = 2;
+        if((planet1.isCoordinateInside(mx, my))) clickAction = 1;
+        if((planet2.isCoordinateInside(mx, my))) clickAction = 2;
         repaint();
 
     }
