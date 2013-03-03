@@ -1,10 +1,10 @@
-import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 /**
- * Any object that can be drawn on a Graphics2D object through
- * the `draw() method.
+ * Any object that provides an image.
  */
 public interface Drawable
 {
-    public void draw(Graphics2D g2d);
+//    public void draw(Graphics2D g2d);
+    public BufferedImage getImage();
 }
