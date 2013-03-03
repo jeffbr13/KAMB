@@ -122,6 +122,14 @@ public class Fleet implements Drawable, Position{
         return this.y;
     }
     
+    public void setX(int x) {
+        this.x = x;
+    }
+    
+    public void setY(int y) {
+        this.y = y;
+    }
+    
     /**
      * @param p
      * @return calculates the distance from surrounding objects
