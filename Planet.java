@@ -122,6 +122,16 @@ public class Planet extends GamePiece
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
      */
+    
+    public boolean isFarEnoughAwayFrom(Planet p, int distance) 
+    {
+        
+        int dx = x - p.getX();
+        int dy = y - p.getY();
+        
+        return (dx*dx)+(dy*dy)>=(distance+radius+p.radius)*(distance+radius+p.radius);
+    }
+    
     public boolean isCoordinateInside(int x, int y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?

@@ -29,7 +29,7 @@ public class Universe
     static private int margin = 100;   // minimum distance from edges
     static private int minPlanetSize = 20;
     static private int maxPlanetSize = 60;
-    static private int minPlanetSeparation = 80;
+    static public int minPlanetSeparation = 80;
 
     static private String backgroundImageLocation = "resources/images/backgrounds/galaxy1.jpg";
 
@@ -69,15 +69,15 @@ public class Universe
         this.height = height;
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
-
+        
         for (int i=0; i < initialNumberOfPlanets; i++) {
 
             Planet p = this.generatePlanet();
-            while (this.planetsAllDistanceAwayFrom(p, minimumPlanetSeparation) != true) {
+            while (this.planetsAllDistanceAwayFrom(p, minimumPlanetSeparation) != true)
+            {
                 p = this.generatePlanet();
             }
             this.addPlanet(p);
-            i++;
         }
 
         try {
@@ -91,11 +91,12 @@ public class Universe
     }
 
 
-    private boolean planetsAllDistanceAwayFrom(Position p, int minimumPlanetSeparation)
+    private boolean planetsAllDistanceAwayFrom(Planet p, int minimumPlanetSeparation)
     {
         ArrayList<Planet> ps = this.getPlanets();
         for (int i=0; i < ps.size(); i++) {
-            if (p.distanceFrom(ps.get(i)) > minimumPlanetSeparation) {
+            if (p.isFarEnoughAwayFrom(ps.get(i), minimumPlanetSeparation) == false) 
+            {
                 return false;
             }
         }
