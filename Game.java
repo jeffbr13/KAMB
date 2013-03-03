@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,11 +16,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 
-public class Game extends JComponent implements Runnable, MouseListener
+public class Game extends JComponent implements Runnable, MouseListener, MouseMotionListener
 {
     Thread animThread;
 //    BufferedImage background, fleetPic;
     int clickAction = 0;
+    int mouseX, mouseY;
+    boolean enabled = true;
 
     Universe universe;
 
@@ -30,7 +33,6 @@ public class Game extends JComponent implements Runnable, MouseListener
     private Fleet fleet1;
     private Fleet fleet2;
     
-    
     public Game()
     {
 
@@ -39,15 +41,21 @@ public class Game extends JComponent implements Runnable, MouseListener
         setOpaque(true);
         setPreferredSize(screenSize);
         addMouseListener(this);
+        addMouseMotionListener(this);
 
         this.universe = new Universe(screenSize.width, screenSize.height, 2);
         
         
         this.planet1 = new Planet (0,0,100);
+        universe.addPlanet(planet1);
         this.planet2 = new Planet (600,400,100);
+        universe.addPlanet(planet2);
+       
         
         this.fleet1 = new Fleet(0,0,600,400);
+        universe.addFleet(fleet1);
         this.fleet2 = new Fleet(600,400,0,0);
+        universe.addFleet(fleet2);
 
 
         animThread = new Thread(this);
@@ -64,8 +72,8 @@ public class Game extends JComponent implements Runnable, MouseListener
         
         g2.drawImage(planet1.getImage(), planet1.getX(), planet1.getY(), null);
         g2.drawImage(planet2.getImage(), planet2.getX(), planet2.getY(), null);
-        g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
-        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
+  //      g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
+//        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
 
         // draw all planets
         ArrayList<Planet> planets = this.universe.getPlanets();
@@ -102,9 +110,9 @@ public class Game extends JComponent implements Runnable, MouseListener
     
     /**
      * Edited by KM
-     */
+     
     public void run() {
-        for(int i=0; i<1000; i++) {
+        for(int i=0; i<100; i++) {
             fleet2.setX( (int) (fleet2.getX() + (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame()));
             fleet2.setY( (int) (fleet2.getY() + (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame()));
 
@@ -116,6 +124,11 @@ public class Game extends JComponent implements Runnable, MouseListener
             repaint();
         }
     }
+    */
+    
+    public void run(){
+    	
+    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -123,12 +136,44 @@ public class Game extends JComponent implements Runnable, MouseListener
 
     }
 
+    /* mousePressed is checking coordinates of mouse whenever it was pressed
+	 * in this case whether the cursor is inside of either planet, calls appropriate action
+	 *  
+	 * Matej
+	 */
     @Override
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        if((planet1.isCoordinateInside(mx, my))) clickAction = 1;
-        if((planet2.isCoordinateInside(mx, my))) clickAction = 2;
+    
+        if (enabled==true && clickAction == 2)
+        {
+        	if((planet1.isCoordinateInside(mx, my))) 
+        		{
+        	        animThread = new Thread(this);
+        	     //   animThread.start();
+        	        clickAction = 0;
+        	     //   enabled = false;
+        	        
+        		}
+        }
+        
+        if (enabled==true && clickAction == 1)
+        {
+        	if((planet2.isCoordinateInside(mx, my))) 
+        		{
+        	        animThread = new Thread(this);
+        	       // animThread.start();
+        	        clickAction = 0;
+        	      //  enabled = false;
+        		}
+        }
+        
+        if (fleet2.getX()==fleet2.getDestinationX() && fleet2.getY()==fleet2.getDestinationY()) enabled = true;
+        if (fleet1.getX()==fleet1.getDestinationX() && fleet1.getY()==fleet1.getDestinationY()) enabled = true;
+	
+        if((planet2.isCoordinateInside(mx, my)) && enabled==true) clickAction = 2;
+        if((planet1.isCoordinateInside(mx, my)) && enabled==true) clickAction = 1;
         repaint();
 
     }
@@ -150,5 +195,33 @@ public class Game extends JComponent implements Runnable, MouseListener
         // TODO Auto-generated method stub
 
     }
+
+
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	
+	/* mouseMoved is checking coordinates of mouse whenever it was moved
+	 * in this case whether the cursor is inside of either planet , calls appropriate action
+	 * 
+	 * Matej
+	 */
+	public void mouseMoved(MouseEvent e) {
+		mouseX = e.getX();
+		mouseY = e.getY();
+		
+		if((planet1.isCoordinateInside(mouseX, mouseY))) clickAction = 1;
+        if((planet2.isCoordinateInside(mouseX, mouseY))) clickAction = 2;
+        
+        repaint();
+		
+	}
 
 }
