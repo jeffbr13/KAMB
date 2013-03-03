@@ -62,11 +62,18 @@ public class Fleet implements Drawable, Position{
     public Player getPlayer(){
     	return this.owner;
     }
-        
+    
+    /**
+     * @param p sets the owner of the fleet
+     */
     public void setPlayer (Player p){
     	owner = p;
     }
     
+    /**
+     * @param p
+     * @return if the player owns the fleet
+     */
     public boolean belongsTo(Player p){
     	return owner==p;
     }
