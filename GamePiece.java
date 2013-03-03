@@ -14,6 +14,7 @@ public class GamePiece implements Position, Drawable
 {
 	private int x,y;
     public Player owner;
+    private BufferedImage image;
     
     private BufferedImage resize(BufferedImage originalImage, int r)
     {

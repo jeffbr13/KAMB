@@ -10,21 +10,16 @@ import java.util.Random;
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
  */
-public class Planet implements Position //Drawable
+public class Planet extends GamePiece //Drawable
 {
-	//Top left corner coordinates.
-    public int x;
-    public int y;
     
     //Center coordinates.
     private int xCenter,yCenter;
     
     public int radius;
     public int ships;
-    private BufferedImage image;
     
     
-    public Player owner;
    
     //Number of planet images we have.
     public static int imagesNum=18;
@@ -85,23 +80,6 @@ public class Planet implements Position //Drawable
 	 this.radius = radius;
 	 image=resize(images[i],radius);
     }
-
-    /**
-     * @return the `x` co-ordinate of the planet.
-     */
-    public int getX()
-    {
-        return x;
-    }
-
-    
-    /**
-     * @return the `y` co-ordinate of the planet.
-     */
-    public int getY()
-    {
-        return y;
-    }
     
     public int getXCenter()
     {
@@ -112,13 +90,6 @@ public class Planet implements Position //Drawable
     	return yCenter;
     }
     
-    public double distanceFrom(Position p) {
-        
-        int dx = this.getX() - p.getX();
-        int dy = this.getY() - p.getY();
-        
-        return Math.sqrt( (dx * dx) + (dy * dy) );
-    }
     
     /**
      * @return the radius of the planet.
@@ -135,26 +106,6 @@ public class Planet implements Position //Drawable
     public int getShips()
     {
         return ships;
-    }
-    
-    public BufferedImage getImage()
-    {
-     return image;
-    }
-    
-    public Player getPlayer()
-    {
-     return owner;
-    }
-    
-    public void setPlayer(Player p)
-    {
-     owner=p;
-    }
-    
-    public boolean belongsTo(Player p)
-    {
-     return owner==p;
     }
 
     /**
