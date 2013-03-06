@@ -31,7 +31,7 @@ public class Universe
     static private int maxPlanetSize = 60;
     static public int minPlanetSeparation = 80;
 
-    static private String backgroundImageLocation = "resources/images/backgrounds/galaxy1.jpg";
+    static private String backgroundImageLocation = "resources/images/backgrounds/galaxy.jpg";
 
     private static Random randomGenerator = new Random();
 
