@@ -20,15 +20,10 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 {
     Thread animThread;
     int mouseX, mouseY;
-    int lastClicked, hoveredOver = 0;
+    int lastClicked, hoveredOver = 25;
     boolean enabled = true;
 
     Universe universe;
-
-
-    private Planet planet1;
-    private Planet planet2;
-    private Planet planet3;
 
     private Fleet fleet1;
     private Fleet fleet2;
@@ -43,16 +38,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        this.universe = new Universe(screenSize.width, screenSize.height, 15, 50);
-        
-        /*
-        this.planet1 = new Planet (0,0,100);
-        universe.addPlanet(planet1);
-        this.planet2 = new Planet (600,400,100);
-        universe.addPlanet(planet2);
-        this.planet3 = new Planet (300,0,100);
-        universe.addPlanet(planet3);
-       */
+        this.universe = new Universe(screenSize.width, screenSize.height, 7, 50);
         
         this.fleet1 = new Fleet(0,0,600,400);
         universe.addFleet(fleet1);
@@ -72,9 +58,6 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         
         g2.drawImage(this.universe.getBackground(), 0, 0, null);
         
-        //g2.drawImage(planet1.getImage(), planet1.getX(), planet1.getY(), null);
-        //g2.drawImage(planet2.getImage(), planet2.getX(), planet2.getY(), null);
-        
   //      g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
 //        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
 
@@ -91,119 +74,50 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             Fleet f = fleets.get(i);
             g2.drawImage(f.getImage(), f.getX(), f.getY(), null);
         }
-
-       
-        if (lastClicked == 1)
-        {
-            g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
-
-        }
-        if (lastClicked == 2) 
-        {
-            g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
-
-        }
-        if (lastClicked == 3) 
-        {
-            g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet3.getX(), planet3.getY(), 200, 200);
-
-        }
         
         /* highlighting planets based on values from mousePressed and mouseMoved
+         * showing the line of attack
     	 *  
     	 * Matej
     	 */
-        
-        if (lastClicked==2 && hoveredOver == 1)
+       
+        for(int i=0; i<universe.getPlanets().size(); i++)
         {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
-            
-            g2.setColor(Color.red);
-            g2.drawLine(planet2.getXCenter(), planet2.getYCenter(), planet1.getXCenter(), planet1.getYCenter());
-
-        	g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
+        	if(lastClicked == i)
+        	{
+        		g2.setColor(Color.YELLOW);
+                g2.setStroke(new BasicStroke(10F));
+                g2.drawOval(universe.getPlanets().get(i).getX(), universe.getPlanets().get(i).getY(), universe.getPlanets().get(i).radius*2, universe.getPlanets().get(i).radius*2);
+                for(int j=0;j<universe.getPlanets().size(); j++)
+                {
+                	if(hoveredOver == j)
+                	{
+                		g2.setColor(Color.BLUE);
+                        g2.setStroke(new BasicStroke(10F));
+                        g2.drawOval(universe.getPlanets().get(j).getX(), universe.getPlanets().get(j).getY(), universe.getPlanets().get(j).radius*2, universe.getPlanets().get(j).radius*2);
+                        
+                        g2.setColor(Color.red);
+                        g2.drawLine(universe.getPlanets().get(i).getXCenter(), universe.getPlanets().get(i).getYCenter(), universe.getPlanets().get(j).getXCenter(), universe.getPlanets().get(j).getYCenter());
+                	}
+                }
+        	}
         }
         
-        if (lastClicked==2 && hoveredOver == 3)
+               
+        /* highlighting planets based on values from mousePressed
+    	 *  
+    	 * Matej
+    	 */
+        for(int i=0; i<universe.getPlanets().size(); i++)
         {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
-
-            g2.setColor(Color.red);
-            g2.drawLine(planet2.getXCenter(), planet2.getYCenter(), planet3.getXCenter(), planet3.getYCenter());
-            
-            g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet3.getX(), planet3.getY(), 200, 200);
+        	if(lastClicked == i)
+        	{
+        		g2.setColor(Color.YELLOW);
+                g2.setStroke(new BasicStroke(10F));
+                g2.drawOval(universe.getPlanets().get(i).getX(), universe.getPlanets().get(i).getY(), universe.getPlanets().get(i).radius*2, universe.getPlanets().get(i).radius*2);
+        	}
         }
-        
-        if (lastClicked==1 && hoveredOver == 2)
-        {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
-        	
-            g2.setColor(Color.red);
-            g2.drawLine(planet1.getXCenter(), planet1.getYCenter(), planet2.getXCenter(), planet2.getYCenter());
-            
-        	g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
-        }
-        
-        if (lastClicked==1 && hoveredOver == 3)
-        {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
-        	
-            g2.setColor(Color.red);
-            g2.drawLine(planet1.getXCenter(), planet1.getYCenter(), planet3.getXCenter(), planet3.getYCenter());
-            
-        	g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet3.getX(), planet3.getY(), 200, 200);
-        }
-        
-        if (lastClicked==3 && hoveredOver == 2)
-        {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet3.getX(), planet3.getY(), 200, 200);
-        	
-            g2.setColor(Color.red);
-            g2.drawLine(planet3.getXCenter(), planet3.getYCenter(), planet2.getXCenter(), planet2.getYCenter());
-            
-        	g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet2.getX(), planet2.getY(), 200, 200);
-        }
-        
-        if (lastClicked==3 && hoveredOver == 1)
-        {
-        	g2.setColor(Color.YELLOW);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet3.getX(), planet3.getY(), 200, 200);
-        	
-            g2.setColor(Color.red);
-            g2.drawLine(planet3.getXCenter(), planet3.getYCenter(), planet1.getXCenter(), planet1.getYCenter());
-            
-        	g2.setColor(Color.BLUE);
-            g2.setStroke(new BasicStroke(10F));
-            g2.drawOval(planet1.getX(), planet1.getY(), 200, 200);
-        }
-     
+          
         g2.dispose();
     }
 
@@ -272,11 +186,12 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         if (fleet2.getX()==fleet2.getDestinationX() && fleet2.getY()==fleet2.getDestinationY()) enabled = true;
         if (fleet1.getX()==fleet1.getDestinationX() && fleet1.getY()==fleet1.getDestinationY()) enabled = true;
 		*/
-        if((planet2.isCoordinateInside(mx, my)) && enabled==true) lastClicked = 2;
-
-        if((planet1.isCoordinateInside(mx, my)) && enabled==true) lastClicked = 1;
-
-        if((planet3.isCoordinateInside(mx, my)) && enabled==true) lastClicked = 3;
+        for(int i=0; i<universe.getPlanets().size(); i++)
+        {
+        	if((universe.getPlanets().get(i).isCoordinateInside(mx, my)) && enabled==true) lastClicked = i;
+        }
+        
+    
 
         repaint();
 
@@ -321,19 +236,10 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
-		if((planet1.isCoordinateInside(mouseX, mouseY))) 
-		{
-			hoveredOver = 1;
-		}
-        if((planet2.isCoordinateInside(mouseX, mouseY)))
-        {
-        	hoveredOver = 2;
-        }
-        if((planet3.isCoordinateInside(mouseX, mouseY)))
-        {
-        	hoveredOver = 3;
-        }
-       
+		for(int i=0; i<universe.getPlanets().size(); i++)
+	    	{
+	        	if((universe.getPlanets().get(i).isCoordinateInside(mouseX, mouseY))) hoveredOver = i;
+	        }
         
         repaint();
 		
