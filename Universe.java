@@ -70,6 +70,7 @@ public class Universe
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
         
+                
         for (int i=0; i < initialNumberOfPlanets; i++) {
 
             Planet p = this.generatePlanet();
@@ -113,11 +114,11 @@ public class Universe
 
         return new Planet(planetX, planetY, planetR);
     }
-
-
+    
     static int randomBetween(int min, int max)
     {
-        return Math.max(min, Universe.randomGenerator.nextInt(max));
+    	return min+Universe.randomGenerator.nextInt(max-min);
+        //return Math.max(min, Universe.randomGenerator.nextInt(max));
     }
 
     /**

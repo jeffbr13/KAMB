@@ -38,7 +38,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        this.universe = new Universe(screenSize.width, screenSize.height, 7, 50);
+        this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
         
         this.fleet1 = new Fleet(0,0,600,400);
         universe.addFleet(fleet1);
@@ -58,8 +58,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         
         g2.drawImage(this.universe.getBackground(), 0, 0, null);
         
-  //      g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
-//        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
+        g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
+        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
 
         // draw all planets
         ArrayList<Planet> planets = this.universe.getPlanets();
@@ -190,7 +190,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         {
         	if((universe.getPlanets().get(i).isCoordinateInside(mx, my)) && enabled==true) lastClicked = i;
         }
+
+        if (lastClicked<=universe.getPlanets().size()	)
+        {
+        	
+        }
         
+        System.out.println(lastClicked);
     
 
         repaint();
