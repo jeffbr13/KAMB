@@ -1,0 +1,20 @@
+7.3.2013 - Atanas
+
+- First of all made this changelog since I did too many changes to list them all in the commit;
+
+- Fixed planets going out of the window's boarder. This involves Universe choosing a random radius
+when generating a planet;
+
+- Fixed the Planet class not knowing what the min and max value for the planets the Universe class has,
+this also involved writing a public getMinPlanetSize() and getMaxPlanetSize() for Universe;
+
+- Fixed a small bug with the Planet class that made it calculate a slightly smaller distance between 2
+planets than it was supposed to.
+
+- Put the manual generation of 3 planets in the Game class in a comment since they clash with
+other randomly generated planets (feel free to change that back);
+
+- Changed the number of planets it generated in the start, the distance between them and their max size to show that it
+actually works. The number of planets or distance might need to be reduced if running it in lower resolution (feel free
+to change that too, but make sure that the planets will be able to fit with the distance or size you choose).
+

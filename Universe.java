@@ -26,7 +26,7 @@ public class Universe
     private ArrayList<Planet> planets;
 
 
-    static private int margin = 100;   // minimum distance from edges
+    static private int margin = 50;   // minimum distance from edges
     static private int minPlanetSize = 20;
     static private int maxPlanetSize = 60;
     static public int minPlanetSeparation = 80;
@@ -106,11 +106,12 @@ public class Universe
 
     private Planet generatePlanet()
     {
-        int planetX = Universe.randomBetween(Universe.margin, (this.getWidth() - Universe.margin));
-        int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin));
+    	int planetR = Universe.randomBetween(minPlanetSize, maxPlanetSize);
+        int planetX = Universe.randomBetween(Universe.margin, (this.getWidth() - Universe.margin - planetR*2));
+        int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin - planetR*2));
         // planet must be at least minDistanceFromEdges units from the sides
 
-        return new Planet(planetX, planetY);
+        return new Planet(planetX, planetY, planetR);
     }
 
 
@@ -176,6 +177,15 @@ public class Universe
     public BufferedImage getBackground()
     {
         return backgroundImage;
+    }
+    
+    static public int getMinPlanetSize()
+    {
+     return minPlanetSize;
+    }
+    static public int getMaxPlanetSize()
+    {
+     return maxPlanetSize;
     }
 
     /**

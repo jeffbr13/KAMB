@@ -27,8 +27,8 @@ public class Planet extends GamePiece
     public static BufferedImage[] images;
     
     //Min and Max radius
-    public static int minRadius=50;
-    public static int maxRadius=100;
+    public static int minRadius;
+    public static int maxRadius;
     
     
     //Randomness.
@@ -37,6 +37,9 @@ public class Planet extends GamePiece
     //Reads all the planet images from their image files.
     static
     {
+    	minRadius=Universe.getMinPlanetSize();
+    	maxRadius=Universe.getMaxPlanetSize();
+    	
         images=new BufferedImage [imagesNum];
         for(int i=1;i<=imagesNum;i++)
         {
@@ -126,8 +129,8 @@ public class Planet extends GamePiece
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
         
-        int dx = x - p.getX();
-        int dy = y - p.getY();
+        int dx = xCenter - p.getXCenter();
+        int dy = yCenter - p.getYCenter();
         
         return (dx*dx)+(dy*dy)>=(distance+radius+p.radius)*(distance+radius+p.radius);
     }

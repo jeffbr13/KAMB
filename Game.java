@@ -43,16 +43,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        this.universe = new Universe(screenSize.width, screenSize.height, 3, 500);
+        this.universe = new Universe(screenSize.width, screenSize.height, 15, 50);
         
-        
+        /*
         this.planet1 = new Planet (0,0,100);
         universe.addPlanet(planet1);
         this.planet2 = new Planet (600,400,100);
         universe.addPlanet(planet2);
         this.planet3 = new Planet (300,0,100);
         universe.addPlanet(planet3);
-       
+       */
         
         this.fleet1 = new Fleet(0,0,600,400);
         universe.addFleet(fleet1);
@@ -72,8 +72,9 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         
         g2.drawImage(this.universe.getBackground(), 0, 0, null);
         
-        g2.drawImage(planet1.getImage(), planet1.getX(), planet1.getY(), null);
-        g2.drawImage(planet2.getImage(), planet2.getX(), planet2.getY(), null);
+        //g2.drawImage(planet1.getImage(), planet1.getX(), planet1.getY(), null);
+        //g2.drawImage(planet2.getImage(), planet2.getX(), planet2.getY(), null);
+        
   //      g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
 //        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
 
