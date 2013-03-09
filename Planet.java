@@ -208,6 +208,16 @@ public class Planet extends GamePiece
     }
 
 
+    /**
+     * perform all battle, capture, or regeneration actions applicable to the planet
+     */
+    public void update() {
+
+        // TODO: check whether a battle is being fought
+        // TODO: check whether the planet is being captured
+        // TODO: check whether the planet is generating ships
+    }
+
 
     /**
      *  Update the ship counts due to battle, for one cycle.
