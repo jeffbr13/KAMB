@@ -188,7 +188,7 @@ public class Planet extends GamePiece
      *  
      *  1 unit of damage ~= 1 enemy ship destroyed (rounded)
      */
-    public void performBattle() {
+    private void performBattle() {
 
         int[] damageDealtByPlayers = new int[this.getPlayer().length];
 
@@ -220,11 +220,17 @@ public class Planet extends GamePiece
     }
 
     /**
-     * @return the number of new ships generated this cycle
+     * Add the number of new ships generated this cycle to the planet's owner
      */
-    public int generateShips() {
+    private void generateShips() {
 
-        // TODO: ensure that there is only one player in charge.
-        // TODO: this method
+        // ensure that there is only one player in charge.
+        if (this.percentCaptured() == 100) {
+            
+            Player p = this.getPlayer();
+            // number of new ships each cycle == planet resources
+            int shipsGeneratedThisCycle = this.getResourceValue();
+            this.setPlayerShips(p, (this.getPlayerShips(p) + shipsGeneratedThisCycle));
+        }
     }
 }
