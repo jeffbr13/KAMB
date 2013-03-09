@@ -21,6 +21,7 @@ public class Player
     
     public static Color[] colors;
     public static int numColors;
+    private static int nextColor=0;
     
     static
     {
@@ -47,7 +48,7 @@ public class Player
     
     public Player(int number)
     {
-        this(number, new Color(Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255)));
+        this(number, colors[nextColor++]);
     }
 
     public Player(int number, Color color)
