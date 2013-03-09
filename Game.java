@@ -20,13 +20,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 {
     Thread animThread;
     int mouseX, mouseY;
+    int attack = 25;
     int lastClicked, hoveredOver = 25;
     boolean enabled = true;
+    BufferedImage bufferedImage;
+    int draw = 0;
 
     Universe universe;
 
     private Fleet fleet1;
-    private Fleet fleet2;
+
     
     public Game()
     {
@@ -40,14 +43,9 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
         this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
         
-        this.fleet1 = new Fleet(0,0,600,400);
+        this.fleet1 = new Fleet(universe.getPlanets().get(1).getX(),universe.getPlanets().get(1).getY(),universe.getPlanets().get(2).getXCenter(),universe.getPlanets().get(2).getYCenter());
         universe.addFleet(fleet1);
-        this.fleet2 = new Fleet(600,400,0,0);
-        universe.addFleet(fleet2);
 
-
-        animThread = new Thread(this);
-        animThread.start();
     }
 
 
@@ -58,9 +56,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         
         g2.drawImage(this.universe.getBackground(), 0, 0, null);
         
-        g2.drawImage(fleet1.getImage(), fleet1.getX(), fleet1.getY(), null);
-        g2.drawImage(fleet2.getImage(), fleet2.getX(), fleet2.getY(), null);
-
+        try {
+            File f = new File("resources/images/fleets/fleet1.png");
+            bufferedImage = ImageIO.read(f);
+            } catch (IOException e) {
+        // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+           
+        setOpaque(true);
         // draw all planets
         ArrayList<Planet> planets = this.universe.getPlanets();
         for (int i=0; i < planets.size(); i++) {
@@ -68,13 +73,21 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             g2.drawImage(p.getImage(), p.getX(), p.getY(), null);
         }
 
-        // draw all fleets
+        g2.drawImage(bufferedImage, fleet1.x,fleet1.y, null);
+        g2.drawImage(bufferedImage, universe.getPlanets().get(2).getX(),universe.getPlanets().get(2).getY(), null);
+        
+        
+        if(draw == 1) g2.drawOval(200,200,400,400);
+        /* draw all fleets
         ArrayList<Fleet> fleets = this.universe.getFleets();
         for (int i=0; i < fleets.size(); i++) {
             Fleet f = fleets.get(i);
             g2.drawImage(f.getImage(), f.getX(), f.getY(), null);
         }
         
+         * generates 2 fleets by hand for planet1 and planet2
+         */
+
         /* highlighting planets based on values from mousePressed and mouseMoved
          * showing the line of attack
     	 *  
@@ -121,26 +134,23 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         g2.dispose();
     }
 
-    
-    /**
-     * Edited by KM
-     
-    public void run() {
-        for(int i=0; i<100; i++) {
-            fleet2.setX( (int) (fleet2.getX() + (double) (fleet2.getDestinationX() - fleet2.getStartX()) * fleet2.getFrame()));
-            fleet2.setY( (int) (fleet2.getY() + (double) (fleet2.getDestinationY() - fleet2.getStartY()) * fleet2.getFrame()));
-
+    public void run()
+    {
+    	while((fleet1.x!=universe.getPlanets().get(2).getX()) && (fleet1.y!=universe.getPlanets().get(2).getY()))
+    		{
+    		double xch = (double)(fleet1.getDestinationX()-fleet1.getStartX())*fleet1.getFrame();
+    		double ych = (double)(fleet1.getDestinationY()-fleet1.getStartY())*fleet1.getFrame();
+    		fleet1.x = (int) (fleet1.x + xch);
+            fleet1.y = (int) (fleet1.y + ych);
             try { Thread.sleep(50); }
             catch (InterruptedException e) {
                 System.out.println("error");
 
             }
             repaint();
-        }
-    }
-    */
-    
-    public void run(){
+            System.out.println(xch + ", " + ych);
+    		System.out.println(fleet1.x + ", " + fleet1.y);
+    		}
     	
     }
 
@@ -159,46 +169,32 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-    /*
-        if (enabled==true && lastClicked == 2)
-        {
-        	if((planet1.isCoordinateInside(mx, my))) 
-        		{
-        	        animThread = new Thread(this);
-        	     //   animThread.start();
-        	        lastClicked = 0;
-        	     //   enabled = false;
-        	        
-        		}
-        }
-        
-        if (enabled==true && lastClicked == 1)
-        {
-        	if((planet2.isCoordinateInside(mx, my))) 
-        		{
-        	        animThread = new Thread(this);
-        	       // animThread.start();
-        	        lastClicked = 0;
-        	      //  enabled = false;
-        		}
-        }
-        
-        if (fleet2.getX()==fleet2.getDestinationX() && fleet2.getY()==fleet2.getDestinationY()) enabled = true;
-        if (fleet1.getX()==fleet1.getDestinationX() && fleet1.getY()==fleet1.getDestinationY()) enabled = true;
-		*/
+    
         for(int i=0; i<universe.getPlanets().size(); i++)
         {
-        	if((universe.getPlanets().get(i).isCoordinateInside(mx, my)) && enabled==true) lastClicked = i;
-        }
-
-        if (lastClicked<=universe.getPlanets().size()	)
-        {
-        	
-        }
+        	if((universe.getPlanets().get(i).isCoordinateInside(mx, my)) && enabled==true) 
+        	{
+        		if(lastClicked == 1)
+                {
+                	if((universe.getPlanets().get(2).isCoordinateInside(mx, my)) && enabled==true) 
+                	{
+                		attack = 2;
+                		animThread = new Thread(this);
+                        animThread.start();
+               	        enabled = false;
+                	}
+                }
+        		else
+        		{
+        			lastClicked = i;
+        		}
+        				
+        	}
+        }     
         
-        System.out.println(lastClicked);
+        System.out.println("lastCLicked: " + lastClicked);
+        System.out.println("attack: " + attack);
     
-
         repaint();
 
     }
@@ -242,13 +238,15 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		mouseX = e.getX();
 		mouseY = e.getY();
 		
+		if(enabled==true)
+		{
 		for(int i=0; i<universe.getPlanets().size(); i++)
 	    	{
 	        	if((universe.getPlanets().get(i).isCoordinateInside(mouseX, mouseY))) hoveredOver = i;
 	        }
         
         repaint();
-		
+		}
 	}
 
 }
