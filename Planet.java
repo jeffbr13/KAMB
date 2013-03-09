@@ -201,6 +201,11 @@ public class Planet extends GamePiece
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
+    
+    private void setPercentCaptured(int i)
+    {
+     persentage=i;
+    }
 
 
 
