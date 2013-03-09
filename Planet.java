@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
+import java.util.*;
+
 
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
@@ -26,7 +28,8 @@ public class Planet extends GamePiece
     private Player owner;
     private Player capturer;
     private int persentage;
-    private int[] ships;
+    
+    HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
     
         //Number of planet images we have.
     public static int imagesNum=18;
@@ -61,7 +64,6 @@ public class Planet extends GamePiece
             }
         }
     }
-
     public Planet(int x, int y)
     {
         this(x, y, Universe.randomBetween(minRadius,maxRadius));
@@ -72,18 +74,18 @@ public class Planet extends GamePiece
         this(x, y, radius, random.nextInt(imagesNum));
     }
 
-    public Planet(int x, int y, int radius, int i)
+    public Planet(int x, int y, int radius, int j)
     {
      owner=null;
+     attRadius=radius*2;
 	 this.x = x;
 	 this.y = y;
 	 xCenter=x+radius;
 	 yCenter=y+radius;
 	 this.radius = radius;
-	 image=resize(images[i],radius);
+	 image=resize(images[j],radius);
 	 
-	 //TO DO:
-	 //Create the ships array.
+	 setStartingShips();
     }
 
     public int getXCenter()
@@ -153,15 +155,33 @@ public class Planet extends GamePiece
     {
      return persentage;
     }
-    public int playerShips(Player p)
+    public int getPlayerShips(Player p)
     {
-     return ships[p.getNumber()];
+     return ships.get(p);
     }
-    //public Color getColor()
-    //{
-    // 
-    //}
-    //Not decided on colors yet.
+    
+    public Player[] getPlayers()
+    {
+     Set a=ships.keySet();
+     return (Player[])a.toArray();
+    }
+    
+    public void addFleet(Fleet f)
+    {
+    	Player p=f.getPlayer();
+    	int s=f.getShips();
+    	if(ships.get(p)==null)ships.put(p,s);
+    	else
+    	{
+    		int sh=ships.get(p)+s;
+    		ships.put(p,sh);
+    	}
+    }
+    
+    public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
+    {
+     ships.put(p, n);
+    }
     
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {

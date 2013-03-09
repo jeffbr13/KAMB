@@ -32,6 +32,9 @@ public class Universe
     static public int minPlanetSeparation = 80;
 
     static private String backgroundImageLocation = "resources/images/backgrounds/galaxy.jpg";
+    
+    private Player[] players;
+    private int numPlayers; 
 
     public static Random randomGenerator = new Random();
 
@@ -195,6 +198,16 @@ public class Universe
     public void setBackground(BufferedImage backgroundImage)
     {
         this.backgroundImage = backgroundImage;
+    }
+    
+    public Player[] getPlayers()
+    {
+    	return players;
+    }
+    
+    public int getNumPlayers()
+    {
+    	return numPlayers;
     }
 
 }
