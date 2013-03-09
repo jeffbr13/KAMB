@@ -170,6 +170,11 @@ public class Planet extends GamePiece
         return (Player[])a.toArray();
     }
 
+    public HashMap<Player,Integer> getShips()
+    {
+        return this.ships;
+    }
+
     public void addFleet(Fleet f)
     {
         Player p=f.getPlayer();
