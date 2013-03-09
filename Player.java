@@ -15,8 +15,13 @@ public class Player
      */
     public Player(int number)
     {
+        this(number, new Color(Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255)));
+    }
+
+    public Player(int number, Color color)
+    {
         this.number = number;
-        this.color = new Color(Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255),Universe.randomGenerator.nextInt(255));
+        this.color = color;
     }
 
     /**
