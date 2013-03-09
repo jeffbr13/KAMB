@@ -233,4 +233,26 @@ public class Planet extends GamePiece
             this.setPlayerShips(p, (this.getPlayerShips(p) + shipsGeneratedThisCycle));
         }
     }
+    
+    /**
+     * Update the capture percentage, if there is only one player on the planet.
+     * If the planet is 100% captured, set the owner to be the currently dominant player. 
+     */
+    private void performCapture()
+    {
+        if (this.getPlayers().length > 1) {
+            return;
+        }
+        if (this.percentCaptured() >= 100) {
+            this.owner = this.dominantPlayer();
+            this.capturer = null;
+            return;
+        }
+        
+        int currentlyCaptured = this.percentCaptured();
+        int increaseInCapture = 1;
+        // FIXME: write a calculation so that the percentage captured depends on the planet's resourceValue
+        
+        this.setPercentCaptured(currentlyCaptured + increaseInCapture);
+    }
 }
