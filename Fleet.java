@@ -17,6 +17,7 @@ public class Fleet extends GamePiece{
     private int startY;
     private int destinationX;
     private int destinationY;
+    private int ships;
     
     /**
      * @return the starting 'x' co-ordinate of the fleet
@@ -120,6 +121,11 @@ public class Fleet extends GamePiece{
     	//Made the speed a constant. It always changes with the same-ish distance per frame.
     	x+=(double)(destinationX-startX)*frame;
         y+=(double)(destinationY-startY)*frame;
+    }
+    
+    public int getShips()
+    {
+     return ships;
     }
     
 }

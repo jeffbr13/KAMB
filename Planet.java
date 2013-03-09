@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import java.util.*;
+import java.awt.*;
 
 
 /**
@@ -84,8 +85,6 @@ public class Planet extends GamePiece
 	 yCenter=y+radius;
 	 this.radius = radius;
 	 image=resize(images[j],radius);
-	 
-	 setStartingShips();
     }
 
     public int getXCenter()
@@ -162,7 +161,7 @@ public class Planet extends GamePiece
     
     public Player[] getPlayers()
     {
-     Set a=ships.keySet();
+     Set<Player> a=ships.keySet();
      return (Player[])a.toArray();
     }
     
@@ -176,6 +175,11 @@ public class Planet extends GamePiece
     		int sh=ships.get(p)+s;
     		ships.put(p,sh);
     	}
+    }
+    
+    public Color getColor()
+    {
+     return owner.getColor();
     }
     
     public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
