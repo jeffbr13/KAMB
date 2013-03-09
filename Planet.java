@@ -145,6 +145,8 @@ public class Planet extends GamePiece
 
 
     /**
+     *  Update the ship counts due to battle, for one cycle.
+     * 
      *  Each ship has a 0.5 chance of destroying an enemy ship/dealing one unit of damage.
      *  Damage is equally between players, simultaneously, every time this is generated.
      *  
@@ -179,5 +181,14 @@ public class Planet extends GamePiece
                     int shipsLastCycle = this.getPlayerShips(p);
             this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
         }
+    }
+
+    /**
+     * @return the number of new ships generated this cycle
+     */
+    public int generateShips() {
+
+        // TODO: ensure that there is only one player in charge.
+        // TODO: this method
     }
 }
