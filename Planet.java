@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Random;
 
 
@@ -12,10 +13,10 @@ import java.util.Random;
  */
 public class Planet extends GamePiece
 {
-    
+
     //Center coordinates.
     private int xCenter,yCenter;
-    
+
     public int radius;
     
     
@@ -27,27 +28,25 @@ public class Planet extends GamePiece
     private int persentage;
     private int[] ships;
     
-    
-   
-    //Number of planet images we have.
+        //Number of planet images we have.
     public static int imagesNum=18;
     //The planet images.
     public static BufferedImage[] images;
-    
+
     //Min and Max radius
     public static int minRadius;
     public static int maxRadius;
-    
-    
+
+
     //Randomness.
     private static Random random=new Random();
-    
+
     //Reads all the planet images from their image files.
     static
     {
-    	minRadius=Universe.getMinPlanetSize();
-    	maxRadius=Universe.getMaxPlanetSize();
-    	
+        minRadius=Universe.getMinPlanetSize();
+        maxRadius=Universe.getMaxPlanetSize();
+
         images=new BufferedImage [imagesNum];
         for(int i=1;i<=imagesNum;i++)
         {
@@ -62,17 +61,17 @@ public class Planet extends GamePiece
             }
         }
     }
-    
+
     public Planet(int x, int y)
     {
-     this(x, y, Universe.randomBetween(minRadius,maxRadius));
+        this(x, y, Universe.randomBetween(minRadius,maxRadius));
     }
-    
+
     public Planet(int x, int y, int radius)
     {
-	 this(x, y, radius, random.nextInt(imagesNum));
+        this(x, y, radius, random.nextInt(imagesNum));
     }
-    
+
     public Planet(int x, int y, int radius, int i)
     {
      owner=null;
@@ -86,17 +85,17 @@ public class Planet extends GamePiece
 	 //TO DO:
 	 //Create the ships array.
     }
-    
+
     public int getXCenter()
     {
-    	return xCenter; 
+        return xCenter; 
     }
     public int getYCenter()
     {
-    	return yCenter;
+        return yCenter;
     }
-    
-    
+
+
     /**
      * @return the radius of the planet.
      */
@@ -112,9 +111,9 @@ public class Planet extends GamePiece
     {
         g2d.drawImage(this.bufferedImage, this.getX(), this.getY(), null);
     }*/
-    
 
-   /* public void setImage(String path) {
+
+    /* public void setImage(String path) {
         try {
             File f = new File(path);
             this.bufferedImage = ImageIO.read(f);
@@ -123,7 +122,7 @@ public class Planet extends GamePiece
             e.printStackTrace();
         }
     }*/
-    
+
     /**
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
@@ -166,17 +165,55 @@ public class Planet extends GamePiece
     
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
-        
+
         int dx = xCenter - p.getXCenter();
         int dy = yCenter - p.getYCenter();
-        
+
         return (dx*dx)+(dy*dy)>=(distance+radius+p.radius)*(distance+radius+p.radius);
     }
-    
+
     public boolean isCoordinateInside(int x, int y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
-	
+
+
+
+    /**
+     *  Each ship has a 0.5 chance of destroying an enemy ship/dealing one unit of damage.
+     *  Damage is equally between players, simultaneously, every time this is generated.
+     *  
+     *  1 unit of damage ~= 1 enemy ship destroyed (rounded)
+     */
+    public void performBattle() {
+
+        int[] damageDealtByPlayers = new int[this.getPlayer().length];
+
+        // calculate the amount of damage/ships each player does in total 
+        for (int player=0; player < this.getPlayers().length; player++) {
+            // TODO: implement getPlayers: players present on planet
+
+            for (int ship : this.getPlayerShips(player)) {
+                if (Planet.random.nextBoolean()) damageDealtByPlayers[player] += 1;
+            }
+        }
+
+        // for every player that isn't itself, set the damage dealt to it to be (damage done by other players / (total number of players - itself) ) 
+        int[] damageDealtToPlayers = new int[this.getPlayer().length];
+        for (int player=0; player < this.getPlayers().length; player++) {
+            for (int playerDoingDamage=0; playerDoingDamage < this.getPlayers().length; playerDoingDamage++) {
+                if (playerDoingDamage != player) {
+                    damageDealtToPlayers[player] += (int) (damageDealtByPlayers[playerDoingDamage] / (this.getPlayers().length - 1) );
+                }
+            }
+        }
+
+        // set number of ships for every player to be last number - damage just done to player
+        for (int i=0; i < this.getPlayers().length; i++) {
+            Player p = this.getPlayers()[i]
+                    int shipsLastCycle = this.getPlayerShips(p);
+            this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
+        }
+    }
 }

@@ -30,7 +30,9 @@ Planet
 
 * public Player dominantPlayer() // the player currently winning the planet
 * public int percentCaptured()
-* public int playerShips(Player p) // the number of ships here that the given player has
+* public Player[] getPlayers() // an array of all players with ships currently on the planet
+* public int getPlayerShips(Player p) // the number of ships here that the given player has
+* public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
 * public Color getColor() // Atanas, you decide what colors go here 
 
 * public void update() // Atanas, I'll do these 3 (-Ben)
