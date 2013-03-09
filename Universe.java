@@ -33,7 +33,7 @@ public class Universe
 
     static private String backgroundImageLocation = "resources/images/backgrounds/galaxy.jpg";
 
-    private static Random randomGenerator = new Random();
+    public static Random randomGenerator = new Random();
 
     /*
      * Generate a universe with the given width and height.
