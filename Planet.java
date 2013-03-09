@@ -18,11 +18,17 @@ public class Planet extends GamePiece
     private int xCenter,yCenter;
 
     public int radius;
-    public int ships;
-
-
-
-    //Number of planet images we have.
+    
+    
+    private int resources;
+    private String name;
+    private int attRadius;
+    private Player owner;
+    private Player capturer;
+    private int persentage;
+    private int[] ships;
+    
+        //Number of planet images we have.
     public static int imagesNum=18;
     //The planet images.
     public static BufferedImage[] images;
@@ -68,12 +74,16 @@ public class Planet extends GamePiece
 
     public Planet(int x, int y, int radius, int i)
     {
-        this.x = x;
-        this.y = y;
-        xCenter=x+radius;
-        yCenter=y+radius;
-        this.radius = radius;
-        image=resize(images[i],radius);
+     owner=null;
+	 this.x = x;
+	 this.y = y;
+	 xCenter=x+radius;
+	 yCenter=y+radius;
+	 this.radius = radius;
+	 image=resize(images[i],radius);
+	 
+	 //TO DO:
+	 //Create the ships array.
     }
 
     public int getXCenter()
@@ -92,15 +102,6 @@ public class Planet extends GamePiece
     public int getRadius()
     {
         return radius;
-    }
-
-
-    /**
-     * @return the number of ships present on the planet.
-     */
-    public int getShips()
-    {
-        return ships;
     }
 
     /**
@@ -126,7 +127,42 @@ public class Planet extends GamePiece
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
      */
+    
+    public int getResourceValue()
+    {
+     return resources; 
+    }
+    public String getName()
+    {
+     return name;
+    }
+    public int travelRadius()
+    {
+     return attRadius;
+    }
+    public boolean coordinateWithinTravelRadius(int x, int y)
+    {
+     return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
+    }
 
+    public Player dominantPlayer()
+    {
+     return capturer;
+    }
+    public int percentCaptured()
+    {
+     return persentage;
+    }
+    public int playerShips(Player p)
+    {
+     return ships[p.getNumber()];
+    }
+    //public Color getColor()
+    //{
+    // 
+    //}
+    //Not decided on colors yet.
+    
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
 
