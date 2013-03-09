@@ -214,19 +214,19 @@ public class Planet extends GamePiece
      */
     private void performBattle() {
 
-        int[] damageDealtByPlayers = new int[this.getPlayer().length];
+        int[] damageDealtByPlayers = new int[this.getPlayers().length];
 
-        // calculate the amount of damage/ships each player does in total 
-        for (int player=0; player < this.getPlayers().length; player++) {
-            // TODO: implement getPlayers: players present on planet
+        // calculate the amount of damage/ships each player does in total  
+        for (int playerNo=0; playerNo < this.getPlayers().length; playerNo++) {
+            Player p = this.getPlayers()[playerNo];
 
-            for (int ship : this.getPlayerShips(player)) {
-                if (Planet.random.nextBoolean()) damageDealtByPlayers[player] += 1;
+            for (int i=0; i < this.getPlayerShips(p); i++) {
+                if (Planet.random.nextBoolean()) damageDealtByPlayers[playerNo] += 1;
             }
         }
 
         // for every player that isn't itself, set the damage dealt to it to be (damage done by other players / (total number of players - itself) ) 
-        int[] damageDealtToPlayers = new int[this.getPlayer().length];
+        int[] damageDealtToPlayers = new int[this.getPlayers().length];
         for (int player=0; player < this.getPlayers().length; player++) {
             for (int playerDoingDamage=0; playerDoingDamage < this.getPlayers().length; playerDoingDamage++) {
                 if (playerDoingDamage != player) {
@@ -237,7 +237,7 @@ public class Planet extends GamePiece
 
         // set number of ships for every player to be last number - damage just done to player
         for (int i=0; i < this.getPlayers().length; i++) {
-            Player p = this.getPlayers()[i]
+            Player p = this.getPlayers()[i];
                     int shipsLastCycle = this.getPlayerShips(p);
             this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
         }
