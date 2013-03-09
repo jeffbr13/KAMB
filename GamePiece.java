@@ -16,8 +16,10 @@ public class GamePiece implements Position, Drawable
 	protected Player owner;
     protected BufferedImage image;
     
-    protected BufferedImage resize(BufferedImage originalImage, int r)
+    
+    public static BufferedImage resize(BufferedImage originalImage, int r)
     {
+    	//Assumes that the image is a square. Also r is half the size we want.
     	BufferedImage scaledBI = new BufferedImage(r*2, r*2, BufferedImage.TYPE_INT_ARGB);
     	Graphics2D g = scaledBI.createGraphics();
     	g.drawImage(originalImage, 0, 0, r*2, r*2, null); 
