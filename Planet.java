@@ -16,7 +16,8 @@ import java.awt.*;
  */
 public class Planet extends GamePiece
 {
-
+    //  TODO: method - public boolean isCaptured()
+    
     //Center coordinates.
     private int xCenter,yCenter;
 
@@ -213,13 +214,24 @@ public class Planet extends GamePiece
 
 
     /**
-     * perform all battle, capture, or regeneration actions applicable to the planet
+     * perform all battle, capture, or ship-building actions applicable to the planet
      */
     public void update() {
 
-        // TODO: check whether a battle is being fought
-        // TODO: check whether the planet is being captured
-        // TODO: check whether the planet is generating ships
+        // check whether more than one player is on the planet. If so, perform a battle, and end this cycle
+        if (this.getPlayers().length > 1) {
+            this.performBattle();
+            return;
+        }
+
+        // check whether the planet has already been captured. If it has not, perform capture actions then end the cycle.
+        if (this.percentCaptured() < 100) {
+            this.performCapture();
+            return;
+        }
+
+        // TODO: At this point, the planet must be peaceful and fully captured. Ships can now be generated.
+        this.performShipBuilding();
     }
 
 
@@ -265,7 +277,7 @@ public class Planet extends GamePiece
     /**
      * Add the number of new ships generated this cycle to the planet's owner
      */
-    private void generateShips() {
+    private void performShipBuilding() {
 
         // ensure that there is only one player in charge.
         if (this.percentCaptured() == 100) {
