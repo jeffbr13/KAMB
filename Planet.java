@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
+import java.util.*;
+
 
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
@@ -27,6 +29,9 @@ public class Planet extends GamePiece
     private Player capturer;
     private int persentage;
     private int[] ships;
+    
+    private static Player[] players;
+    private static int numPlayers; 
     
         //Number of planet images we have.
     public static int imagesNum=18;
@@ -60,6 +65,10 @@ public class Planet extends GamePiece
                 e.printStackTrace();
             }
         }
+        
+        players=Universe.getPlayers();
+        numPlayers=players.length;
+        
     }
 
     public Planet(int x, int y)
@@ -72,18 +81,21 @@ public class Planet extends GamePiece
         this(x, y, radius, random.nextInt(imagesNum));
     }
 
-    public Planet(int x, int y, int radius, int i)
+    public Planet(int x, int y, int radius, int j)
     {
      owner=null;
+     attRadius=radius*2;
 	 this.x = x;
 	 this.y = y;
 	 xCenter=x+radius;
 	 yCenter=y+radius;
 	 this.radius = radius;
-	 image=resize(images[i],radius);
+	 image=resize(images[j],radius);
 	 
-	 //TO DO:
-	 //Create the ships array.
+	 int i;
+	 ships=new int[numPlayers+1];
+	 for(i=1;i<=numPlayers;i++)ships[i]=0;
+	 ships[0]=1;// TODO: Decide how many ships neutral planets have in the start.
     }
 
     public int getXCenter()
@@ -153,15 +165,27 @@ public class Planet extends GamePiece
     {
      return persentage;
     }
-    public int playerShips(Player p)
+    public int getPlayerShips(Player p)
     {
      return ships[p.getNumber()];
     }
-    //public Color getColor()
-    //{
-    // 
-    //}
-    //Not decided on colors yet.
+    
+    public Player[] getPlayers()
+    {
+     int i,n=0,i2;
+     for(i=0;i<=numPlayers;i++)
+    	 if(ships[i]>0)n++;
+     Player[] p=new Player[n];
+     i2=0;
+     for(i=0;i<=numPlayers;i++)
+    	 if(ships[i]>0)p[i2++]=players[i];
+     return p;
+    }
+    
+    public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
+    {
+     ships[p.getNumber()]=n;
+    }
     
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
