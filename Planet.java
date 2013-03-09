@@ -146,9 +146,13 @@ public class Planet extends GamePiece
      return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
     }
 
-    public Player dominantPlayer()
+    public Player getControllingPlayer()
     {
-     return capturer;
+        if (this.percentCaptured() >= 100) {
+            return this.owner;
+        } else {
+            return this.capturer;
+        }
     }
     public int percentCaptured()
     {
@@ -283,7 +287,7 @@ public class Planet extends GamePiece
             return;
         }
         if (this.percentCaptured() >= 100) {
-            this.owner = this.dominantPlayer();
+            this.owner = this.getControllingPlayer();
             this.capturer = null;
             return;
         }
