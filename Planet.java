@@ -28,10 +28,8 @@ public class Planet extends GamePiece
     private Player owner;
     private Player capturer;
     private int persentage;
-    private int[] ships;
     
-    private static Player[] players;
-    private static int numPlayers; 
+    HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
     
         //Number of planet images we have.
     public static int imagesNum=18;
@@ -65,12 +63,7 @@ public class Planet extends GamePiece
                 e.printStackTrace();
             }
         }
-        
-        players=Universe.getPlayers();
-        numPlayers=players.length;
-        
     }
-
     public Planet(int x, int y)
     {
         this(x, y, Universe.randomBetween(minRadius,maxRadius));
@@ -92,10 +85,7 @@ public class Planet extends GamePiece
 	 this.radius = radius;
 	 image=resize(images[j],radius);
 	 
-	 int i;
-	 ships=new int[numPlayers+1];
-	 for(i=1;i<=numPlayers;i++)ships[i]=0;
-	 ships[0]=1;// TODO: Decide how many ships neutral planets have in the start.
+	 setStartingShips();
     }
 
     public int getXCenter()
@@ -167,24 +157,30 @@ public class Planet extends GamePiece
     }
     public int getPlayerShips(Player p)
     {
-     return ships[p.getNumber()];
+     return ships.get(p);
     }
     
     public Player[] getPlayers()
     {
-     int i,n=0,i2;
-     for(i=0;i<=numPlayers;i++)
-    	 if(ships[i]>0)n++;
-     Player[] p=new Player[n];
-     i2=0;
-     for(i=0;i<=numPlayers;i++)
-    	 if(ships[i]>0)p[i2++]=players[i];
-     return p;
+     Set a=ships.keySet();
+     return (Player[])a.toArray();
+    }
+    
+    public void addFleet(Fleet f)
+    {
+    	Player p=f.getPlayer();
+    	int s=f.getShips();
+    	if(ships.get(p)==null)ships.put(p,s);
+    	else
+    	{
+    		int sh=ships.get(p)+s;
+    		ships.put(p,sh);
+    	}
     }
     
     public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
     {
-     ships[p.getNumber()]=n;
+     ships.put(p, n);
     }
     
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
