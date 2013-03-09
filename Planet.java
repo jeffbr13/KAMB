@@ -17,23 +17,23 @@ import java.awt.*;
 public class Planet extends GamePiece
 {
     //  TODO: method - public boolean isCaptured()
-    
+
     //Center coordinates.
     private int xCenter,yCenter;
 
     public int radius;
-    
-    
+
+
     private int resources;
     private String name;
     private int attRadius;
     private Player owner;
     private Player capturer;
     private int persentage;
-    
+
     HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
-    
-        //Number of planet images we have.
+
+    //Number of planet images we have.
     public static int imagesNum=18;
     //The planet images.
     public static BufferedImage[] images;
@@ -78,14 +78,14 @@ public class Planet extends GamePiece
 
     public Planet(int x, int y, int radius, int j)
     {
-     owner=null;
-     attRadius=radius*2;
-	 this.x = x;
-	 this.y = y;
-	 xCenter=x+radius;
-	 yCenter=y+radius;
-	 this.radius = radius;
-	 image=resize(images[j],radius);
+        owner=null;
+        attRadius=radius*2;
+        this.x = x;
+        this.y = y;
+        xCenter=x+radius;
+        yCenter=y+radius;
+        this.radius = radius;
+        image=resize(images[j],radius);
     }
 
     public int getXCenter()
@@ -129,22 +129,22 @@ public class Planet extends GamePiece
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
      */
-    
+
     public int getResourceValue()
     {
-     return resources; 
+        return resources; 
     }
     public String getName()
     {
-     return name;
+        return name;
     }
     public int travelRadius()
     {
-     return attRadius;
+        return attRadius;
     }
     public boolean coordinateWithinTravelRadius(int x, int y)
     {
-     return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
+        return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
     }
 
     public Player getControllingPlayer()
@@ -157,41 +157,41 @@ public class Planet extends GamePiece
     }
     public int percentCaptured()
     {
-     return persentage;
+        return persentage;
     }
     public int getPlayerShips(Player p)
     {
-     return ships.get(p);
+        return ships.get(p);
     }
-    
+
     public Player[] getPlayers()
     {
-     Set<Player> a=ships.keySet();
-     return (Player[])a.toArray();
+        Set<Player> a=ships.keySet();
+        return (Player[])a.toArray();
     }
-    
+
     public void addFleet(Fleet f)
     {
-    	Player p=f.getPlayer();
-    	int s=f.getShips();
-    	if(ships.get(p)==null)ships.put(p,s);
-    	else
-    	{
-    		int sh=ships.get(p)+s;
-    		ships.put(p,sh);
-    	}
+        Player p=f.getPlayer();
+        int s=f.getShips();
+        if(ships.get(p)==null)ships.put(p,s);
+        else
+        {
+            int sh=ships.get(p)+s;
+            ships.put(p,sh);
+        }
     }
-    
+
     public Color getColor()
     {
-     return owner.getColor();
+        return owner.getColor();
     }
-    
+
     public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
     {
-     ships.put(p, n);
+        ships.put(p, n);
     }
-    
+
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
 
@@ -206,10 +206,10 @@ public class Planet extends GamePiece
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
-    
+
     private void setPercentCaptured(int i)
     {
-     persentage=i;
+        persentage=i;
     }
 
 
@@ -269,7 +269,7 @@ public class Planet extends GamePiece
         // set number of ships for every player to be last number - damage just done to player
         for (int i=0; i < this.getPlayers().length; i++) {
             Player p = this.getPlayers()[i];
-                    int shipsLastCycle = this.getPlayerShips(p);
+            int shipsLastCycle = this.getPlayerShips(p);
             this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
         }
     }
@@ -281,14 +281,14 @@ public class Planet extends GamePiece
 
         // ensure that there is only one player in charge.
         if (this.percentCaptured() == 100) {
-            
+
             Player p = this.getPlayer();
             // number of new ships each cycle == planet resources
             int shipsGeneratedThisCycle = this.getResourceValue();
             this.setPlayerShips(p, (this.getPlayerShips(p) + shipsGeneratedThisCycle));
         }
     }
-    
+
     /**
      * Update the capture percentage, if there is only one player on the planet.
      * If the planet is 100% captured, set the owner to be the currently dominant player. 
@@ -303,11 +303,11 @@ public class Planet extends GamePiece
             this.capturer = null;
             return;
         }
-        
+
         int currentlyCaptured = this.percentCaptured();
         int increaseInCapture = 1;
         // FIXME: write a calculation so that the percentage captured depends on the planet's resourceValue
-        
+
         this.setPercentCaptured(currentlyCaptured + increaseInCapture);
     }
 }
