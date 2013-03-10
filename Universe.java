@@ -102,9 +102,9 @@ public class Universe
      */
     private boolean planetsAllDistanceAwayFrom(Planet p, int minimumPlanetSeparation)
     {
-        ArrayList<Planet> ps = this.getPlanets();
-        for (int i=0; i < ps.size(); i++) {
-            if (p.isFarEnoughAwayFrom(ps.get(i), minimumPlanetSeparation) == false) 
+        Planet[] ps = this.getPlanets();
+        for (int i=0; i < ps.length; i++) {
+            if (p.isFarEnoughAwayFrom(ps[i], minimumPlanetSeparation) == false) 
             {
                 return false;
             }
@@ -162,23 +162,42 @@ public class Universe
         this.height = height;
     }
 
+    public Fleet[] getFleets()
+    {
+        return (Fleet[]) this.fleets.toArray();
+    }
+
+    public Fleet[] getPlayerFleets(Player p)
+    {
+        ArrayList<Fleet> playerFleets = new ArrayList<Fleet>();
+        for (Fleet f : this.getFleets()) {
+            if (f.belongsTo(p)) playerFleets.add(f);
+        }
+        return (Fleet[]) playerFleets.toArray();
+    }
+
     public void addFleet(Fleet f)
     {
         this.fleets.add(f);
     }
 
+    public Planet[] getPlanets()
+    {
+        return (Planet[]) this.planets.toArray();
+    }
+
+    public Planet[] getPlayerPlanets(Player p)
+    {
+        ArrayList<Planet> playerPlanets = new ArrayList<Planet>();
+        for (Planet plt : this.getPlanets()) {
+            if (plt.belongsTo(p)) playerPlanets.add(plt);
+        }
+        return (Planet[]) playerPlanets.toArray();
+    }
+
     public void addPlanet(Planet p)
     {
         this.planets.add(p);
-    }
-
-    public ArrayList<Fleet> getFleets()
-    {
-        return this.fleets;
-    }
-    public ArrayList<Planet> getPlanets()
-    {
-        return this.planets;
     }
 
     /**

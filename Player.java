@@ -75,7 +75,9 @@ public class Player
         return p.belongsTo(this);
     }
 
-    public Color getColor() {
+    public Color getColor()
+    {
         return this.color;
     }
+
 }
