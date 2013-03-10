@@ -138,17 +138,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     {
     	while((fleet1.x!=universe.getPlanets().get(2).getX()) && (fleet1.y!=universe.getPlanets().get(2).getY()))
     		{
-    		double xch = (double)(fleet1.getDestinationX()-fleet1.getStartX())*fleet1.getFrame();
-    		double ych = (double)(fleet1.getDestinationY()-fleet1.getStartY())*fleet1.getFrame();
-    		fleet1.x = (int) (fleet1.x + xch);
-            fleet1.y = (int) (fleet1.y + ych);
+    		fleet1.update();
             try { Thread.sleep(50); }
             catch (InterruptedException e) {
                 System.out.println("error");
 
             }
             repaint();
-            System.out.println(xch + ", " + ych);
     		System.out.println(fleet1.x + ", " + fleet1.y);
     		}
     	
@@ -182,11 +178,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
                 		animThread = new Thread(this);
                         animThread.start();
                	        enabled = false;
+               	     System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets().get(2).getX() +" " + universe.getPlanets().get(2).getX());
                 	}
                 }
         		else
         		{
         			lastClicked = i;
+        			System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets().get(i).getX() +" " + universe.getPlanets().get(i).getX());
         		}
         				
         	}
