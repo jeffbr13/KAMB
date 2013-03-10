@@ -93,6 +93,12 @@ public class Universe
     }
 
 
+    /**
+     * @param a new Planet, p
+     * @param the minimumPlanetSeparation
+     * @return whether the current planets are all minimumPlanetSeparation from the
+     *  not-yet-added Planet p.
+     */
     private boolean planetsAllDistanceAwayFrom(Planet p, int minimumPlanetSeparation)
     {
         ArrayList<Planet> ps = this.getPlanets();
@@ -204,9 +210,31 @@ public class Universe
         return (Player[]) (players.toArray());
     }
 
+    /**
+     * @param Player p
+     * 
+     * Adds the Player p to the list of players in the universe.
+     * DOES NOT GIVE THEM ANY PLANETS OR FLEETS.
+     */
     public void addPlayer(Player p)
     {
         this.players.add(p);
     }
 
+    /**
+     * @param numberOfPlayers
+     * @return an array of Planets, suitable to be home-planets for each of the n
+     *  players - they are all the maximum (but similar) distances possible
+     *  apart from each other, and have similar resources.
+     */
+    private Planet[] findHomeplanetsForPlayers(int numberOfPlayers)
+    {
+        Planet[] homeplanets = new Planet[numberOfPlayers];
+        // TODO: write an appropriate algorithm for this method
+        
+        // NOTE: this just returns an array of the first and last planets. Replace this.
+        homeplanets[0] = this.getPlanets().get(0);
+        homeplanets[1] = this.getPlanets().get(this.getPlanets().size() - 1);
+        return homeplanets;
+    }
 }
