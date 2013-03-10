@@ -155,6 +155,14 @@ public class Planet extends GamePiece
             return this.capturer;
         }
     }
+
+    public void setControllingPlayer(Player p)
+    {
+        this.setPercentCaptured(100);
+        this.owner = p;
+        this.capturer = null;
+    }
+
     public int percentCaptured()
     {
         return persentage;
@@ -214,7 +222,7 @@ public class Planet extends GamePiece
     public boolean isCoordinateInside(double x, double y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
-    	//With doubles.
+        //With doubles.
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
 
