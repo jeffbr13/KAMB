@@ -59,7 +59,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         try {
             File f = new File("resources/images/fleets/fleet1.png");
             b = ImageIO.read(f);
-            bufferedImage=GamePiece.resize(b, 5);
+            bufferedImage=GamePiece.resize(b, 10);
             } catch (IOException e) {
         // TODO Auto-generated catch block
             e.printStackTrace();
@@ -147,16 +147,17 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
     public void run()
     {
-    	while(!(universe.getPlanets().get(2).isCoordinateInside(fleet1.getXDouble(),fleet1.getYDouble())))
+    	while(!(universe.getPlanets().get(2).isCoordinateInside((int)fleet1.getXDouble(),(int)fleet1.getYDouble())))
     		{
+    		//System.out.print(fleet1.getXDouble() + ", " + fleet1.getYDouble() +"\n   ");
     		fleet1.update();
-            try { Thread.sleep(50); }
+            try { Thread.sleep(10); }
             catch (InterruptedException e) {
                 System.out.println("error");
 
             }
             repaint();
-    		System.out.println(fleet1.x + ", " + fleet1.y);
+    		System.out.println(fleet1.getXDouble() + ", " + fleet1.getYDouble()+"\n");
     		}
     	
     }

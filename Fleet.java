@@ -64,7 +64,7 @@ public class Fleet extends GamePiece{
     //Distance between the planets and the time it'll take the fleet.
     double distance, time,frame; // frame is the percentage of the entire distance travelled per frame
     //Game Frames Per Second... would rather have this in a higher order class than this!
-    public static int GAME_FPS = 120;
+    public static int GAME_FPS = 100;
     
     
     public Fleet(int currentX, int currentY, int destinationX, int destinationY){
@@ -82,10 +82,10 @@ public class Fleet extends GamePiece{
         
         
         //Calculates distance between planets.
-        distance=Math.sqrt((this.destinationX-startX)*(this.destinationX-startY)+(this.destinationX-startY)*(this.destinationY-startY));
+        distance=Math.sqrt((this.destinationX-startX)*(this.destinationX-startX)+(this.destinationY-startY)*(this.destinationY-startY));
         //Calculates time by S/v and then takes what portion of the distance it must pass in 1 frame.
         time=distance/speed;
-        frame=1/(GAME_FPS*time);
+        frame=1.0/((double)GAME_FPS*time);
         
         BufferedImage b;
         try {
@@ -127,6 +127,11 @@ public class Fleet extends GamePiece{
         // internally consistent. Just FYI...
     	
     	//Made the speed a constant. It always changes with the same-ish distance per frame.
+    	
+    	
+    	//System.out.println(frame+ ", " + GAME_FPS +", "+distance+", "+time+ ", "+speed);
+    	
+    	
     	xDouble+=(double)(destinationX-startX)*frame;
         yDouble+=(double)(destinationY-startY)*frame;
     }
