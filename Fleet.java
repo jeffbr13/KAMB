@@ -19,6 +19,8 @@ public class Fleet extends GamePiece{
     private int destinationY;
     private int ships;
     
+    private double xDouble,yDouble;
+    
     /**
      * @return the starting 'x' co-ordinate of the fleet
      */
@@ -68,6 +70,10 @@ public class Fleet extends GamePiece{
     public Fleet(int currentX, int currentY, int destinationX, int destinationY){
         this.x = currentX;
         this.y = currentY;
+        
+        xDouble=currentX;
+        yDouble=currentY;
+        
         this.startX = currentX;
         this.startY = currentY;
         
@@ -81,10 +87,12 @@ public class Fleet extends GamePiece{
         time=distance/speed;
         frame=1/(GAME_FPS*time);
         
-        
+        BufferedImage b;
         try {
             File f = new File("resources/images/fleets/fleet1.png");
-            this.bufferedImage = ImageIO.read(f);
+            b = ImageIO.read(f);
+            bufferedImage=GamePiece.resize(b, 5);
+            
         } catch (IOException e) {
         // TODO Auto-generated catch block
             e.printStackTrace();
@@ -119,8 +127,17 @@ public class Fleet extends GamePiece{
         // internally consistent. Just FYI...
     	
     	//Made the speed a constant. It always changes with the same-ish distance per frame.
-    	x+=(double)(destinationX-startX)*frame;
-        y+=(double)(destinationY-startY)*frame;
+    	xDouble+=(double)(destinationX-startX)*frame;
+        yDouble+=(double)(destinationY-startY)*frame;
+    }
+    
+    public double getXDouble()
+    {
+     return xDouble;
+    }
+    public double getYDouble()
+    {
+     return yDouble;
     }
     
     public int getShips()

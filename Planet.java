@@ -79,7 +79,7 @@ public class Planet extends GamePiece
     public Planet(int x, int y, int radius, int j)
     {
         owner=null;
-        attRadius=radius*2;
+        attRadius=radius*3;
         this.x = x;
         this.y = y;
         xCenter=x+radius;
@@ -209,6 +209,12 @@ public class Planet extends GamePiece
     public boolean isCoordinateInside(int x, int y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
+        return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
+    }
+    public boolean isCoordinateInside(double x, double y)
+    {
+        //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
+    	//With doubles.
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
 
