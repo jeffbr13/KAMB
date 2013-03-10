@@ -129,6 +129,21 @@ public class Planet extends GamePiece
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
      */
+    
+    public double distance(Planet p)
+    {
+     return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter()));
+    }
+    
+    public double distance2(Planet p)
+    {
+     return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter());
+    }
+    
+    public int resourcesDifference(Planet p)
+    {
+     return Math.abs(resources-p.getResourceValue());
+    }
 
     public int getResourceValue()
     {
@@ -155,6 +170,14 @@ public class Planet extends GamePiece
             return this.capturer;
         }
     }
+
+    public void setControllingPlayer(Player p)
+    {
+        this.setPercentCaptured(100);
+        this.owner = p;
+        this.capturer = null;
+    }
+
     public int percentCaptured()
     {
         return persentage;
@@ -214,7 +237,7 @@ public class Planet extends GamePiece
     public boolean isCoordinateInside(double x, double y)
     {
         //Is the coordinate's distance from the center coordinate less than (or equal) the radius?
-    	//With doubles.
+        //With doubles.
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
 
