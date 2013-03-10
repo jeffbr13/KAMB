@@ -30,6 +30,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     Universe universe;
 
     private Fleet fleet1;
+    private Player player1;
+    private Player player2;
 
 
     public Game()
@@ -41,9 +43,20 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         setPreferredSize(screenSize);
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        // NOTE: creating universe by hand
         this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
-        this.fleet1 = new Fleet(universe.getPlanets()[1].getX(),universe.getPlanets()[1].getY(),universe.getPlanets()[2].getXCenter(),universe.getPlanets()[2].getYCenter());
-        universe.addFleet(fleet1);
+
+        // NOTE: adding players by hand
+        this.player1 = new Player(1);
+        this.player2 = new ComputerPlayer(2);
+
+        // NOTE: adding a fleet for player1 by hand
+        this.fleet1 = this.player1.createFleet(universe.getPlanets()[1].getX(),universe.getPlanets()[1].getY(),universe.getPlanets()[2].getXCenter(),universe.getPlanets()[2].getYCenter());
+        // NOTE: I've written a Player.createFleet method, which is simply a shortcut to
+        // creating the fleet then setting the player separately. Alright? - Ben
+        universe.addFleet(this.fleet1);
+
 
 
     }
