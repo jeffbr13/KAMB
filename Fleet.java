@@ -60,7 +60,7 @@ public class Fleet extends GamePiece{
     
     
     //Distance between the planets and the time it'll take the fleet.
-    double distance, time,frame;
+    double distance, time,frame; // frame is the percentage of the entire distance travelled per frame
     //Game Frames Per Second... would rather have this in a higher order class than this!
     public static int GAME_FPS = 120;
     
