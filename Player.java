@@ -80,4 +80,10 @@ public class Player
         return this.color;
     }
 
+    public Fleet createFleet(int currentX, int currentY, int destinationX, int destinationY)
+    {
+        Fleet f = new Fleet(currentX,currentY,destinationX,destinationY);
+        f.setPlayer(this);
+        return f;
+    }
 }
