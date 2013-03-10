@@ -24,6 +24,7 @@ public class Universe
 
     private ArrayList<Fleet> fleets; 
     private ArrayList<Planet> planets;
+    private ArrayList<Player> players;
 
 
     static private int margin = 50;   // minimum distance from edges
@@ -32,9 +33,6 @@ public class Universe
     static public int minPlanetSeparation = 80;
 
     static private String backgroundImageLocation = "resources/images/backgrounds/galaxy.jpg";
-    
-    private Player[] players;
-    private int numPlayers; 
 
     public static Random randomGenerator = new Random();
 
@@ -72,8 +70,8 @@ public class Universe
         this.height = height;
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
-        
-                
+
+
         for (int i=0; i < initialNumberOfPlanets; i++) {
 
             Planet p = this.generatePlanet();
@@ -110,19 +108,20 @@ public class Universe
 
     private Planet generatePlanet()
     {
-    	int planetR = Universe.randomBetween(minPlanetSize, maxPlanetSize);
+        int planetR = Universe.randomBetween(minPlanetSize, maxPlanetSize);
         int planetX = Universe.randomBetween(Universe.margin, (this.getWidth() - Universe.margin - planetR*2));
         int planetY = Universe.randomBetween(Universe.margin, (this.getHeight() - Universe.margin - planetR*2));
         // planet must be at least minDistanceFromEdges units from the sides
 
         return new Planet(planetX, planetY, planetR);
     }
-    
+
     static int randomBetween(int min, int max)
     {
-    	return min+Universe.randomGenerator.nextInt(max-min);
+        return min+Universe.randomGenerator.nextInt(max-min);
         //return Math.max(min, Universe.randomGenerator.nextInt(max));
     }
+
 
     /**
      * @return the width
@@ -182,14 +181,14 @@ public class Universe
     {
         return backgroundImage;
     }
-    
+
     static public int getMinPlanetSize()
     {
-     return minPlanetSize;
+        return minPlanetSize;
     }
     static public int getMaxPlanetSize()
     {
-     return maxPlanetSize;
+        return maxPlanetSize;
     }
 
     /**
@@ -199,15 +198,15 @@ public class Universe
     {
         this.backgroundImage = backgroundImage;
     }
-    
+
     public Player[] getPlayers()
     {
-    	return players;
+        return (Player[]) (players.toArray());
     }
-    
-    public int getNumPlayers()
+
+    public void addPlayer(Player p)
     {
-    	return numPlayers;
+        this.players.add(p);
     }
 
 }
