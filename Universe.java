@@ -250,10 +250,32 @@ public class Universe
     {
         Planet[] homeplanets = new Planet[numberOfPlayers];
         // TODO: write an appropriate algorithm for this method
-
-        // NOTE: this just returns an array of the first and last planets. Replace this.
-        homeplanets[0] = this.getPlanets().get(0);
-        homeplanets[1] = this.getPlanets().get(this.getPlanets().size() - 1);
+        int i,i2;
+        int n=planets.size();
+        Planet a1, a2, t1, t2;
+        double m,t,rd;
+        a1=planets.get(0);
+        a2=planets.get(1);
+        rd=a1.resourcesDifference(a2);
+        if(rd<1)rd=1;
+        m=a1.distance2(a2)/rd;
+        for(i=0;i<n-1;i++)
+            for(i2=i+1;i2<n;i2++)
+            {
+                t1=planets.get(i);
+                t2=planets.get(i2);
+                rd=t1.resourcesDifference(t2);
+                if(rd<1)rd=1;
+                t=t1.distance2(t2)/rd;
+                if(t>m)
+                {
+                    m=t;
+                    a1=t1;
+                    a2=t2;
+                }
+            }
+        homeplanets[0]=a1;
+        homeplanets[1]=a2;
         return homeplanets;
     }
 }
