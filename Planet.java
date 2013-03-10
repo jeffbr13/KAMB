@@ -129,20 +129,20 @@ public class Planet extends GamePiece
      * @return a boolean stating whether or not the given coordinate is 'inside' the
      * planet. Can be used for testing mouse-click-selection.
      */
-    
+
     public double distance(Planet p)
     {
-     return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter()));
+        return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter()));
     }
-    
+
     public double distance2(Planet p)
     {
-     return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter());
+        return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter());
     }
-    
+
     public int resourcesDifference(Planet p)
     {
-     return Math.abs(resources-p.getResourceValue());
+        return Math.abs(resources-p.getResourceValue());
     }
 
     public int getResourceValue()
@@ -182,15 +182,21 @@ public class Planet extends GamePiece
     {
         return persentage;
     }
-    public int getPlayerShips(Player p)
-    {
-        return ships.get(p);
-    }
 
     public Player[] getPlayers()
     {
         Set<Player> a=ships.keySet();
         return (Player[])a.toArray();
+    }
+
+    public int getPlayerShips(Player p)
+    {
+        return ships.get(p);
+    }
+
+    public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
+    {
+        ships.put(p, n);
     }
 
     public HashMap<Player,Integer> getShips()
@@ -215,10 +221,6 @@ public class Planet extends GamePiece
         return owner.getColor();
     }
 
-    public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
-    {
-        ships.put(p, n);
-    }
 
     public boolean isFarEnoughAwayFrom(Planet p, int distance) 
     {
