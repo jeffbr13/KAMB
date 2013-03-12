@@ -191,6 +191,7 @@ public class Planet extends GamePiece
 
     public int getPlayerShips(Player p)
     {
+    	if(ships.get(p)==null)return 0;
         return ships.get(p);
     }
 
