@@ -22,6 +22,11 @@ public class ComputerPlayer extends Player
 
 
 
+    public void update(Universe u)
+    {
+        this.makeMove(u);
+    }
+    
     /**
      * @param u
      * 
@@ -29,7 +34,7 @@ public class ComputerPlayer extends Player
      * If the planet is deemed a valid target, and the ComputerPlayer isn't already
      * attacking it, send a Fleet of up to 90% of ships available on the current planet.
      */
-    public void makeMove(Universe u)
+    private void makeMove(Universe u)
     {
         Planet[] ownedPlanets = u.getPlayerPlanets(this);
 
