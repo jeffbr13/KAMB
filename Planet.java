@@ -29,7 +29,7 @@ public class Planet extends GamePiece
     private int attRadius;
     private Player owner;
     private Player capturer;
-    private int persentage;
+    private double percentCaptured;
 
     HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
 
@@ -178,9 +178,9 @@ public class Planet extends GamePiece
         this.capturer = null;
     }
 
-    public int percentCaptured()
+    public double percentCaptured()
     {
-        return persentage;
+        return this.percentCaptured;
     }
 
     public Player[] getPlayers()
@@ -191,7 +191,7 @@ public class Planet extends GamePiece
 
     public int getPlayerShips(Player p)
     {
-    	if(ships.get(p)==null)return 0;
+        if(ships.get(p)==null)return 0;
         return ships.get(p);
     }
 
@@ -244,9 +244,9 @@ public class Planet extends GamePiece
         return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
     }
 
-    private void setPercentCaptured(int i)
+    private void setPercentCaptured(double x)
     {
-        persentage=i;
+        this.percentCaptured = x;
     }
 
 
@@ -341,10 +341,11 @@ public class Planet extends GamePiece
             return;
         }
 
-        int currentlyCaptured = this.percentCaptured();
-        int increaseInCapture = 1;
-        // FIXME: write a calculation so that the percentage captured depends on the planet's resourceValue
+        // rate of capture is inversely proportional to the planet's resource value,
+        // i.e. it's faster to capture a less valuable planet
+        double rateOfCapture = 0.1;
+        double capturedThisCycle = rateOfCapture * ( 1 / this.getResourceValue());
 
-        this.setPercentCaptured(currentlyCaptured + increaseInCapture);
+        this.setPercentCaptured(this.percentCaptured() + capturedThisCycle);
     }
 }
