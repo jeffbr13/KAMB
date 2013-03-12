@@ -30,6 +30,8 @@ public class Planet extends GamePiece
     private Player owner;
     private Player capturer;
     private double percentCaptured;
+    private int persentage;
+    private int newShip;
 
     HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
 
@@ -79,6 +81,9 @@ public class Planet extends GamePiece
     public Planet(int x, int y, int radius, int j)
     {
         owner=null;
+        capturer=null;
+        persentage=0;
+        newShip=0;
         attRadius=radius*3;
         this.x = x;
         this.y = y;
@@ -86,6 +91,9 @@ public class Planet extends GamePiece
         yCenter=y+radius;
         this.radius = radius;
         image=resize(images[j],radius);
+
+        resources=radius;
+        //name=???;
     }
 
     public int getXCenter()
@@ -176,6 +184,7 @@ public class Planet extends GamePiece
         this.setPercentCaptured(100);
         this.owner = p;
         this.capturer = null;
+        setPlayerShips(p,50);
     }
 
     public double percentCaptured()
@@ -186,7 +195,9 @@ public class Planet extends GamePiece
     public Player[] getPlayers()
     {
         Set<Player> a=ships.keySet();
-        return (Player[])a.toArray();
+        Player[] b=new Player[a.size()];
+        b=a.toArray(b);
+        return b;
     }
 
     public int getPlayerShips(Player p)
@@ -321,8 +332,12 @@ public class Planet extends GamePiece
 
             Player p = this.getPlayer();
             // number of new ships each cycle == planet resources
-            int shipsGeneratedThisCycle = this.getResourceValue();
-            this.setPlayerShips(p, (this.getPlayerShips(p) + shipsGeneratedThisCycle));
+            newShip += this.getResourceValue();
+            if(newShip>=100)
+            {
+                this.setPlayerShips(p, (this.getPlayerShips(p) + 1));
+                newShip-=100;
+            }
         }
     }
 
