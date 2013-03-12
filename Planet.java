@@ -336,8 +336,7 @@ public class Planet extends GamePiece
             return;
         }
         if (this.percentCaptured() >= 100) {
-            this.owner = this.getControllingPlayer();
-            this.capturer = null;
+            this.setControllingPlayer(this.getControllingPlayer());
             return;
         }
 
