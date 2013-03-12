@@ -164,7 +164,8 @@ public class Universe
 
     public Fleet[] getFleets()
     {
-        return (Fleet[]) this.fleets.toArray();
+        Fleet[] fleets = new Fleet[this.fleets.size()];
+        return this.fleets.toArray(fleets);
     }
 
     public Fleet[] getPlayerFleets(Player p)
@@ -183,7 +184,8 @@ public class Universe
 
     public Planet[] getPlanets()
     {
-        return (Planet[]) this.planets.toArray();
+        Planet[] planets = new Planet[this.planets.size()];
+        return this.planets.toArray(planets);
     }
 
     public Planet[] getPlayerPlanets(Player p)
@@ -227,7 +229,8 @@ public class Universe
 
     public Player[] getPlayers()
     {
-        return (Player[]) (players.toArray());
+        Player[] players = new Player[this.players.size()];
+        return this.players.toArray(players);
     }
 
     /**
