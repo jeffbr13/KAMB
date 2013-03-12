@@ -8,8 +8,6 @@ import java.util.Map;
 public class ComputerPlayer extends Player
 {
 
-    private ArrayList<Planet> currentlyAttackingPlanets;
-
     public ComputerPlayer(int number)
     {
         super(number);
@@ -86,27 +84,6 @@ public class ComputerPlayer extends Player
             return 0;
         }
         return idealAttackStrength;
-    }
-
-
-    /**
-     * @param launchPlanet
-     * @param targetPlanet
-     * 
-     * Make a new Fleet, set its destination to the targetPlanet, update the
-     * launchPlanets ship numbers, and update the list of ships we're attacking.
-     */
-    private void initiateAttack(Planet launchPlanet, Planet targetPlanet, int attackingShips)
-    {
-        int shipsOnPlanet = launchPlanet.getPlayerShips(this);
-
-        // Make a new Fleet, and send it to the planet
-        Fleet f = new Fleet(launchPlanet.getX(), launchPlanet.getY(),
-                targetPlanet.getX(), targetPlanet.getY());
-        f.setShips(attackingShips);
-        launchPlanet.setPlayerShips(this, (shipsOnPlanet - attackingShips));
-        // Add the planet to list of planets the ComputerPlayer is attacking
-        this.currentlyAttackingPlanets.add(targetPlanet);
     }
 
 }

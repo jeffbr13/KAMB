@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -19,6 +20,9 @@ public class Player
     public static Color[] colors;
     public static int numColors;
     protected static int nextColor=0;
+
+    protected ArrayList<Planet> currentlyAttackingPlanets;
+
 
     static
     {
@@ -85,5 +89,25 @@ public class Player
         Fleet f = new Fleet(currentX,currentY,destinationX,destinationY);
         f.setPlayer(this);
         return f;
+    }
+
+    /**
+     * @param launchPlanet
+     * @param targetPlanet
+     * 
+     * Make a new Fleet, set its destination to the targetPlanet, update the
+     * launchPlanets ship numbers, and update the list of ships we're attacking.
+     */
+    public void initiateAttack(Planet launchPlanet, Planet targetPlanet, int attackingShips)
+    {
+        int shipsOnPlanet = launchPlanet.getPlayerShips(this);
+
+        // Make a new Fleet, and send it to the planet
+        Fleet f = new Fleet(launchPlanet.getX(), launchPlanet.getY(),
+                targetPlanet.getX(), targetPlanet.getY());
+        f.setShips(attackingShips);
+        launchPlanet.setPlayerShips(this, (shipsOnPlanet - attackingShips));
+        // Add the planet to list of planets the ComputerPlayer is attacking
+        this.currentlyAttackingPlanets.add(targetPlanet);
     }
 }
