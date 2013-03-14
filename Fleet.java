@@ -1,4 +1,6 @@
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -154,5 +156,22 @@ public class Fleet extends GamePiece{
     {
         this.ships = ships;
     }
+    
+    public static BufferedImage rotate(BufferedImage image, double degrees) {
+    	double sin = Math.abs(Math.sin(degrees)), cos = Math.abs(Math.cos(degrees));
+        int width = image.getWidth(), height = image.getHeight();
+        int newWidth = (int)Math.floor(width*cos+height*sin), newHeight = (int)Math.floor(height*cos+width*sin);
+        GraphicsConfiguration gc = getDefaultConfiguration();
+        BufferedImage result = gc.createCompatibleImage(newWidth, newHeight, Transparency.TRANSLUCENT);
+        Graphics2D g = result.createGraphics();
+        g.translate((newWidth-width)/2, (newHeight-height)/2);
+        g.rotate(degrees, width/2, height/2);
+        g.drawRenderedImage(image, null);
+        g.dispose();
+        return result;
+    }
 
+	private static GraphicsConfiguration getDefaultConfiguration() {
+		return getDefaultConfiguration();
+	}
 }
