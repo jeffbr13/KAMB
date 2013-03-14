@@ -278,8 +278,10 @@ public class Planet extends GamePiece
             return;
         }
 
-        // TODO: At this point, the planet must be peaceful and fully captured. Ships can now be generated.
-        this.performShipBuilding();
+        if (this.owner != null) {
+            // NOTE: At this point, the planet must be peaceful and fully captured. Ships can now be generated.
+            this.performShipBuilding();
+        }
     }
 
 
@@ -330,13 +332,13 @@ public class Planet extends GamePiece
         // ensure that there is only one player in charge.
         if (this.percentCaptured() == 100) {
 
-            Player p = this.getPlayer();
+            Player p = this.owner;
             // number of new ships each cycle == planet resources
             newShip += this.getResourceValue();
-            if(newShip>=100)
+            if(newShip >= 1000)
             {
                 this.setPlayerShips(p, (this.getPlayerShips(p) + 1));
-                newShip-=100;
+                newShip -= 1000;
             }
         }
     }
