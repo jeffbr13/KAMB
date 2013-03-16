@@ -233,6 +233,7 @@ public class Planet extends GamePiece
             ships.put(p,sh);
         }
     }
+   
 
     public Color getColor()
     {

@@ -58,8 +58,6 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         // creating the fleet then setting the player separately. Alright? - Ben
         universe.addFleet(this.fleet1);
 
-
-
     }
 
 
@@ -163,6 +161,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         g2.dispose();
     }
 
+    
     public void run()
     {
         while(!(universe.getPlanets()[attack].isCoordinateInside((int)fleet1.getXDouble(),(int)fleet1.getYDouble())))
@@ -176,6 +175,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             }
             repaint();
             System.out.println(fleet1.getXDouble() + ", " + fleet1.getYDouble()+"\n");
+            
         }
 
     }
