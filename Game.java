@@ -11,6 +11,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -198,37 +200,31 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
      */
     @Override
     public void mousePressed(MouseEvent e) {
-        int mx = e.getX();
-        int my = e.getY();
+        int clickX = e.getX();
+        int clickY = e.getY();
 
-        for(int i=0; i<universe.getPlanets().length; i++)
-        {
-            if((universe.getPlanets()[i].isCoordinateInside(mx, my)) && enabled==true) 
-            {
-                if(lastClicked == 1)
-                {
-                    attack = i;
-                    this.fleet1 = this.player1.createFleet(universe.getPlanets()[1].getX(),universe.getPlanets()[1].getY(),universe.getPlanets()[i].getXCenter(),universe.getPlanets()[i].getYCenter());                        
-                    animThread = new Thread(this);
-                    animThread.start();
-                    enabled = false;
-                    fleet = true;
-                    System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets()[i].getX() +" " + universe.getPlanets()[i].getX());
-                }
-                else
-                {
-                    lastClicked = i;
-                    System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets()[i].getX() +" " + universe.getPlanets()[i].getX());
-                }
+        // TODO: if the mouse has clicked on empty space, set selected to `null`
+        // ...
 
+        // if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
+        if (this.selected == null) {
+            for (GamePiece g : this.universe.getGamePieces()) {
+                if (g.isClickInside(clickX, clickY)) {
+                    this.selected = g;
+                    break;
+                }
             }
-        }     
+        }
 
-        System.out.println("lastCLicked: " + lastClicked);
-        System.out.println("attack: " + attack);
+        // if another GamePiece has already been selected, perform the appropriate action
+        if (this.selected != null) {
+
+            // TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
+
+            // TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
+        }
 
         repaint();
-
     }
 
     @Override
@@ -259,26 +255,23 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 
 
-    @Override
-
-    /* mouseMoved is checking coordinates of mouse whenever it was moved
-     * in this case whether the cursor is inside of either planet , calls appropriate action
-     * 
-     * Matej
+    /*
+     * If the mouseMoved inside of a GamePiece's clickRadius, set this.hoverOn to be that GamePiece.
+     * Otherwise set this.hoverOn to be `null`.
      */
+    @Override
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
 
-        if(enabled==true)
-        {
-            for(int i=0; i<universe.getPlanets().length; i++)
-            {
-                if((universe.getPlanets()[i].isCoordinateInside(mouseX, mouseY))) hoveredOver = i;
+        // TODO: if the mouse is inside a GamePiece, set the GamePiece to be the hoveredOn GamePiece
+        for (GamePiece g : this.universe.getGamePieces()) {
+            if (g.isClickInside(mouseX, mouseY)) {
+                this.hoverOn = g;
+                repaint();
+                break;
+            } else {
+                this.hoverOn = null;
             }
-
-            repaint();
         }
     }
-
-}
