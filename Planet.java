@@ -84,7 +84,7 @@ public class Planet extends GamePiece
         capturer=null;
         persentage=0;
         newShip=0;
-        attRadius=radius*3;
+        attRadius=radius*5;
         this.x = x;
         this.y = y;
         xCenter=x+radius;
@@ -168,6 +168,12 @@ public class Planet extends GamePiece
     public boolean coordinateWithinTravelRadius(int x, int y)
     {
         return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
+    }
+    public boolean canReach(Planet p)
+    {
+     double t=p.getRadius();
+     if(distance2(p)>(t+attRadius)*(t+attRadius))return false;
+     return true;
     }
 
     public Player getControllingPlayer()
