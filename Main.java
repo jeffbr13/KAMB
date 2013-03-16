@@ -13,31 +13,31 @@ import javax.swing.JFrame;
  */
 public class Main
 {
-	JFrame      mainWindow;
-	Game		GamePanel;
-	int Action = 0;
-	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	
-	public Main() {
-		mainWindow = new JFrame("KAMB");
-		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainWindow.setResizable(false);
-		
-		GamePanel = new Game();
-		mainWindow.getContentPane().add(GamePanel);
-        
-		mainWindow.pack();
-		mainWindow.setSize(screenSize);
-		mainWindow.setVisible(true);
-	}
- 
-	public static void main(String[] args) 
-	{
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new Main();
-			}
-		});
-					
-	}  
+    JFrame      mainWindow;
+    Game		GamePanel;
+    int Action = 0;
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+    public Main() {
+        mainWindow = new JFrame("KAMB");
+        mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainWindow.setResizable(false);
+
+        GamePanel = new Game();
+        mainWindow.getContentPane().add(GamePanel);
+
+        mainWindow.pack();
+        mainWindow.setSize(screenSize);
+        mainWindow.setVisible(true);
+    }
+
+    public static void main(String[] args)
+    {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new Main();
+            }
+        });
+
+    }
 }
