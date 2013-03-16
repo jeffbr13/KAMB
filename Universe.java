@@ -102,14 +102,22 @@ public class Universe
      */
     private boolean planetsAllDistanceAwayFrom(Planet p, int minimumPlanetSeparation)
     {
+    	boolean ok1=false, ok2=false;
         Planet[] ps = this.getPlanets();
-        for (int i=0; i < ps.length; i++) {
+        if(ps.length==0)return true;
+        for (int i=0; i < ps.length; i++)
+        {
             if (p.isFarEnoughAwayFrom(ps[i], minimumPlanetSeparation) == false) 
             {
                 return false;
             }
+            
+            if(ok1==false)
+            	if(p.canReach(ps[i]))ok1=true;
+            if(ok2==false)
+            	if(ps[i].canReach(p))ok2=true;
         }
-        return true;
+        return (ok1&&ok2);
     }
 
 
