@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -102,7 +104,7 @@ public class Universe
      */
     private boolean planetsAllDistanceAwayFrom(Planet p, int minimumPlanetSeparation)
     {
-    	boolean ok1=false, ok2=false;
+        boolean ok1=false, ok2=false;
         Planet[] ps = this.getPlanets();
         if(ps.length==0)return true;
         for (int i=0; i < ps.length; i++)
@@ -111,11 +113,11 @@ public class Universe
             {
                 return false;
             }
-            
+
             if(ok1==false)
-            	if(p.canReach(ps[i]))ok1=true;
+                if(p.canReach(ps[i]))ok1=true;
             if(ok2==false)
-            	if(ps[i].canReach(p))ok2=true;
+                if(ps[i].canReach(p))ok2=true;
         }
         return (ok1&&ok2);
     }
@@ -208,6 +210,17 @@ public class Universe
     public void addPlanet(Planet p)
     {
         this.planets.add(p);
+    }
+
+    /**
+     * @return all GamePieces within the Universe - Planets and Fleets
+     */
+    public GamePiece[] getGamePieces() {
+        ArrayList<GamePiece> gamePieces = new ArrayList<GamePiece>(this.fleets.size() + this.planets.size());
+        gamePieces.addAll(this.fleets);
+        gamePieces.addAll(this.planets);
+        GamePiece[] gamePieceArray = new GamePiece[gamePieces.size()];
+        return gamePieces.toArray(gamePieceArray);
     }
 
     /**
