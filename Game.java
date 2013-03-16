@@ -133,17 +133,18 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             if(lastClicked == i)
             {
                 g2.setColor(Color.YELLOW);
-                g2.setStroke(new BasicStroke(10F));
+                g2.setStroke(new BasicStroke(5F));
                 g2.drawOval(universe.getPlanets()[i].getX(), universe.getPlanets()[i].getY(), universe.getPlanets()[i].radius*2, universe.getPlanets()[i].radius*2);
                 for(int j=0;j<universe.getPlanets().length; j++)
                 {
                     if(hoveredOver == j)
                     {
                         g2.setColor(Color.BLUE);
-                        g2.setStroke(new BasicStroke(10F));
+                        g2.setStroke(new BasicStroke(5F));
                         g2.drawOval(universe.getPlanets()[j].getX(), universe.getPlanets()[j].getY(), universe.getPlanets()[j].radius*2, universe.getPlanets()[j].radius*2);
 
                         g2.setColor(Color.red);
+                        g2.setStroke(new BasicStroke(3F));
                         g2.drawLine(universe.getPlanets()[i].getXCenter(), universe.getPlanets()[i].getYCenter(), universe.getPlanets()[j].getXCenter(), universe.getPlanets()[j].getYCenter());
                     }
                 }
@@ -156,7 +157,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             if(lastClicked == i)
             {
                 g2.setColor(Color.YELLOW);
-                g2.setStroke(new BasicStroke(10F));
+                g2.setStroke(new BasicStroke(5F));
                 g2.drawOval(universe.getPlanets()[i].getX(), universe.getPlanets()[i].getY(), universe.getPlanets()[i].radius*2, universe.getPlanets()[i].radius*2);
             }
         }
@@ -164,6 +165,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         g2.dispose();
     }
 
+    
     public void run()
     {
         while(!(universe.getPlanets()[attack].isCoordinateInside((int)fleet1.getXDouble(),(int)fleet1.getYDouble())))
@@ -177,6 +179,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             }
             repaint();
             System.out.println(fleet1.getXDouble() + ", " + fleet1.getYDouble()+"\n");
+            
         }
 
     }
