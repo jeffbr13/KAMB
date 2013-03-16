@@ -92,5 +92,23 @@ public class GamePiece implements Position, Drawable
         return owner==p;
     }
 
+    /**
+     * @return the x-coordinate at the centre of the GamePiece
+     */
+    public int getXCenter()
+    {
+        // FIXME: doesn't actually return centre
+        return this.getX();
+    }
+
+    /**
+     * @return the y-coordinate at the centre of the GamePiece
+     */
+    public int getYCenter()
+    {
+        // FIXME: doesn't actually return centre
+        return this.getY();
+    }
+
 
 }
