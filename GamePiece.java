@@ -16,6 +16,8 @@ public class GamePiece implements Position, Drawable
     protected Player owner;
     protected BufferedImage image;
     protected int radius;
+    protected int clickRadius;  // the maximum distance outside of the centre coordinates that a click can be
+
 
 
     public static BufferedImage resize(BufferedImage originalImage, int r)
@@ -36,7 +38,6 @@ public class GamePiece implements Position, Drawable
         return x;
     }
 
-
     /**
      * @return the `y` co-ordinate of the planet.
      */
@@ -53,6 +54,40 @@ public class GamePiece implements Position, Drawable
     public void setY (int y)
     {
         this.y=y;
+    }
+
+    /**
+     * @return the x-coordinate at the centre of the GamePiece
+     */
+    public int getXCenter()
+    {
+        // FIXME: doesn't actually return centre
+        return this.getX();
+    }
+
+    /**
+     * @return the y-coordinate at the centre of the GamePiece
+     */
+    public int getYCenter()
+    {
+        // FIXME: doesn't actually return centre
+        return this.getY();
+    }
+
+    /**
+     * @return a boolean stating whether or not the given click co-ordinate is 'inside' the GamePiece.
+     * Used for testing mouse-click-selection.
+     */
+    public boolean isClickInside(int clickX, int clickY){
+        //Is the given coordinate's distance from the centre coordinate less than (or equal) the clickRadius?
+        if ((this.getXCenter()-clickX) * (this.getXCenter()-clickX) + (this.getYCenter()-clickY) * (this.getYCenter()-clickY) <= this.getClickRadius()*this.getClickRadius()) {
+            return true;
+        }
+        return false;
+    }
+
+    public int getClickRadius() {
+        return this.clickRadius;
     }
 
     /**
@@ -91,24 +126,5 @@ public class GamePiece implements Position, Drawable
     {
         return owner==p;
     }
-
-    /**
-     * @return the x-coordinate at the centre of the GamePiece
-     */
-    public int getXCenter()
-    {
-        // FIXME: doesn't actually return centre
-        return this.getX();
-    }
-
-    /**
-     * @return the y-coordinate at the centre of the GamePiece
-     */
-    public int getYCenter()
-    {
-        // FIXME: doesn't actually return centre
-        return this.getY();
-    }
-
 
 }
