@@ -28,16 +28,20 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     BufferedImage bufferedImage;
     int draw = 0;
 
-    Universe universe;
-
-    private Fleet fleet1;
-    private Player player1;
-    private Player player2;
+    private Universe universe;
+    private Player[] players;
 
 
+    /**
+     * Run a game with 2 players
+     */
     public Game()
     {
+        this(2);
+    }
 
+    public Game(int numberOfPlayers)
+    {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         setOpaque(true);
@@ -45,21 +49,21 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         addMouseListener(this);
         addMouseMotionListener(this);
 
-        // NOTE: creating universe by hand
+        // create a universe with 12 planets and a minimum separation of 50 units
         this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
 
-        // NOTE: adding players by hand
-        this.player1 = new Player(1);
-        this.player2 = new ComputerPlayer(2);
+        // add a human player, then computer players.
+        this.players = new Player[numberOfPlayers];
+        this.players[0] = new Player(1);
+        this.universe.addPlayer(this.players[0]);
 
-        // NOTE: adding a fleet for player1 by hand
-        
-        // NOTE: I've written a Player.createFleet method, which is simply a shortcut to
-        // creating the fleet then setting the player separately. Alright? - Ben
-        universe.addFleet(this.fleet1);
+        for (int i=1; i < numberOfPlayers; i++) {
+            players[i] = new ComputerPlayer(i+1);
+            this.universe.addPlayer(this.players[i]);
+        }
 
-
-
+        // get the Universe to set up the players with planets, etc.
+        this.universe.setUpPlayers();
     }
 
 
@@ -91,7 +95,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
              */
             g2.setColor(Color.YELLOW);
             g2.drawString("S: "+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
-            
+
             g2.drawString("R: "+ p.getResourceValue(), p.getX() + 2*p.getRadius(), p.getY());
 
         }
@@ -201,13 +205,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             {
                 if(lastClicked == 1)
                 {
-                	attack = i;
-                	this.fleet1 = this.player1.createFleet(universe.getPlanets()[1].getX(),universe.getPlanets()[1].getY(),universe.getPlanets()[i].getXCenter(),universe.getPlanets()[i].getYCenter());                        
-                	animThread = new Thread(this);
-                	animThread.start();
-                	enabled = false;
-                	fleet = true;
-                	System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets()[i].getX() +" " + universe.getPlanets()[i].getX());
+                    attack = i;
+                    this.fleet1 = this.player1.createFleet(universe.getPlanets()[1].getX(),universe.getPlanets()[1].getY(),universe.getPlanets()[i].getXCenter(),universe.getPlanets()[i].getYCenter());                        
+                    animThread = new Thread(this);
+                    animThread.start();
+                    enabled = false;
+                    fleet = true;
+                    System.out.println("coordinates of planet "+ i + ": " + universe.getPlanets()[i].getX() +" " + universe.getPlanets()[i].getX());
                 }
                 else
                 {
