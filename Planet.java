@@ -169,6 +169,8 @@ public class Planet extends GamePiece
     {
         return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
     }
+    
+    //Can we send fleets to p from this planet?
     public boolean canReach(Planet p)
     {
      double t=p.getRadius();
