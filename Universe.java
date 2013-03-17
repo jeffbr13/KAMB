@@ -73,6 +73,7 @@ public class Universe
         this.height = height;
         this.fleets = new ArrayList<Fleet>();
         this.planets = new ArrayList<Planet>();
+        players=new ArrayList<Player>();
 
 
         for (int i=0; i < initialNumberOfPlanets; i++) {
