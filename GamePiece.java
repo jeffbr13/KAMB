@@ -61,8 +61,7 @@ public class GamePiece implements Position, Drawable
      */
     public int getXCenter()
     {
-        // FIXME: doesn't actually return centre
-        return this.getX();
+        return this.getX()+radius;
     }
 
     /**
@@ -70,8 +69,7 @@ public class GamePiece implements Position, Drawable
      */
     public int getYCenter()
     {
-        // FIXME: doesn't actually return centre
-        return this.getY();
+        return this.getY()+radius;
     }
 
     /**

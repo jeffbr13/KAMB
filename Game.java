@@ -123,14 +123,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
         // TODO: selection and hovering ought to use GamePiece.getColour() 
         // draw around the selected GamePiece
-        if (this.selected != null) {
+        if (this.selected != null)
+        {
             g2.setColor(this.selectedColor);
             g2.setStroke(new BasicStroke(5F));
             g2.drawOval(this.selected.getX(), this.selected.getY(), this.selected.getRadius()*2, this.selected.getRadius()*2);
         }
 
         // draw around the hoveredOver GamePiece
-        if (this.hoverOn != null) {
+        if (this.hoverOn != null) 
+        {
             g2.setColor(this.hoverOnColor);
             g2.setStroke(new BasicStroke(5F));
             g2.drawOval(this.hoverOn.getX(), this.hoverOn.getY(), this.hoverOn.getRadius()*2, this.hoverOn.getRadius()*2);
@@ -138,7 +140,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         }
 
         // draw lines between the selected GamePiece and hoveredOver GamePiece
-        if ((this.selected != null) && (this.hoverOn != null)) {
+        if ((this.selected != null) && (this.hoverOn != null)) 
+        {
             g2.setColor(Color.red);
             g2.setStroke(new BasicStroke(3F));
             g2.drawLine(this.selected.getXCenter(), this.selected.getYCenter(), this.hoverOn.getXCenter(), this.hoverOn.getYCenter());
@@ -199,7 +202,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
      * Matej
      */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e)
+    {
         int clickX = e.getX();
         int clickY = e.getY();
 
@@ -207,10 +211,14 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         // ...
 
         // if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
-        if (this.selected == null) {
-            for (GamePiece g : this.universe.getGamePieces()) {
-                if (g.isClickInside(clickX, clickY)) {
+        if (this.selected == null) 
+        {
+            for (Planet g : this.universe.getPlanets()) 
+            {
+                if (g.isCoordinateInside(clickX, clickY))
+                {
                     this.selected = g;
+                    //repaint();
                     break;
                 }
             }
@@ -265,12 +273,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         mouseY = e.getY();
 
         // TODO: if the mouse is inside a GamePiece, set the GamePiece to be the hoveredOn GamePiece
-        for (GamePiece g : this.universe.getGamePieces()) {
-            if (g.isClickInside(mouseX, mouseY)) {
+        for (Planet g : this.universe.getPlanets()) 
+        {
+            if (g.isCoordinateInside(mouseX, mouseY)) 
+            {
                 this.hoverOn = g;
                 repaint();
                 break;
-            } else {
+            } 
+            else 
+            {
                 this.hoverOn = null;
             }
         }
