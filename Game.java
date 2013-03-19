@@ -28,6 +28,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     boolean fleet = false;
     BufferedImage bufferedImage;
     int draw = 0;
+    private String statsPlayer, statsBot;
 
     private GamePiece selected;         // `null` if no GamePiece has been selected
     private GamePiece hoverOn;      // `null` if the mouse is hovering over no GamePieces
@@ -66,10 +67,11 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
         // get the Universe to set up the players with planets, etc.
         this.universe.setUpPlayers();
+  
+
+    
     }
-
-
-
+    
     public void paintComponent(Graphics g)
     {
         Graphics2D g2 = (Graphics2D) g.create();
@@ -183,6 +185,59 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
         }
         // then repaint the window
         repaint();
+    }
+    
+    /*
+     * Method creating output string for stats of Player
+     */
+    
+    public String getStatsPlayer(){
+    	int totalShips = 0, totalResources = 0, planets = 0;
+    	statsPlayer = "PLAYER \n";
+        for (int i=0; i< this.universe.getPlanets().length;i++)
+    	{
+    		if(this.universe.getPlayers()[0].owns(this.universe.getPlanets()[i])) 
+    		{
+    			statsPlayer = statsPlayer + "\n" + 
+    						  "Planet" + i + "\n" +
+    						  "---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[0])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
+    			totalShips = totalShips + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[0]);
+    			totalResources = totalResources + this.universe.getPlanets()[i].getResourceValue();
+    			planets++;
+    			
+    		}
+    	}
+       	
+    	return this.statsPlayer + "\n" + 
+    				"Total number of ships: " + totalShips + "\n"+ 
+    				"Total number of resources: " + totalResources + "\n" +
+    				"Percentage of universe: " + (int) (planets/this.universe.getPlanets().length)*100 + "%";
+    }
+    
+    /*
+     * Method creating output string for stats of ComputerPlayer
+     */
+    
+    public String getStatsBot(){
+    	int totalShips = 0, totalResources = 0, planets = 0;
+    	statsBot = "Bot \n";
+    	for (int i=0; i< this.universe.getPlanets().length;i++)
+    	{
+    		if(this.universe.getPlayers()[1].owns(this.universe.getPlanets()[i])) 
+    		{
+    			statsBot = statsBot + "\n" + 
+    					   "Planet" + i + "\n" +
+    					   "---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[1])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
+    			totalShips = totalShips + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[1]);
+    			totalResources = totalResources + this.universe.getPlanets()[i].getResourceValue();
+    			planets++;
+    		}
+    	}
+    	    	
+    	return this.statsBot + "\n" + 
+    				"Total number of ships: " + totalShips + "\n"+ 
+    				"Total number of resources: " + totalResources + "\n" + 
+    				"Percentage of universe: " + (int) (planets/this.universe.getPlanets().length)*100 + "%";
     }
 
 
