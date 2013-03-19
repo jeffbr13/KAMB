@@ -29,7 +29,6 @@ public class Player
         numColors=18;
         colors=new Color[numColors];
         int i;
-        Color t;
         BufferedImage image = null;
         for(i=0;i<numColors;i++)
         {
@@ -109,5 +108,12 @@ public class Player
         launchPlanet.setPlayerShips(this, (shipsOnPlanet - attackingShips));
         // Add the planet to list of planets the ComputerPlayer is attacking
         this.currentlyAttackingPlanets.add(targetPlanet);
+    }
+
+    /**
+     * Dummy method for human Players, used in ComputerPlayer to do all computation/strategy stuff 
+     */
+    public void update() {
+        return;
     }
 }

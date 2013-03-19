@@ -72,6 +72,8 @@ public class Fleet extends GamePiece{
     public Fleet(int currentX, int currentY, int destinationX, int destinationY){
         this.x = currentX;
         this.y = currentY;
+        // NOTE: selection radius is set here
+        this.radius = 20;
 
         xDouble=currentX;
         yDouble=currentY;
