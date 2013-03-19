@@ -221,7 +221,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
         System.out.println("lastCLicked: " + lastClicked);
         System.out.println("attack: " + attack);
-
+        
+        fleet1.update();
         repaint();
 
     }
