@@ -34,7 +34,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
     private GamePiece hoverOn;      // `null` if the mouse is hovering over no GamePieces
 
     private Color selectedColor = Color.BLUE;
-    private Color hoverOnColor = Color.RED;
+    private Color defaultHoverOnColor = Color.GRAY;
 
     private Universe universe;
 
@@ -132,10 +132,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
             g2.drawOval(this.selected.getX(), this.selected.getY(), this.selected.getRadius()*2, this.selected.getRadius()*2);
         }
 
-        // draw around the hoveredOver GamePiece
+        // draw around the hoverOn GamePiece
         if (this.hoverOn != null) 
         {
-            g2.setColor(this.hoverOnColor);
+        	g2.setColor(this.defaultHoverOnColor);
+        	if (this.hoverOn.getPlayer() != null) {        		
+        		g2.setColor(this.hoverOn.getPlayer().getColor());
+        	}
             g2.setStroke(new BasicStroke(5F));
             g2.drawOval(this.hoverOn.getX(), this.hoverOn.getY(), this.hoverOn.getRadius()*2, this.hoverOn.getRadius()*2);
             // TODO: GamePiece.getSelectionRadius() method - public int
