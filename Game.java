@@ -273,30 +273,28 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		int clickX = e.getX();
 		int clickY = e.getY();
 
-		// TODO: if the mouse has clicked on empty space, set selected to `null`
+		// TODO: if the mouse has clicked on co-ordinates not inside a GamePiece
 		// ...
-
-		// if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
-		if (this.selected == null) 
+		for (Planet g : this.universe.getPlanets()) 
 		{
-			for (Planet g : this.universe.getPlanets()) 
+			// if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
+			if (g.isCoordinateInside(clickX, clickY) && this.selected == null)
 			{
-				if (g.isCoordinateInside(clickX, clickY))
-				{
-					this.selected = g;
-					//repaint();
-					break;
-				}
+				this.selected = g;
+				//repaint();
+				break;
 			}
-		}
-
-
-		// if another GamePiece has already been selected, perform the appropriate action
-		if (this.selected != null) {
-
-			// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
-
-			// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
+			// if another GamePiece has already been selected, perform the appropriate action
+			if (g.isCoordinateInside(clickX, clickY) && this.selected != null)
+			{
+				// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
+				// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
+			}
+			
+			else
+			{
+				this.selected = null;
+			}
 		}
 
 		repaint();
