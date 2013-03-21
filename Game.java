@@ -34,7 +34,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	private GamePiece hoverOn;      // `null` if the mouse is hovering over no GamePieces
 
 	private Color selectedColor = Color.BLUE;
-	private Color defaultHoverOnColor = Color.GRAY;
+	private Color neutralUiColor = Color.GRAY;
 
 	private Universe universe;
 
@@ -103,7 +103,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			g2.drawImage(p.getImage(), p.getX(), p.getY(), null);
 
 			// draw the number of ships on the planet for the controlling player
-			g2.setColor(this.defaultHoverOnColor);
+			g2.setColor(this.neutralUiColor);
 			if (p.getControllingPlayer() != null) {
 				g2.setColor(p.getControllingPlayer().getColor());
 			}
@@ -119,9 +119,12 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		for (int i=0; i < fleets.length; i++) {
 			Fleet f = fleets[i];
 			g2.drawImage(f.getImage(), f.getX(), f.getY(), null);
-
-			g2.setColor(Color.YELLOW);
+			
 			// draw the number of ships in the fleet
+			g2.setColor(this.neutralUiColor);
+			if (f.getPlayer() != null) {
+				g2.setColor(f.getPlayer().getColor());
+			}
 			g2.drawString("ships: "+ f.getShips(), f.getX(), f.getY());
 		}
 
@@ -140,7 +143,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		// draw around the hoverOn GamePiece
 		if (this.hoverOn != null) 
 		{
-			g2.setColor(this.defaultHoverOnColor);
+			g2.setColor(this.neutralUiColor);
 			if (this.hoverOn.getPlayer() != null) {        		
 				g2.setColor(this.hoverOn.getPlayer().getColor());
 			}
