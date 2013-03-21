@@ -193,7 +193,7 @@ public class Planet extends GamePiece
         this.setPercentCaptured(100);
         this.owner = p;
         this.capturer = null;
-        setPlayerShips(p,50);
+        //setPlayerShips(p,50);
     }
 
     public double percentCaptured()
