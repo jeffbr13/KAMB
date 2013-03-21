@@ -138,6 +138,11 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			g2.setColor(this.selectedColor);
 			g2.setStroke(new BasicStroke(5F));
 			g2.drawOval(this.selected.getX(), this.selected.getY(), this.selected.getRadius()*2, this.selected.getRadius()*2);
+			if(this.selected instanceof Planet)
+			{
+				Planet p=(Planet)this.selected;
+				g2.drawOval(p.getXCenter()-p.travelRadius(), p.getYCenter()-p.travelRadius(), p.travelRadius()*2, p.travelRadius()*2);
+			}
 		}
 
 		// draw around the hoverOn GamePiece
