@@ -28,7 +28,7 @@ public class Universe
     private ArrayList<Planet> planets;
     private ArrayList<Player> players;
 
-    private int initialShipsNumber; // the number of ships each player starts with
+    private int initialShipsNumber=100; // the number of ships each player starts with
 
     static private int margin = 50;   // minimum distance from edges
     static private int minPlanetSize = 20;
@@ -276,7 +276,8 @@ public class Universe
         int numberOfPlayers = this.getPlayers().length;
         Planet[] homeplanets = this.findHomeplanetsForPlayers(numberOfPlayers);
 
-        for (int i=0; i < numberOfPlayers; i++) {
+        for (int i=0; i < numberOfPlayers; i++) 
+        {
             Player player = this.getPlayers()[i];
             Planet homeplanet = homeplanets[i];
             homeplanet.setControllingPlayer(player);
