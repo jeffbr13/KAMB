@@ -1,5 +1,3 @@
-import java.awt.Graphics2D;
-
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -30,7 +28,6 @@ public class Planet extends GamePiece
     private Player owner;
     private Player capturer;
     private double percentCaptured;
-    private int persentage;
     private int newShip;
 
     HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
@@ -82,7 +79,6 @@ public class Planet extends GamePiece
     {
         owner=null;
         capturer=null;
-        persentage=0;
         newShip=0;
         attRadius=radius*5;
         this.x = x;
@@ -176,6 +172,11 @@ public class Planet extends GamePiece
      double t=p.getRadius();
      if(distance2(p)>(t+attRadius)*(t+attRadius))return false;
      return true;
+    }
+    
+    public Player getPlayer()
+    {
+    	return this.getControllingPlayer();
     }
 
     public Player getControllingPlayer()
