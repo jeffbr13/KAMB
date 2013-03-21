@@ -17,17 +17,19 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 public class Game extends JComponent implements Runnable, MouseListener, MouseMotionListener
 {
-	Thread animThread;
+	Thread gameThread;
 	int mouseX, mouseY;
 	int attack = 25;
 	boolean enabled = true;
 	boolean fleet = false;
 	BufferedImage bufferedImage;
 	int draw = 0;
+	private int fleets = 0;
 	private String statsPlayer, statsBot;
 
 	private GamePiece selected;         // `null` if no GamePiece has been selected
@@ -67,6 +69,9 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 		// get the Universe to set up the players with planets, etc.
 		this.universe.setUpPlayers();
+		
+		gameThread = new Thread(this);
+        gameThread.start();
 
 
 
@@ -138,12 +143,14 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			g2.setColor(this.selectedColor);
 			g2.setStroke(new BasicStroke(5F));
 			g2.drawOval(this.selected.getX(), this.selected.getY(), this.selected.getRadius()*2, this.selected.getRadius()*2);
-			if(this.selected instanceof Planet)
+		}
+		
+		if(this.selected instanceof Planet)
 			{
 				Planet p=(Planet)this.selected;
 				g2.drawOval(p.getXCenter()-p.travelRadius(), p.getYCenter()-p.travelRadius(), p.travelRadius()*2, p.travelRadius()*2);
 			}
-		}
+
 
 		// draw around the hoverOn GamePiece
 		if (this.hoverOn != null) 
@@ -176,6 +183,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	 */
 	public void run()
 	{
+		while(true)
+		{
 
 		// TODO: update all the planets
 		for (Planet p : this.universe.getPlanets()) {
@@ -201,6 +210,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		}
 		// then repaint the window
 		repaint();
+		
+		}
 	}
 
 	/*
@@ -286,12 +297,27 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			if (g.isCoordinateInside(clickX, clickY) && this.selected == null)
 			{
 				this.selected = g;
+				System.out.println(this.selected);
+				
 				//repaint();
 				break;
 			}
 			// if another GamePiece has already been selected, perform the appropriate action
 			if (g.isCoordinateInside(clickX, clickY) && this.selected != null)
 			{
+				// if previously selected item is not the same, the inputDialog window should pop up
+				// however, this does not work properly(sometimes it does, sometimes it doesnt)..but I cant seem to figure it out now
+				if(this.selected!=g)
+				{
+					System.out.println(this.selected + "\n" + g);
+					Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
+	            	String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
+	              	fleets = Integer.parseInt(s);
+				}
+				else
+				{
+					
+				}
 				// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
 				// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
 			}
