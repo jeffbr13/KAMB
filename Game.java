@@ -288,46 +288,63 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	{
 		int clickX = e.getX();
 		int clickY = e.getY();
+		
+		boolean l=false; //l stands for lamp.
 
 		// TODO: if the mouse has clicked on co-ordinates not inside a GamePiece
 		// ...
 		for (Planet g : this.universe.getPlanets()) 
 		{
 			// if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
-			if (g.isCoordinateInside(clickX, clickY) && this.selected == null)
+			if (g.isCoordinateInside(clickX, clickY))
 			{
-				this.selected = g;
-				System.out.println(this.selected);
-				
-				//repaint();
-				break;
-			}
-			// if another GamePiece has already been selected, perform the appropriate action
-			if (g.isCoordinateInside(clickX, clickY) && this.selected != null)
-			{
-				// if previously selected item is not the same, the inputDialog window should pop up
-				// however, this does not work properly(sometimes it does, sometimes it doesnt)..but I cant seem to figure it out now
-				if(this.selected!=g)
+				l=true;
+				if(this.selected == null)
 				{
-					System.out.println(this.selected + "\n" + g);
-					Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
-	            	String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
-	              	fleets = Integer.parseInt(s);
+					this.selected = g;
+					System.out.println(this.selected);
+					
+					//repaint();
+					break;
 				}
+				// if another GamePiece has already been selected, perform the appropriate action
 				else
 				{
-					
+					// if previously selected item is not the same, the inputDialog window should pop up
+					// however, this does not work properly(sometimes it does, sometimes it doesnt)..but I cant seem to figure it out now
+					if(this.selected!=g)
+					{
+						
+						if(this.selected instanceof Planet)
+						{
+							//Check if the clicked Planet is in the attack radius of the selected one.
+							Planet p=(Planet)this.selected;
+							if(p.canReach(g))
+							{
+								System.out.println(this.selected + "\n" + g);
+								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
+								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
+								fleets = Integer.parseInt(s);
+							}
+							//If it's not, then don't do anything and stop the loop.
+							else
+							{
+								break;
+							}
+						}
+						
+						
+					}
+					else
+					{
+						l=false; //If we click on the selected planet again we de-select it.
+					}
+					// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
+					// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
 				}
-				// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
-				// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
-			}
-			
-			else
-			{
-				this.selected = null;
 			}
 		}
-
+		if(!l)this.selected = null; //The click was not inside any planet or was inside the selected one.
 		repaint();
 	}
 

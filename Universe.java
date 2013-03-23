@@ -303,7 +303,7 @@ public class Universe
         a2=planets.get(1);
         rd=a1.resourcesDifference(a2);
         if(rd<1)rd=1;
-        m=a1.distance2(a2)/rd;
+        m=(a1.distance2(a2)*(a1.distance2(a2)))/rd;
         for(i=0;i<n-1;i++)
             for(i2=i+1;i2<n;i2++)
             {
@@ -311,7 +311,7 @@ public class Universe
                 t2=planets.get(i2);
                 rd=t1.resourcesDifference(t2);
                 if(rd<1)rd=1;
-                t=t1.distance2(t2)/rd;
+                t=(t1.distance2(t2)*t1.distance2(t2))/rd;
                 if(t>m)
                 {
                     m=t;
