@@ -136,12 +136,12 @@ public class Planet extends GamePiece
 
     public double distance(Planet p)
     {
-        return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter()));
+        return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(yCenter-p.getYCenter())*(yCenter-p.getYCenter()));
     }
 
     public double distance2(Planet p)
     {
-        return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter());
+        return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(yCenter-p.getYCenter())*(yCenter-p.getYCenter());
     }
 
     public int resourcesDifference(Planet p)
@@ -163,7 +163,7 @@ public class Planet extends GamePiece
     }
     public boolean coordinateWithinTravelRadius(int x, int y)
     {
-        return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
+        return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=attRadius*attRadius;
     }
     
     //Can we send fleets to p from this planet?
