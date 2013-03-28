@@ -18,3 +18,50 @@ other randomly generated planets (feel free to change that back);
 actually works. The number of planets or distance might need to be reduced if running it in lower resolution (feel free
 to change that too, but make sure that the planets will be able to fit with the distance or size you choose).
 
+
+
+
+
+
+
+
+
+28.3.2013 - Atanas
+
+Fleet class:
+
+- Added Planet target to the Fleet class that represents the planet the fleet is send to;
+
+- Added getTarger(), getTarger(), getImage() and hasArrived()- the last one checks if the fleet is inside the target's radius;
+
+- Made an alternative constructor for Fleets that has the target as imput instead of the attack coordinates.
+
+
+
+Universe class
+
+- Added deleteFleet() method to Universe.
+
+
+
+Planet class:
+
+- Added getSinglePlayer() method to Planet that returns a Player if he is the only one with ships on the planet in the moment.
+If more than one players have ships on the planet or no players have ships there it returns null;
+
+- Improvements to the Update() method in Planet;
+
+- Fixed performCapture() method. It wasn't working before.
+
+- Made performCapture() depend on the number of ships the Player has on the planet.
+
+
+
+Game class
+
+- Fixed fleets not drawing properly;
+
+- Made it check after updating a fleet if that fleet has reached it's target and terminating it while adding the ships to the planet
+if it has;
+
+- Made the capture % show in the middle of planets.
