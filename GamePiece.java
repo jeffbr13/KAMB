@@ -1,11 +1,5 @@
 import java.awt.Graphics2D;
-
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-
 
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
@@ -16,7 +10,7 @@ public abstract class GamePiece implements Position, Drawable
     protected Player owner;
     protected BufferedImage image;
     protected int radius;
-    protected int clickRadius;  // the maximum distance outside of the centre coordinates that a click can be
+    public int clickRadius;  // the maximum distance outside of the centre coordinates that a click can be
 
 
 
@@ -124,5 +118,6 @@ public abstract class GamePiece implements Position, Drawable
     {
         return owner==p;
     }
+    
 
 }
