@@ -1,5 +1,3 @@
-import java.awt.Graphics2D;
-
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -30,7 +28,6 @@ public class Planet extends GamePiece
     private Player owner;
     private Player capturer;
     private double percentCaptured;
-    private int persentage;
     private int newShip;
 
     HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
@@ -82,7 +79,6 @@ public class Planet extends GamePiece
     {
         owner=null;
         capturer=null;
-        persentage=0;
         newShip=0;
         attRadius=radius*5;
         this.x = x;
@@ -140,12 +136,12 @@ public class Planet extends GamePiece
 
     public double distance(Planet p)
     {
-        return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter()));
+        return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(yCenter-p.getYCenter())*(yCenter-p.getYCenter()));
     }
 
     public double distance2(Planet p)
     {
-        return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(xCenter-p.getYCenter())*(yCenter-p.getYCenter());
+        return (xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(yCenter-p.getYCenter())*(yCenter-p.getYCenter());
     }
 
     public int resourcesDifference(Planet p)
@@ -167,7 +163,7 @@ public class Planet extends GamePiece
     }
     public boolean coordinateWithinTravelRadius(int x, int y)
     {
-        return (xCenter-x)*(xCenter-x)+(yCenter-x)*(yCenter-x)<=attRadius*attRadius;
+        return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=attRadius*attRadius;
     }
     
     //Can we send fleets to p from this planet?
@@ -176,6 +172,11 @@ public class Planet extends GamePiece
      double t=p.getRadius();
      if(distance2(p)>(t+attRadius)*(t+attRadius))return false;
      return true;
+    }
+    
+    public Player getPlayer()
+    {
+    	return this.getControllingPlayer();
     }
 
     public Player getControllingPlayer()
@@ -192,7 +193,7 @@ public class Planet extends GamePiece
         this.setPercentCaptured(100);
         this.owner = p;
         this.capturer = null;
-        setPlayerShips(p,50);
+        //setPlayerShips(p,50);
     }
 
     public double percentCaptured()

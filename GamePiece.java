@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 /**
  * The Planet class is constructed with the x and y coordinates, as well as a radius.
  */
-public class GamePiece implements Position, Drawable
+public abstract class GamePiece implements Position, Drawable
 {
     protected int x,y;
     protected Player owner;

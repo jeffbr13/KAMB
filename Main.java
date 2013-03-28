@@ -26,7 +26,7 @@ public class Main
     Game		GamePanel;
     int Action = 0;
     public int planets;
-    String rules, about;
+    String rules, about, STATS;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public Main() {
@@ -37,9 +37,17 @@ public class Main
         mainWindow.setSize(screenSize);
         mainWindow.setVisible(true);
         
+        /*
+         * Game intro image
+         */
+        
         ImageIcon logoImage = new ImageIcon("resources/images/backgrounds/KAMB1.png");
         final JLabel logo = new JLabel(logoImage);
         mainWindow.add(logo,BorderLayout.CENTER);
+        
+        /*
+         * Creation of menu
+         */
         
         JMenuBar menuBar = new JMenuBar();
         mainWindow.setJMenuBar(menuBar);
@@ -53,30 +61,47 @@ public class Main
         JMenuItem exitAction = new JMenuItem("Exit");
         JMenuItem rulesAction = new JMenuItem("Rules");
         JMenuItem aboutAction = new JMenuItem("About");
+        final JMenuItem statsAction = new JMenuItem("Current stats");
                           
         Game1.add(newAction);
+        Game1.add(statsAction);
+        statsAction.setEnabled(false);
         Game1.add(exitAction);
         Help.add(rulesAction);
         Help.add(aboutAction);
 
-        
-        
-        
+        // ******************************************************************
+        // METHODS BELOW HERE ARE APPLIED WHEN THE APPROPRIATE ACTIONS OCCUR
+        // ******************************************************************
         
         newAction.addActionListener(new ActionListener(){
             @SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e)
             {
-            	String input = JOptionPane.showInputDialog(mainWindow, "number of planets", "Enter number of planets", JOptionPane.PLAIN_MESSAGE);
-            	planets = Integer.parseInt(input);
+            	Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
+            	String s = (String)JOptionPane.showInputDialog(mainWindow, "Select Number of planets","NUMBER OF PLANETS",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
+              	planets = Integer.parseInt(s);
             	JOptionPane.showMessageDialog(mainWindow, "DONE", "Enjoy your game!", JOptionPane.PLAIN_MESSAGE);
-            	System.out.println(planets);
-            	
+            	            	
+            	mainWindow.remove(logo);
+            	mainWindow.pack();
+                mainWindow.setSize(screenSize);
             	GamePanel = new Game();	
-            	newAction.disable();
-                mainWindow.getContentPane().add(GamePanel);
-                mainWindow.pack();
-                mainWindow.setSize(screenSize);                
+            	newAction.setEnabled(false);
+            	statsAction.setEnabled(true);
+            	mainWindow.getContentPane().add(GamePanel);
+                                
+            }
+        });
+        
+        statsAction.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	STATS = GamePanel.getStatsPlayer() + "\n" +
+            			"---------------------------------------\n" +
+            			GamePanel.getStatsBot(); 
+            	JOptionPane.showMessageDialog(mainWindow,STATS, "Current Stats", JOptionPane.PLAIN_MESSAGE);
             }
         });
         
