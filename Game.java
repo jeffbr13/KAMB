@@ -39,6 +39,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	private Color neutralUiColor = Color.GRAY;
 
 	private Universe universe;
+	
+	private Player humanPlayer;
 
 
 	/**
@@ -62,7 +64,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
 
 		// add a human player, then computer players.
-		this.universe.addPlayer(new Player(1));
+		this.humanPlayer=new Player(1);
+		this.universe.addPlayer(humanPlayer);
 		for (int i=1; i < numberOfPlayers; i++) {
 			this.universe.addPlayer(new ComputerPlayer(i+1));
 		}
@@ -325,6 +328,17 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
 								fleets = Integer.parseInt(s);
+								
+								Planet defender=(Planet)g;
+								int startingShips=p.getPlayerShips(humanPlayer);
+								
+								Fleet f=new Fleet(p.getXCenter(),p.getYCenter(),g.getXCenter(),g.getYCenter());
+								f.setShips(fleets);
+								f.setPlayer(humanPlayer);
+								universe.addFleet(f);
+								p.setPlayerShips(humanPlayer,startingShips-fleets);
+								
+								//humanPlayer.initiateAttack(p, g, fleets);
 							}
 							//If it's not, then don't do anything and stop the loop.
 							else

@@ -58,6 +58,7 @@ public class Player
     {
         this.number = number;
         this.color = color;
+        this.currentlyAttackingPlanets = new ArrayList<Planet>();
     }
 
     /**
