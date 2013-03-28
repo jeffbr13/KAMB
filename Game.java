@@ -322,15 +322,13 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 						{
 							//Check if the clicked Planet is in the attack radius of the selected one.
 							Planet p=(Planet)this.selected;
-							if(p.canReach(g))
+							if(p.canReach(g) && p.getPlayerShips(humanPlayer)>0 && p.getOwner()==humanPlayer)
 							{
 								System.out.println(this.selected + "\n" + g);
 								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
-								fleets = Integer.parseInt(s);
-								
-								Planet defender=(Planet)g;
 								int startingShips=p.getPlayerShips(humanPlayer);
+								fleets = Math.min(Integer.parseInt(s),startingShips);
 								
 								Fleet f=new Fleet(p.getXCenter(),p.getYCenter(),g.getXCenter(),g.getYCenter());
 								f.setShips(fleets);

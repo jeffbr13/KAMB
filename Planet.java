@@ -187,6 +187,11 @@ public class Planet extends GamePiece
             return this.capturer;
         }
     }
+    
+    public Player getOwner()
+    {
+    	return owner;
+    }
 
     public void setControllingPlayer(Player p)
     {
@@ -345,10 +350,10 @@ public class Planet extends GamePiece
             Player p = this.owner;
             // number of new ships each cycle == planet resources
             newShip += this.getResourceValue();
-            if(newShip >= 1000)
+            if(newShip >= 10000)
             {
                 this.setPlayerShips(p, (this.getPlayerShips(p) + 1));
-                newShip -= 1000;
+                newShip -= 10000;
             }
         }
     }
