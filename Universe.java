@@ -192,6 +192,15 @@ public class Universe
     {
         this.fleets.add(f);
     }
+    
+    public void deleteFleet(Fleet f)
+    {
+    	int i=fleets.indexOf(f);
+    	if(i!=-1)
+    	{
+    		fleets.remove(i);
+    	}
+    }
 
     public Planet[] getPlanets()
     {

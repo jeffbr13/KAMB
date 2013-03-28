@@ -106,16 +106,22 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 		// draw planets
 		Planet[] planets = this.universe.getPlanets();
-		for (int i=0; i < planets.length; i++) {
+		for (int i=0; i < planets.length; i++) 
+		{
 			Planet p = planets[i];
 			g2.drawImage(p.getImage(), p.getX(), p.getY(), null);
 
 			// draw the number of ships on the planet for the controlling player
 			g2.setColor(this.neutralUiColor);
-			if (p.getControllingPlayer() != null) {
+			if (p.getControllingPlayer() != null) 
+			{
 				g2.setColor(p.getControllingPlayer().getColor());
 			}
 			g2.drawString("ships: "+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
+			
+			
+			//Draw the % of capture in the middle of the Planet.
+			g2.drawString((int)p.percentCaptured()+"%", p.getXCenter(), p.getYCenter());
 
 			// draw the number of Resource Units the planet has 
 			g2.setColor(Color.GRAY);
@@ -124,16 +130,18 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 		// draw Fleets
 		Fleet[] fleets = this.universe.getFleets();
-		for (int i=0; i < fleets.length; i++) {
+		for (int i=0; i < fleets.length; i++) 
+		{
 			Fleet f = fleets[i];
-			g2.drawImage(f.getImage(), f.getX(), f.getY(), null);
+			g2.drawImage(f.getImage(), (int)f.getXDouble(), (int)f.getYDouble(), null);
 			
 			// draw the number of ships in the fleet
 			g2.setColor(this.neutralUiColor);
-			if (f.getPlayer() != null) {
+			if (f.getPlayer() != null) 
+			{
 				g2.setColor(f.getPlayer().getColor());
 			}
-			g2.drawString("ships: "+ f.getShips(), f.getX(), f.getY());
+			g2.drawString("ships: "+ f.getShips(), (int)f.getXDouble(), (int)f.getYDouble());
 		}
 
 		// NOTE: what does this do?
@@ -195,8 +203,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		}
 
 		// TODO: update all the fleets
-		for (Fleet f : this.universe.getFleets()) {
+		for (Fleet f : this.universe.getFleets())
+		{
 			f.update();
+			if(f.hasArrived())
+			{
+				int d=f.getTarger().getPlayerShips(f.getPlayer());
+				d+=f.getShips();
+				f.getTarger().setPlayerShips(f.getPlayer(), d);
+				universe.deleteFleet(f);
+			}
 		}
 
 		// TODO: update all the players
@@ -333,15 +349,16 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 								Fleet f=new Fleet(p.getXCenter(),p.getYCenter(),g.getXCenter(),g.getYCenter());
 								f.setShips(fleets);
 								f.setPlayer(humanPlayer);
+								f.setTarger(g);
 								universe.addFleet(f);
 								p.setPlayerShips(humanPlayer,startingShips-fleets);
+								l=false;
 								
 								//humanPlayer.initiateAttack(p, g, fleets);
 							}
 							//If it's not, then don't do anything and stop the loop.
 							else
 							{
-								break;
 							}
 						}
 						
@@ -354,6 +371,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 					// TODO: if a planet has been selected, and another planet clicked on, show UI to send a fleet
 					// TODO: figure out what needs to be done for the other cases (Planet->Fleet, Fleet->Whatever)
 				}
+				break;
 			}
 		}
 		if(!l)this.selected = null; //The click was not inside any planet or was inside the selected one.

@@ -20,6 +20,7 @@ public class Fleet extends GamePiece{
     private int destinationX;
     private int destinationY;
     private int ships;
+    private Planet target;
 
     private double xDouble,yDouble;
 
@@ -67,9 +68,15 @@ public class Fleet extends GamePiece{
     double distance, time,frame; // frame is the percentage of the entire distance travelled per frame
     //Game Frames Per Second... would rather have this in a higher order class than this!
     public static int GAME_FPS = 100;
+    
+    public Fleet(int currentX, int currentY, Planet target)
+    {
+    	this(currentX,currentY,target.getXCenter(),target.getYCenter());
+    	this.target=target;
+    }
 
-
-    public Fleet(int currentX, int currentY, int destinationX, int destinationY){
+    public Fleet(int currentX, int currentY, int destinationX, int destinationY)
+    {
         this.x = currentX;
         this.y = currentY;
         // NOTE: selection radius is set here
@@ -139,6 +146,16 @@ public class Fleet extends GamePiece{
         xDouble+=(double)(destinationX-startX)*frame;
         yDouble+=(double)(destinationY-startY)*frame;
     }
+    
+    public boolean hasArrived()
+    {
+    	return target.isCoordinateInside(xDouble, yDouble);
+    }
+    
+    public BufferedImage getImage()
+    {
+        return bufferedImage;
+    }
 
     public double getXDouble()
     {
@@ -152,6 +169,16 @@ public class Fleet extends GamePiece{
     public int getShips()
     {
         return ships;
+    }
+    
+    public void setTarger(Planet t)
+    {
+    	target=t;
+    }
+    
+    public Planet getTarger()
+    {
+    	return target;
     }
 
     public void setShips(int ships)
