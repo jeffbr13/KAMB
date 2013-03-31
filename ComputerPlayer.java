@@ -38,11 +38,9 @@ public class ComputerPlayer extends Player
 	private void makeMoves(Universe u)
 	{
 		Planet[] ownedPlanets = u.getPlayerPlanets(this);
-//		System.out.println("Making moves based on " + ownedPlanets.length + " planets.");
 		// For each planet the ComputerPlayer owns:
 		for (Planet launchPlanet : ownedPlanets)
 		{
-//			System.out.println("Considering options from " + launchPlanet + "...");
 			Planet[] planetsArr = u.getPlanets();
 			Planet closestValidTarget = planetsArr[0];
 			// find closest planet which is a valid target
@@ -54,12 +52,10 @@ public class ComputerPlayer extends Player
 					closestValidTarget = possibleTarget;
 				}
 			}
-//			System.out.println("How about " + closestValidTarget + "?");
 			// Is this a good attack from this planet?
 			int numberOfAttackingShips = this.shipsToAttack(launchPlanet, closestValidTarget);
 			if (numberOfAttackingShips == 0) continue;            
 
-//			System.out.println("Setting move orders to " + closestValidTarget + "!");
 			this.initiateMovement(launchPlanet, closestValidTarget, numberOfAttackingShips);
 		}
 	}
@@ -86,9 +82,13 @@ public class ComputerPlayer extends Player
 			if (player != this) targetEnemyShips += targetShips.get(player);
 		}
 
-		int shipsAvailable = launchPlanet.getPlayerShips(this) - 10; // keep >= 10 ships behind for defence
+		int shipsAvailable = launchPlanet.getPlayerShips(this);
 		int attackMargin = 5;   // we want to attack with this many more ships than the enemy
 		int idealAttackStrength = (targetEnemyShips + attackMargin);
+
+		if (targetEnemyShips == 0) {	// if there's no enemy ships on the planet, attack with all ships, bar 2
+			return (shipsAvailable - 2);
+		}
 
 		if (shipsAvailable < idealAttackStrength) {
 			return 0;
