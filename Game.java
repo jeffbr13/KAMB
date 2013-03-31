@@ -40,6 +40,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	private Universe universe;
 
 	private Player humanPlayer;
+	private int nthUpdateCycle;
 
 
 	/**
@@ -213,10 +214,14 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 				}
 			}
 
-			// TODO: update all the players
-			for (Player p : this.universe.getPlayers()) {
-				p.update(this.universe);
+			// TODO: update all the players every n cycles
+			if (this.nthUpdateCycle == 10) {
+				for (Player p : this.universe.getPlayers()) {
+					p.update(this.universe);
+					this.nthUpdateCycle = 0;
+				}
 			}
+			this.nthUpdateCycle += 1;
 
 
 			// set the process to sleep for 10ms
