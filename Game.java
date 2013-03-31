@@ -60,7 +60,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		addMouseMotionListener(this);
 
 		// create a universe with 12 planets and a minimum separation of 50 units
-		this.universe = new Universe(screenSize.width, screenSize.height, 12, 50);
+		this.universe = new Universe(screenSize.width, screenSize.height, Main.planets, 50);
 
 		// add a human player, then computer players.
 		this.humanPlayer=new Player(1);

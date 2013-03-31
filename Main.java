@@ -25,7 +25,7 @@ public class Main
 	JFrame      mainWindow;
 	Game		GamePanel;
 	int Action = 0;
-	public int planets;
+	public static int planets;
 	String rules, about, STATS;
 	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
