@@ -126,11 +126,6 @@ public class Planet extends GamePiece
         }
     }*/
 
-    /**
-     * @return a boolean stating whether or not the given coordinate is 'inside' the
-     * planet. Can be used for testing mouse-click-selection.
-     */
-
     public double distance(Planet p)
     {
         return Math.sqrt((xCenter-p.getXCenter())*(xCenter-p.getXCenter())+(yCenter-p.getYCenter())*(yCenter-p.getYCenter()));
