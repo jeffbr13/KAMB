@@ -24,7 +24,6 @@ public class Universe
 	private int height;
 	private BufferedImage backgroundImage;
 
-	private ArrayList<Fleet> fleets; 
 	private ArrayList<Planet> planets;
 	private ArrayList<Player> players;
 
@@ -71,7 +70,6 @@ public class Universe
 	{
 		this.width = width;
 		this.height = height;
-		this.fleets = new ArrayList<Fleet>();
 		this.planets = new ArrayList<Planet>();
 		players=new ArrayList<Player>();
 
@@ -175,30 +173,20 @@ public class Universe
 
 	public Fleet[] getFleets()
 	{
-		Fleet[] fleets = new Fleet[this.fleets.size()];
-		return this.fleets.toArray(fleets);
-	}
+		ArrayList<Fleet> fleetsList = new ArrayList<Fleet>();
 
-	public Fleet[] getPlayerFleets(Player p)
-	{
-		ArrayList<Fleet> playerFleets = new ArrayList<Fleet>();
-		for (Fleet f : this.getFleets()) {
-			if (f.belongsTo(p)) playerFleets.add(f);
+		for (Player p : this.getPlayers()) {
+			fleetsList.addAll(Arrays.asList(p.getFleets()));
 		}
-		return (Fleet[]) playerFleets.toArray();
-	}
 
-	public void addFleet(Fleet f)
-	{
-		this.fleets.add(f);
+		Fleet[] fleetsArray = new Fleet[fleetsList.size()];
+		return fleetsList.toArray(fleetsArray);
 	}
 
 	public void deleteFleet(Fleet f)
 	{
-		int i=fleets.indexOf(f);
-		if(i!=-1)
-		{
-			fleets.remove(i);
+		for (Player p : this.getPlayers()) {
+			if (p.owns(f)) p.deleteFleet(f);
 		}
 	}
 
@@ -225,111 +213,111 @@ public class Universe
 	/**
 	 * @return all GamePieces within the Universe - Planets and Fleets
 	 */
-	 public GamePiece[] getGamePieces() {
-		ArrayList<GamePiece> gamePieces = new ArrayList<GamePiece>(this.fleets.size() + this.planets.size());
-		gamePieces.addAll(this.fleets);
+	public GamePiece[] getGamePieces() {
+		ArrayList<GamePiece> gamePieces = new ArrayList<GamePiece>(this.getFleets().length + this.planets.size());
+		gamePieces.addAll(Arrays.asList(this.getFleets()));
 		gamePieces.addAll(this.planets);
 		GamePiece[] gamePieceArray = new GamePiece[gamePieces.size()];
 		return gamePieces.toArray(gamePieceArray);
-	 }
+	}
 
-	 /**
-	  * @return the backgroundImage
-	  */
-	 public BufferedImage getBackground()
-	 {
-		 return backgroundImage;
-	 }
+	/**
+	 * @return the backgroundImage
+	 */
+	public BufferedImage getBackground()
+	{
+		return backgroundImage;
+	}
 
-	 static public int getMinPlanetSize()
-	 {
-		 return minPlanetSize;
-	 }
-	 static public int getMaxPlanetSize()
-	 {
-		 return maxPlanetSize;
-	 }
+	static public int getMinPlanetSize()
+	{
+		return minPlanetSize;
+	}
+	static public int getMaxPlanetSize()
+	{
+		return maxPlanetSize;
+	}
 
-	 /**
-	  * @param backgroundImage the backgroundImage to set
-	  */
-	 public void setBackground(BufferedImage backgroundImage)
-	 {
-		 this.backgroundImage = backgroundImage;
-	 }
+	/**
+	 * @param backgroundImage the backgroundImage to set
+	 */
+	public void setBackground(BufferedImage backgroundImage)
+	{
+		this.backgroundImage = backgroundImage;
+	}
 
-	 public Player[] getPlayers()
-	 {
-		 Player[] players = new Player[this.players.size()];
-		 return this.players.toArray(players);
-	 }
+	public Player[] getPlayers()
+	{
+		Player[] playersArr = new Player[this.players.size()];
+		return this.players.toArray(playersArr);
+	}
 
-	 /**
-	  * @param Player p
-	  * 
-	  * Adds the Player p to the list of players in the universe.
-	  * DOES NOT GIVE THEM ANY PLANETS OR FLEETS.
-	  */
-	 public void addPlayer(Player p)
-	 {
-		 this.players.add(p);
-	 }
+	/**
+	 * @param Player p
+	 * 
+	 * Adds the Player p to the list of players in the universe.
+	 * DOES NOT GIVE THEM ANY PLANETS OR FLEETS.
+	 */
+	public void addPlayer(Player p)
+	{
+		this.players.add(p);
+	}
 
-	 /**
-	  * Call this after all Players have been added to the universe.
-	  * 
-	  * Gives each player a single planet and (this.initialShipsNumber) ships
-	  */
-	 public void setUpPlayers()
-	 {
-		 int numberOfPlayers = this.getPlayers().length;
-		 Planet[] homeplanets = this.findHomeplanetsForPlayers(numberOfPlayers);
+	/**
+	 * Call this after all Players have been added to the universe.
+	 * 
+	 * Gives each player a single planet and (this.initialShipsNumber) ships
+	 */
+	public void setUpPlayers()
+	{
+		int numberOfPlayers = this.getPlayers().length;
+		Planet[] homeplanets = this.findHomeplanetsForPlayers(numberOfPlayers);
 
-		 for (int i=0; i < numberOfPlayers; i++) 
-		 {
-			 Player player = this.getPlayers()[i];
-			 Planet homeplanet = homeplanets[i];
-			 homeplanet.setControllingPlayer(player);
-			 homeplanet.setPlayerShips(player, this.initialShipsNumber);
-		 }
-	 }
+		for (int i=0; i < numberOfPlayers; i++) 
+		{
+			Player player = this.getPlayers()[i];
+			Planet homeplanet = homeplanets[i];
+			homeplanet.setControllingPlayer(player);
+			homeplanet.setPlayerShips(player, this.initialShipsNumber);
+		}
+	}
 
-	 /**
-	  * @param numberOfPlayers
-	  * @return an array of Planets, suitable to be home-planets for each of the n
-	  *  players - they are all the maximum (but similar) distances possible
-	  *  apart from each other, and have similar resources.
-	  */
-	 private Planet[] findHomeplanetsForPlayers(int numberOfPlayers)
-	 {
-		 Planet[] homeplanets = new Planet[numberOfPlayers];
-		 // TODO: write an appropriate algorithm for this method
-		 int i,i2;
-		 int n=planets.size();
-		 Planet a1, a2, t1, t2;
-		 double m,t,rd;
-		 a1=planets.get(0);
-		 a2=planets.get(1);
-		 rd=a1.resourcesDifference(a2);
-		 if(rd<1)rd=1;
-		 m=(a1.distance2(a2)*(a1.distance2(a2)))/rd;
-		 for(i=0;i<n-1;i++)
-			 for(i2=i+1;i2<n;i2++)
-			 {
-				 t1=planets.get(i);
-				 t2=planets.get(i2);
-				 rd=t1.resourcesDifference(t2);
-				 if(rd<1)rd=1;
-				 t=(t1.distance2(t2)*t1.distance2(t2))/rd;
-				 if(t>m)
-				 {
-					 m=t;
-					 a1=t1;
-					 a2=t2;
-				 }
-			 }
-		 homeplanets[0]=a1;
-		 homeplanets[1]=a2;
-		 return homeplanets;
-	 }
+	/**
+	 * @param numberOfPlayers
+	 * @return an array of Planets, suitable to be home-planets for each of the n
+	 *  players - they are all the maximum (but similar) distances possible
+	 *  apart from each other, and have similar resources.
+	 */
+	private Planet[] findHomeplanetsForPlayers(int numberOfPlayers)
+	{
+		Planet[] homeplanets = new Planet[numberOfPlayers];
+		// TODO: write an appropriate algorithm for this method
+		int i,i2;
+		int n=planets.size();
+		Planet a1, a2, t1, t2;
+		double m,t,rd;
+		a1=planets.get(0);
+		a2=planets.get(1);
+		rd=a1.resourcesDifference(a2);
+		if(rd<1)rd=1;
+		m=(a1.distance2(a2)*(a1.distance2(a2)))/rd;
+		for(i=0;i<n-1;i++)
+			for(i2=i+1;i2<n;i2++)
+			{
+				t1=planets.get(i);
+				t2=planets.get(i2);
+				rd=t1.resourcesDifference(t2);
+				if(rd<1)rd=1;
+				t=(t1.distance2(t2)*t1.distance2(t2))/rd;
+				if(t>m)
+				{
+					m=t;
+					a1=t1;
+					a2=t2;
+				}
+			}
+		homeplanets[0]=a1;
+		homeplanets[1]=a2;
+		return homeplanets;
+	}
 }

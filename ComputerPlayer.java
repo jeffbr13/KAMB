@@ -54,7 +54,7 @@ public class ComputerPlayer extends Player
             int numberOfAttackingShips = this.shipsToAttack(launchPlanet, closestValidTarget);
             if (numberOfAttackingShips == 0) break;            
 
-            this.initiateAttack(launchPlanet, closestValidTarget, numberOfAttackingShips);
+            this.initiateMovement(launchPlanet, closestValidTarget, numberOfAttackingShips);
         }
     }
 

@@ -22,6 +22,7 @@ public class Player
 	protected static int nextColor=0;
 
 	protected ArrayList<Planet> currentlyAttackingPlanets;
+	private ArrayList<Fleet> fleets;
 
 
 	static
@@ -59,6 +60,7 @@ public class Player
 		this.number = number;
 		this.color = color;
 		this.currentlyAttackingPlanets = new ArrayList<Planet>();
+		this.fleets = new ArrayList<Fleet>();
 	}
 
 	/**
@@ -98,17 +100,21 @@ public class Player
 	 * Make a new Fleet, set its destination to the targetPlanet, update the
 	 * launchPlanets ship numbers, and update the list of ships we're attacking.
 	 */
-	public void initiateAttack(Planet launchPlanet, Planet targetPlanet, int attackingShips)
-	{
-		int shipsOnPlanet = launchPlanet.getPlayerShips(this);
+	public void initiateMovement(Planet launchPlanet, Planet targetPlanet, int attackingShips)
+	{		
+		int startingShips = launchPlanet.getPlayerShips(this);
+		int shipsToSend = Math.min(attackingShips, startingShips);
 
-		// Make a new Fleet, and send it to the planet
-		Fleet f = new Fleet(launchPlanet.getX(), launchPlanet.getY(),
-				targetPlanet.getX(), targetPlanet.getY());
-		f.setShips(attackingShips);
-		launchPlanet.setPlayerShips(this, (shipsOnPlanet - attackingShips));
-		// Add the planet to list of planets the ComputerPlayer is attacking
-		this.currentlyAttackingPlanets.add(targetPlanet);
+		Fleet f = new Fleet(launchPlanet.getXCenter(), launchPlanet.getYCenter(), targetPlanet.getXCenter(), targetPlanet.getYCenter());
+		f.setShips(shipsToSend);
+		f.setPlayer(this);
+		f.setTarger(targetPlanet);
+		this.addFleet(f);
+		launchPlanet.setPlayerShips(this, (startingShips - shipsToSend));
+	}
+
+	private void addFleet(Fleet f) {
+		this.fleets.add(f);
 	}
 
 	/**
@@ -116,5 +122,19 @@ public class Player
 	 */
 	public void update() {
 		return;
+	}
+
+	public Fleet[] getFleets() {
+		Fleet[] fleetsArr = new Fleet[this.fleets.size()];
+		return this.fleets.toArray(fleetsArr);
+	}
+
+	public void deleteFleet(Fleet f) {
+		int i = this.fleets.indexOf(f);
+		if(i != -1)
+		{
+			this.fleets.remove(i);
+		}
+
 	}
 }

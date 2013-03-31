@@ -29,7 +29,6 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	boolean fleet = false;
 	BufferedImage bufferedImage;
 	int draw = 0;
-	private int fleets = 0;
 	private String statsPlayer, statsBot;
 
 	private GamePiece selected;         // `null` if no GamePiece has been selected
@@ -129,10 +128,9 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		}
 
 		// draw Fleets
-		Fleet[] fleets = this.universe.getFleets();
-		for (int i=0; i < fleets.length; i++) 
+		for (int i=0; i < this.universe.getFleets().length; i++) 
 		{
-			Fleet f = fleets[i];
+			Fleet f = this.universe.getFleets()[i];
 			g2.drawImage(f.getImage(), (int)f.getXDouble(), (int)f.getYDouble(), null);
 
 			// draw the number of ships in the fleet
@@ -343,18 +341,11 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 								System.out.println(this.selected + "\n" + g);
 								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
-								int startingShips=p.getPlayerShips(humanPlayer);
-								fleets = Math.min(Integer.parseInt(s),startingShips);
 
-								Fleet f=new Fleet(p.getXCenter(),p.getYCenter(),g.getXCenter(),g.getYCenter());
-								f.setShips(fleets);
-								f.setPlayer(humanPlayer);
-								f.setTarger(g);
-								universe.addFleet(f);
-								p.setPlayerShips(humanPlayer,startingShips-fleets);
-								l=false;
-
-								//humanPlayer.initiateAttack(p, g, fleets);
+								int startingShips = p.getPlayerShips(humanPlayer);
+								int shipsToSend = Math.min(Integer.parseInt(s),startingShips);
+								humanPlayer.initiateMovement(p, g, shipsToSend);
+								l = false;
 							}
 							//If it's not, then don't do anything and stop the loop.
 							else
