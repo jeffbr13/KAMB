@@ -109,6 +109,7 @@ public class Player
 		f.setTarger(targetPlanet);
 		this.addFleet(f);
 		launchPlanet.setPlayerShips(this, (startingShips - shipsToSend));
+		System.out.printf("Player %s sending %s ships from %s to %s, leaving %s ships behind.\n", this.getNumber(), shipsToSend, launchPlanet, targetPlanet, (startingShips - shipsToSend));
 	}
 
 	private void addFleet(Fleet f) {

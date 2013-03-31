@@ -47,7 +47,7 @@ public class ComputerPlayer extends Player
 			for (int i=1; i < planetsArr.length; i++)
 			{
 				Planet possibleTarget = planetsArr[i];
-				if (this.validTarget(possibleTarget) && (launchPlanet.distanceFrom(possibleTarget) < launchPlanet.distanceFrom(closestValidTarget)))
+				if (this.validTarget(launchPlanet, possibleTarget) && (launchPlanet.distanceFrom(possibleTarget) < launchPlanet.distanceFrom(closestValidTarget)))
 				{
 					closestValidTarget = possibleTarget;
 				}
@@ -60,12 +60,17 @@ public class ComputerPlayer extends Player
 		}
 	}
 
-	private boolean validTarget(Planet p)
+	private boolean validTarget(Planet from, Planet to)
 	{
-		if (p.belongsTo(this)) {
+		if (to.belongsTo(this)) {
 			return false;
 		}
-		return true;
+
+		if (from.canReach(to)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
