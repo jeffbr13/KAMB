@@ -24,7 +24,7 @@ public class ComputerPlayer extends Player
 
 	public void update(Universe u)
 	{
-//		System.out.println("Updating player " + this.getNumber());
+		System.out.println("Updating player " + this.getNumber());
 		this.makeMoves(u);
 	}
 

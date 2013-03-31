@@ -215,7 +215,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			}
 
 			// TODO: update all the players every n cycles
-			if (this.nthUpdateCycle == 10) {
+			if (this.nthUpdateCycle == 50) {
 				for (Player p : this.universe.getPlayers()) {
 					p.update(this.universe);
 					this.nthUpdateCycle = 0;
