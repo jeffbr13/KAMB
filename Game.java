@@ -39,7 +39,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	private Color neutralUiColor = Color.GRAY;
 
 	private Universe universe;
-	
+
 	private Player humanPlayer;
 
 
@@ -72,9 +72,9 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 		// get the Universe to set up the players with planets, etc.
 		this.universe.setUpPlayers();
-		
+
 		gameThread = new Thread(this);
-        gameThread.start();
+		gameThread.start();
 
 
 
@@ -118,8 +118,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 				g2.setColor(p.getControllingPlayer().getColor());
 			}
 			g2.drawString("ships: "+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
-			
-			
+
+
 			//Draw the % of capture in the middle of the Planet.
 			g2.drawString((int)p.percentCaptured()+"%", p.getXCenter(), p.getYCenter());
 
@@ -134,7 +134,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		{
 			Fleet f = fleets[i];
 			g2.drawImage(f.getImage(), (int)f.getXDouble(), (int)f.getYDouble(), null);
-			
+
 			// draw the number of ships in the fleet
 			g2.setColor(this.neutralUiColor);
 			if (f.getPlayer() != null) 
@@ -155,12 +155,12 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			g2.setStroke(new BasicStroke(5F));
 			g2.drawOval(this.selected.getX(), this.selected.getY(), this.selected.getRadius()*2, this.selected.getRadius()*2);
 		}
-		
+
 		if(this.selected instanceof Planet)
-			{
-				Planet p=(Planet)this.selected;
-				g2.drawOval(p.getXCenter()-p.travelRadius(), p.getYCenter()-p.travelRadius(), p.travelRadius()*2, p.travelRadius()*2);
-			}
+		{
+			Planet p=(Planet)this.selected;
+			g2.drawOval(p.getXCenter()-p.travelRadius(), p.getYCenter()-p.travelRadius(), p.travelRadius()*2, p.travelRadius()*2);
+		}
 
 
 		// draw around the hoverOn GamePiece
@@ -197,39 +197,39 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 		while(true)
 		{
 
-		// TODO: update all the planets
-		for (Planet p : this.universe.getPlanets()) {
-			p.update();
-		}
-
-		// TODO: update all the fleets
-		for (Fleet f : this.universe.getFleets())
-		{
-			f.update();
-			if(f.hasArrived())
-			{
-				int d=f.getTarger().getPlayerShips(f.getPlayer());
-				d+=f.getShips();
-				f.getTarger().setPlayerShips(f.getPlayer(), d);
-				universe.deleteFleet(f);
+			// TODO: update all the planets
+			for (Planet p : this.universe.getPlanets()) {
+				p.update();
 			}
-		}
 
-		// TODO: update all the players
-		for (Player p : this.universe.getPlayers()) {
-			p.update();
-		}
+			// TODO: update all the fleets
+			for (Fleet f : this.universe.getFleets())
+			{
+				f.update();
+				if(f.hasArrived())
+				{
+					int d=f.getTarger().getPlayerShips(f.getPlayer());
+					d+=f.getShips();
+					f.getTarger().setPlayerShips(f.getPlayer(), d);
+					universe.deleteFleet(f);
+				}
+			}
+
+			// TODO: update all the players
+			for (Player p : this.universe.getPlayers()) {
+				p.update();
+			}
 
 
-		// set the process to sleep for 10ms
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		// then repaint the window
-		repaint();
-		
+			// set the process to sleep for 10ms
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			// then repaint the window
+			repaint();
+
 		}
 	}
 
@@ -245,8 +245,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			if(this.universe.getPlayers()[0].owns(this.universe.getPlanets()[i])) 
 			{
 				statsPlayer = statsPlayer + "\n" + 
-				"Planet" + i + "\n" +
-				"---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[0])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
+						"Planet" + i + "\n" +
+						"---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[0])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
 				totalShips = totalShips + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[0]);
 				totalResources = totalResources + this.universe.getPlanets()[i].getResourceValue();
 				planets++;
@@ -272,8 +272,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			if(this.universe.getPlayers()[1].owns(this.universe.getPlanets()[i])) 
 			{
 				statsBot = statsBot + "\n" + 
-				"Planet" + i + "\n" +
-				"---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[1])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
+						"Planet" + i + "\n" +
+						"---Ships: " + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[1])+ " ---Resources: " + this.universe.getPlanets()[i].getResourceValue();
 				totalShips = totalShips + this.universe.getPlanets()[i].getPlayerShips(this.universe.getPlayers()[1]);
 				totalResources = totalResources + this.universe.getPlanets()[i].getResourceValue();
 				planets++;
@@ -307,7 +307,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	{
 		int clickX = e.getX();
 		int clickY = e.getY();
-		
+
 		boolean l=false; //l stands for lamp.
 
 		// TODO: if the mouse has clicked on co-ordinates not inside a GamePiece
@@ -322,7 +322,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 				{
 					this.selected = g;
 					System.out.println(this.selected);
-					
+
 					//repaint();
 					break;
 				}
@@ -333,7 +333,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 					// however, this does not work properly(sometimes it does, sometimes it doesnt)..but I cant seem to figure it out now
 					if(this.selected!=g)
 					{
-						
+
 						if(this.selected instanceof Planet)
 						{
 							//Check if the clicked Planet is in the attack radius of the selected one.
@@ -345,7 +345,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
 								int startingShips=p.getPlayerShips(humanPlayer);
 								fleets = Math.min(Integer.parseInt(s),startingShips);
-								
+
 								Fleet f=new Fleet(p.getXCenter(),p.getYCenter(),g.getXCenter(),g.getYCenter());
 								f.setShips(fleets);
 								f.setPlayer(humanPlayer);
@@ -353,7 +353,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 								universe.addFleet(f);
 								p.setPlayerShips(humanPlayer,startingShips-fleets);
 								l=false;
-								
+
 								//humanPlayer.initiateAttack(p, g, fleets);
 							}
 							//If it's not, then don't do anything and stop the loop.
@@ -361,8 +361,8 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 							{
 							}
 						}
-						
-						
+
+
 					}
 					else
 					{
