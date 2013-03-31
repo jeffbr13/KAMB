@@ -92,8 +92,8 @@ public abstract class GamePiece implements Position, Drawable
     public double distanceFrom(Position p) 
     {
 
-        int dx = this.getX() - p.getX();
-        int dy = this.getY() - p.getY();
+        int dx = this.getXCenter() - p.getX();
+        int dy = this.getYCenter() - p.getY();
 
         return Math.sqrt( (dx * dx) + (dy * dy) );
     }

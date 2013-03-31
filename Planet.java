@@ -19,13 +19,10 @@ public class Planet extends GamePiece
     //Center coordinates.
     private int xCenter,yCenter;
 
-    public int radius;
-
 
     private int resources;
     private String name;
     private int attRadius;
-    private Player owner;
     private Player capturer;
     private double percentCaptured;
     private int newShip;
@@ -354,6 +351,11 @@ public class Planet extends GamePiece
             int shipsLastCycle = this.getPlayerShips(p);
             this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
         }
+    }
+    
+    public boolean belongsTo(Player p)
+    {
+        return owner==p;
     }
 
     /**
