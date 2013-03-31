@@ -21,8 +21,7 @@ public class Player
 	public static int numColors;
 	protected static int nextColor=0;
 
-	protected ArrayList<Planet> currentlyAttackingPlanets;
-	private ArrayList<Fleet> fleets;
+	protected ArrayList<Fleet> fleets;
 
 
 	static
@@ -59,7 +58,6 @@ public class Player
 	{
 		this.number = number;
 		this.color = color;
-		this.currentlyAttackingPlanets = new ArrayList<Planet>();
 		this.fleets = new ArrayList<Fleet>();
 	}
 
@@ -120,7 +118,7 @@ public class Player
 	/**
 	 * Dummy method for human Players, used in ComputerPlayer to do all computation/strategy stuff 
 	 */
-	public void update() {
+	public void update(Universe u) {
 		return;
 	}
 

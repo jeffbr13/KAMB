@@ -116,8 +116,8 @@ public abstract class GamePiece implements Position, Drawable
 
     public boolean belongsTo(Player p)
     {
-        return owner==p;
+        return this.getOwner() == p;
     }
-    
 
+    public abstract Player getOwner();
 }

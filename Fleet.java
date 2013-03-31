@@ -203,4 +203,8 @@ public class Fleet extends GamePiece{
 	private static GraphicsConfiguration getDefaultConfiguration() {
 		return getDefaultConfiguration();
 	}
+
+	public Player getOwner() {
+		return this.owner;
+	}
 }

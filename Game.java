@@ -215,7 +215,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 			// TODO: update all the players
 			for (Player p : this.universe.getPlayers()) {
-				p.update();
+				p.update(this.universe);
 			}
 
 

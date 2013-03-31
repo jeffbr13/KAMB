@@ -202,7 +202,9 @@ public class Universe
 		for (Planet plt : this.getPlanets()) {
 			if (plt.belongsTo(p)) playerPlanets.add(plt);
 		}
-		return (Planet[]) playerPlanets.toArray();
+
+		Planet[] planetsArr = new Planet[playerPlanets.size()];
+		return playerPlanets.toArray(planetsArr);
 	}
 
 	public void addPlanet(Planet p)
