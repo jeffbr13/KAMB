@@ -128,14 +128,15 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			//Draw the number of ships of any other players on the planet.
 			g2.setColor(this.neutralUiColor);
 			Player[] a=p.getPlayers();
-			int i2;
+			int i2,i3=0;
 			for(i2=0;i2<a.length;i2++)
 				if(a[i2]!=p.getControllingPlayer())
 				{
 					g2.setColor(a[i2].getColor());
 					//g2.drawString("ships: "+ p.getPlayerShips(a[i2]), p.getX()+2*p.getRadius(), p.getY()+i2*10);
-					g2.drawString(""+p.getPlayerShips(a[i2]), p.getX()+2*p.getRadius(), p.getY()+i2*10);
+					g2.drawString(""+p.getPlayerShips(a[i2]), p.getX()+2*p.getRadius(), p.getY()+(i2-i3)*12);
 				}
+				else i3=1;
 
 			// draw the number of Resource Units the planet has 
 			//g2.setColor(Color.GRAY);
@@ -362,7 +363,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 							if(p.canReach(g) && p.getPlayerShips(humanPlayer)>0 && p.getOwner()==humanPlayer)
 							{
 								System.out.println(this.selected + "\n" + g);
-								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "All"};
+								Object[] possibilities = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "20", "25", "30", "40", "All"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
 
 								int startingShips = p.getPlayerShips(humanPlayer);

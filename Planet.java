@@ -341,7 +341,7 @@ public class Planet extends GamePiece
 			Player p = this.getPlayers()[playerNo];
 			for (int i=0; i < this.getPlayerShips(p); i++)
 			{
-				if (Planet.random.nextBoolean())
+				if (Planet.random.nextDouble()<.4)
 				{
 					damageDealtByPlayers[playerNo] += 1;
 				}
