@@ -400,6 +400,66 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 	@Override
 	public void mouseReleased(MouseEvent e) {
 
+		int clickX = e.getX();
+		int clickY = e.getY();
+
+		boolean l=false; //l stands for lamp.
+
+		// TODO: if the mouse has clicked on co-ordinates not inside a GamePiece
+		// ...
+		for (Planet g : this.universe.getPlanets()) 
+		{
+			// if the mouse has been clicked inside a GamePiece without any other selected, set this GamePiece to be selected
+			if (g.isCoordinateInside(clickX, clickY))
+			{
+				l=true;
+				if(this.selected == null)
+				{
+					this.selected = g;
+					System.out.println(this.selected);
+
+					//repaint();
+					break;
+				}
+				// if another GamePiece has already been selected, perform the appropriate action
+				else
+				{
+					// if previously selected item is not the same, the inputDialog window should pop up
+					// however, this does not work properly(sometimes it does, sometimes it doesnt)..but I cant seem to figure it out now
+					if(this.selected!=g)
+					{
+
+						if(this.selected instanceof Planet)
+						{
+							//Check if the clicked Planet is in the attack radius of the selected one.
+							Planet p=(Planet)this.selected;
+							if(p.canReach(g) && p.getPlayerShips(humanPlayer)>0 && p.getOwner()==humanPlayer)
+							{
+								System.out.println(this.selected + "\n" + g);
+
+								int startingShips = p.getPlayerShips(humanPlayer);
+								int shipsToSend = startingShips;
+								humanPlayer.initiateMovement(p, g, shipsToSend);
+								l = false;
+							}
+							//If it's not, then don't do anything and stop the loop.
+							else
+							{
+							}
+						}
+
+
+					}
+					else
+					{
+						l=false; //If we click on the selected planet again we de-select it.
+					}
+				}
+				break;
+			}
+		}
+		if(!l)this.selected = null; //The click was not inside any planet or was inside the selected one.
+		repaint();
 
 	}
 
