@@ -157,245 +157,256 @@ public class Planet extends GamePiece
 	}
 
 	//Can we send fleets to p from this planet?
-			public boolean canReach(Planet p)
+	public boolean canReach(Planet p)
 	{
-				double t=p.getRadius();
-				if(distance2(p)>(t+attRadius)*(t+attRadius))return false;
-				return true;
+		double t=p.getRadius();
+		if(distance2(p)>(t+attRadius)*(t+attRadius))return false;
+		return true;
 	}
 
-			public Player getPlayer()
+	public Player getPlayer()
+	{
+		return this.getControllingPlayer();
+	}
+
+	public Player getControllingPlayer()
+	{
+		if (this.percentCaptured() >= 100) 
+		{
+			return this.owner;
+		} 
+		else 
+		{
+			return this.capturer;
+		}
+	}
+
+	public Player getOwner()
+	{
+		return this.owner;
+	}
+
+	public void setControllingPlayer(Player p)
+	{
+		this.setPercentCaptured(100);
+		this.owner = p;
+		this.capturer = null;
+	}
+
+	public double percentCaptured()
+	{
+		return this.percentCaptured;
+	}
+
+	public Player[] getPlayers()
+	{
+		Set<Player> a=ships.keySet();
+		Player[] b=new Player[a.size()];
+		b=a.toArray(b);
+		return b;
+	}
+
+	//Returns the only player who has ships on the planet. If more than 1 players have ships or
+	//there are no players on the planet, it returns null.
+	public Player getSinglePlayer()
+	{
+		if(getPlayers().length!=1)return null;
+		return getPlayers()[0];
+	}
+
+	public int getPlayerShips(Player p)
+	{
+		if(ships.get(p)==null)return 0;
+		return ships.get(p);
+	}
+
+	public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n, as long as n is less than 0
+	{
+		ships.put(p, Math.max(0, n));
+	}
+
+	public HashMap<Player,Integer> getShips()
+	{
+		return this.ships;
+	}
+
+	public void addFleet(Fleet f)
+	{
+		Player p=f.getPlayer();
+		int s=f.getShips();
+		if(ships.get(p)==null)ships.put(p,s);
+		else
+		{
+			int sh=ships.get(p)+s;
+			ships.put(p,sh);
+		}
+	}
+
+
+	public Color getColor()
+	{
+		return owner.getColor();
+	}
+
+
+	public boolean isFarEnoughAwayFrom(Planet p, int distance) 
+	{
+
+		int dx = xCenter - p.getXCenter();
+		int dy = yCenter - p.getYCenter();
+
+		return (dx*dx)+(dy*dy)>=(distance+radius+p.radius)*(distance+radius+p.radius);
+	}
+
+	public boolean isCoordinateInside(int x, int y)
+	{
+		//Is the coordinate's distance from the center coordinate less than (or equal) the radius?
+		return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
+	}
+	public boolean isCoordinateInside(double x, double y)
+	{
+		//Is the coordinate's distance from the center coordinate less than (or equal) the radius?
+		//With doubles.
+		return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
+	}
+
+	private void setPercentCaptured(double x)
+	{
+		this.percentCaptured = x;
+	}
+
+
+	/**
+	 * perform all battle, capture, or ship-building actions applicable to the planet
+	 */
+	public void update() {
+
+		// check whether more than one player is on the planet. If so, perform a battle, and end this cycle
+		if (this.getPlayers().length > 1) {
+			this.performBattle();
+			return;
+		}
+
+		// check whether the planet has already been captured. If it has not, perform capture actions then end the cycle.
+		if(this.getPlayers().length == 1)
+		{
+			if (this.percentCaptured() < 100)
 			{
-				return this.getControllingPlayer();
+				this.capturer = getPlayers()[0];
+				this.performCapture();
+				return;
 			}
 
-			public Player getControllingPlayer()
+			if (this.getOwner() != null)
 			{
-				if (this.percentCaptured() >= 100) 
+				// NOTE: At this point, the planet must be peaceful and fully captured. Ships can now be generated.
+				this.performShipBuilding();
+			}
+		}
+	}
+
+
+	/**
+	 *  Update the ship counts due to battle, for one cycle.
+	 * 
+	 *  Each ship has a 0.5 chance of destroying an enemy ship/dealing one unit of damage.
+	 *  Damage is equally between players, simultaneously, every time this is generated.
+	 *  
+	 *  1 unit of damage ~= 1 enemy ship destroyed (rounded)
+	 */
+	private void performBattle() {
+
+		int[] damageDealtByPlayers = new int[this.getPlayers().length];
+
+		// calculate the amount of damage/ships each player does in total  
+		for (int playerNo=0; playerNo < this.getPlayers().length; playerNo++)
+		{
+			Player p = this.getPlayers()[playerNo];
+			for (int i=0; i < this.getPlayerShips(p); i++)
+			{
+				if (Planet.random.nextBoolean())
 				{
-					return this.owner;
-				} 
-				else 
+					damageDealtByPlayers[playerNo] += 1;
+				}
+			}
+		}
+		// for every player that isn't itself, set the damage dealt to it to be (damage done by other players / (total number of players - itself) ) 
+		int[] damageDealtToPlayers = new int[this.getPlayers().length];
+		for (int player=0; player < this.getPlayers().length; player++)
+		{
+			for (int playerDoingDamage=0; playerDoingDamage < this.getPlayers().length; playerDoingDamage++)
+			{
+				if (playerDoingDamage != player)
 				{
-					return capturer;
+					damageDealtToPlayers[player] += (int) (damageDealtByPlayers[playerDoingDamage] / (this.getPlayers().length - 1) );
 				}
 			}
+		}
+		// set number of ships for every player to be last number - damage just done to player
+		for (int i=0; i < this.getPlayers().length; i++)
+		{
+			Player p = this.getPlayers()[i];
+			int shipsLastCycle = this.getPlayerShips(p);
+			this.setPlayerShips(p, Math.max(0, shipsLastCycle - damageDealtToPlayers[i]));
+		}
+	}
 
-			public Player getOwner()
+
+	public boolean belongsTo(Player p)
+	{
+		return this.getOwner() == p;
+	}
+
+	/**
+	 * Add the number of new ships generated this cycle to the planet's owner
+	 */
+	private void performShipBuilding() {
+
+		// ensure that there is only one player in charge.
+		if (this.percentCaptured() >= 100)
+		{
+			Player p = this.getOwner();
+			// number of new ships each cycle == planet resources
+			newShip += this.getResourceValue();
+			if (newShip >= 10000)
 			{
-				return owner;
+				this.setPlayerShips(p, (this.getPlayerShips(p) + 1));
+				newShip -= 10000;
 			}
+		}
+	}
 
-			public void setControllingPlayer(Player p)
-			{
-				this.setPercentCaptured(100);
-				this.owner = p;
-				this.capturer = null;
-				//setPlayerShips(p,50);
-			}
+	/**
+	 * Update the capture percentage, if there is only one player on the planet.
+	 * If the planet is 100% captured, set the owner to be the currently dominant player. 
+	 */
+	private void performCapture()
+	{
+		if (this.getPlayers().length > 1) 
+		{
+			return;
+		}
 
-			public double percentCaptured()
-			{
-				return this.percentCaptured;
-			}
+		if (this.belongsTo(this.capturer)) {
+			this.setControllingPlayer(this.capturer);
+			return;
+		}
 
-			public Player[] getPlayers()
-			{
-				Set<Player> a=ships.keySet();
-				Player[] b=new Player[a.size()];
-				b=a.toArray(b);
-				return b;
-			}
+		// rate of capture is inversely proportional to the planet's resource value,
+		// i.e. it's faster to capture a less valuable planet
+		double rateOfCapture = Math.sqrt(getPlayerShips(getSinglePlayer()));
+		double capturedThisCycle = rateOfCapture / this.getResourceValue();
 
-			//Returns the only player who has ships on the planet. If more than 1 players have ships or
-			//there are no players on the planet, it returns null.
-			public Player getSinglePlayer()
-			{
-				if(getPlayers().length!=1)return null;
-				return getPlayers()[0];
-			}
+		if (this.getControllingPlayer() != this.capturer) {
+			this.setPercentCaptured(this.percentCaptured() - capturedThisCycle);
+		} else {
+			this.setPercentCaptured(this.percentCaptured() + capturedThisCycle);
+		}
 
-			public int getPlayerShips(Player p)
-			{
-				if(ships.get(p)==null)return 0;
-				return ships.get(p);
-			}
-
-			public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n, as long as n is less than 0
-			{
-				ships.put(p, Math.max(0, n));
-			}
-
-			public HashMap<Player,Integer> getShips()
-			{
-				return this.ships;
-			}
-
-			public void addFleet(Fleet f)
-			{
-				Player p=f.getPlayer();
-				int s=f.getShips();
-				if(ships.get(p)==null)ships.put(p,s);
-				else
-				{
-					int sh=ships.get(p)+s;
-					ships.put(p,sh);
-				}
-			}
-
-
-			public Color getColor()
-			{
-				return owner.getColor();
-			}
-
-
-			public boolean isFarEnoughAwayFrom(Planet p, int distance) 
-			{
-
-				int dx = xCenter - p.getXCenter();
-				int dy = yCenter - p.getYCenter();
-
-				return (dx*dx)+(dy*dy)>=(distance+radius+p.radius)*(distance+radius+p.radius);
-			}
-
-			public boolean isCoordinateInside(int x, int y)
-			{
-				//Is the coordinate's distance from the center coordinate less than (or equal) the radius?
-				return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
-			}
-			public boolean isCoordinateInside(double x, double y)
-			{
-				//Is the coordinate's distance from the center coordinate less than (or equal) the radius?
-				//With doubles.
-				return (xCenter-x)*(xCenter-x)+(yCenter-y)*(yCenter-y)<=radius*radius;
-			}
-
-			private void setPercentCaptured(double x)
-			{
-				this.percentCaptured = x;
-			}
-
-
-			/**
-			 * perform all battle, capture, or ship-building actions applicable to the planet
-			 */
-			public void update() {
-
-				// check whether more than one player is on the planet. If so, perform a battle, and end this cycle
-				if (this.getPlayers().length > 1) {
-					this.performBattle();
-					return;
-				}
-
-				// check whether the planet has already been captured. If it has not, perform capture actions then end the cycle.
-				if(this.getPlayers().length==1)
-				{
-					if (this.percentCaptured() < 100)
-					{
-						capturer=getPlayers()[0];
-						this.performCapture();
-						return;
-					}
-
-					if (this.owner != null)
-					{
-						// NOTE: At this point, the planet must be peaceful and fully captured. Ships can now be generated.
-						this.performShipBuilding();
-					}
-				}
-			}
-
-
-			/**
-			 *  Update the ship counts due to battle, for one cycle.
-			 * 
-			 *  Each ship has a 0.5 chance of destroying an enemy ship/dealing one unit of damage.
-			 *  Damage is equally between players, simultaneously, every time this is generated.
-			 *  
-			 *  1 unit of damage ~= 1 enemy ship destroyed (rounded)
-			 */
-			private void performBattle() {
-
-				int[] damageDealtByPlayers = new int[this.getPlayers().length];
-
-				// calculate the amount of damage/ships each player does in total  
-				for (int playerNo=0; playerNo < this.getPlayers().length; playerNo++)
-				{
-					Player p = this.getPlayers()[playerNo];
-					for (int i=0; i < this.getPlayerShips(p); i++)
-					{
-						if (Planet.random.nextBoolean())
-						{
-							damageDealtByPlayers[playerNo] += 1;
-						}
-					}
-				}
-
-				// for every player that isn't itself, set the damage dealt to it to be (damage done by other players / (total number of players - itself) ) 
-				int[] damageDealtToPlayers = new int[this.getPlayers().length];
-				for (int player=0; player < this.getPlayers().length; player++) {
-					for (int playerDoingDamage=0; playerDoingDamage < this.getPlayers().length; playerDoingDamage++) {
-						if (playerDoingDamage != player) {
-							damageDealtToPlayers[player] += (int) (damageDealtByPlayers[playerDoingDamage] / (this.getPlayers().length - 1) );
-						}
-					}
-				}
-
-				// set number of ships for every player to be last number - damage just done to player
-				for (int i=0; i < this.getPlayers().length; i++) {
-					Player p = this.getPlayers()[i];
-					int shipsLastCycle = this.getPlayerShips(p);
-					this.setPlayerShips(p, shipsLastCycle - damageDealtToPlayers[i]);
-				}
-			}
-
-			public boolean belongsTo(Player p)
-			{
-				return owner==p;
-			}
-
-			/**
-			 * Add the number of new ships generated this cycle to the planet's owner
-			 */
-			private void performShipBuilding() {
-
-				// ensure that there is only one player in charge.
-				if (this.percentCaptured() == 100) {
-
-					Player p = this.owner;
-					// number of new ships each cycle == planet resources
-					newShip += this.getResourceValue();
-					if(newShip >= 10000)
-					{
-						this.setPlayerShips(p, (this.getPlayerShips(p) + 1));
-						newShip -= 10000;
-					}
-				}
-			}
-
-			/**
-			 * Update the capture percentage, if there is only one player on the planet.
-			 * If the planet is 100% captured, set the owner to be the currently dominant player. 
-			 */
-			private void performCapture()
-			{
-				if (this.getPlayers().length > 1) 
-				{
-					return;
-				}
-
-				// rate of capture is inversely proportional to the planet's resource value,
-				// i.e. it's faster to capture a less valuable planet
-				double rateOfCapture = Math.sqrt(getPlayerShips(getSinglePlayer()));
-				double capturedThisCycle = rateOfCapture / this.getResourceValue();
-
-				this.setPercentCaptured(this.percentCaptured() + capturedThisCycle);
-
-				if (this.percentCaptured() >= 100) 
-				{
-					this.setControllingPlayer(getSinglePlayer());
-					return;
-				}
-			}
+		if (this.percentCaptured() >= 100) 
+		{
+			this.setControllingPlayer(getSinglePlayer());
+			return;
+		}
+	}
 }

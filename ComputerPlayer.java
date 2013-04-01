@@ -42,35 +42,35 @@ public class ComputerPlayer extends Player
 		for (Planet launchPlanet : ownedPlanets)
 		{
 			Planet[] planetsArr = u.getPlanets();
-			Planet closestValidTarget = planetsArr[0];
+			Planet closestTarget = planetsArr[0];
 			// find closest planet which is a valid target
 			for (int i=1; i < planetsArr.length; i++)
 			{
 				Planet possibleTarget = planetsArr[i];
-				if (this.validTarget(launchPlanet, possibleTarget) && (launchPlanet.distanceFrom(possibleTarget) < launchPlanet.distanceFrom(closestValidTarget)))
+				if (this.validTarget(launchPlanet, possibleTarget) && (launchPlanet.distanceFrom(possibleTarget) < launchPlanet.distanceFrom(closestTarget)))
 				{
-					closestValidTarget = possibleTarget;
+					closestTarget = possibleTarget;
 				}
 			}
 			// Is this a good attack from this planet?
-			int numberOfAttackingShips = this.shipsToAttack(launchPlanet, closestValidTarget);
+			int numberOfAttackingShips = this.shipsToAttack(launchPlanet, closestTarget);
 			if (numberOfAttackingShips == 0) continue;            
 
-			this.initiateMovement(launchPlanet, closestValidTarget, numberOfAttackingShips);
+			this.initiateMovement(launchPlanet, closestTarget, numberOfAttackingShips);
 		}
 	}
 
-	private boolean validTarget(Planet from, Planet to)
+	private boolean validTarget(Planet launchPlanet, Planet targetPlanet)
 	{
-		if (to.belongsTo(this)) {
+		if (targetPlanet.belongsTo(this)) {
 			return false;
 		}
 
-		if (from.canReach(to)) {
-			return true;
+		if (!launchPlanet.canReach(targetPlanet)) {
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ComputerPlayer extends Player
 		int attackMargin = 5;   // we want to attack with this many more ships than the enemy
 		int idealAttackStrength = (targetEnemyShips + attackMargin);
 
-		if (targetEnemyShips == 0) {	// if there's no enemy ships on the planet, attack with all ships, bar 2
+		if (targetEnemyShips == 0 && shipsAvailable > 6) {	// if there's no enemy ships on the planet, attack with all ships, bar 2
 			return (shipsAvailable - 2);
 		}
 
