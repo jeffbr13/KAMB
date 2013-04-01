@@ -450,16 +450,12 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 
 					}
-					else
-					{
-						l=false; //If we click on the selected planet again we de-select it.
-					}
 				}
 				break;
 			}
 		}
-		if(!l)this.selected = null; //The click was not inside any planet or was inside the selected one.
-		repaint();
+		if(!l) this.selected = null; //The click was not inside any planet or was inside the selected one.
+//		repaint();
 
 	}
 
@@ -479,8 +475,23 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
+		mouseX = e.getX();
+		mouseY = e.getY();
 
+		// TODO: if the mouse is inside a GamePiece, set the GamePiece to be the hoveredOn GamePiece
+		for (Planet g : this.universe.getPlanets()) 
+		{
+			if (g.isCoordinateInside(mouseX, mouseY)) 
+			{
+				this.hoverOn = g;
+				repaint();
+				break;
+			} 
+			else 
+			{
+				this.hoverOn = null;
+			}
+		}
 	}
 
 
