@@ -233,7 +233,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			}
 
 			// TODO: update all the players every n cycles
-			if (this.nthUpdateCycle == 50) {
+			if (this.nthUpdateCycle == 200) {
 				for (Player p : this.universe.getPlayers()) {
 					p.update(this.universe);
 					this.nthUpdateCycle = 0;
@@ -362,11 +362,15 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 							if(p.canReach(g) && p.getPlayerShips(humanPlayer)>0 && p.getOwner()==humanPlayer)
 							{
 								System.out.println(this.selected + "\n" + g);
-								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
+								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "All"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
 
 								int startingShips = p.getPlayerShips(humanPlayer);
-								int shipsToSend = Math.min(Integer.parseInt(s),startingShips);
+								int shipsToSend;
+								if(s=="All")
+									shipsToSend=startingShips;
+								else
+									shipsToSend = Math.min(Integer.parseInt(s),startingShips);
 								humanPlayer.initiateMovement(p, g, shipsToSend);
 								l = false;
 							}

@@ -27,7 +27,7 @@ public class Universe
 	private ArrayList<Planet> planets;
 	private ArrayList<Player> players;
 
-	private int initialShipsNumber=100; // the number of ships each player starts with
+	private int initialShipsNumber=20; // the number of ships each player starts with
 
 	static private int margin = 50;   // minimum distance from edges
 	static private int minPlanetSize = 20;

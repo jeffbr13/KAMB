@@ -25,6 +25,7 @@ public class Planet extends GamePiece
 	private double percentCaptured;
 	private int newShip;
 	private Player lastCapturer;
+	private int battleCycle;
 
 	HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
 
@@ -324,8 +325,14 @@ public class Planet extends GamePiece
 	 *  
 	 *  1 unit of damage ~= 1 enemy ship destroyed (rounded)
 	 */
-	private void performBattle() {
-
+	private void performBattle() 
+	{
+		if(battleCycle<100)
+		{
+			battleCycle++;
+			return;
+		}
+		battleCycle=0;
 		int[] damageDealtByPlayers = new int[this.getPlayers().length];
 
 		// calculate the amount of damage/ships each player does in total  
