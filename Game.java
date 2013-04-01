@@ -122,6 +122,18 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 
 			//Draw the % of capture in the middle of the Planet.
+			g2.setColor(this.neutralUiColor);
+			if (p.getOwner() != null) 
+			{
+				g2.setColor(p.getOwner().getColor());
+			}
+			else
+			{
+				if (p.getControllingPlayer() != null) 
+				{
+					g2.setColor(p.getControllingPlayer().getColor());
+				}
+			}
 			g2.drawString((int)p.percentCaptured()+"%", p.getXCenter(), p.getYCenter());
 			
 			//Draw the number of ships of any other players on the planet.

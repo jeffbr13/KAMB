@@ -282,15 +282,24 @@ public class Planet extends GamePiece
 	public void update() {
 
 		// check whether more than one player is on the planet. If so, perform a battle, and end this cycle
-		if (this.getPlayers().length > 1) {
+		if (this.getPlayers().length > 1) 
+		{
 			this.performBattle();
+			int i;
+			for(i=0;i<getPlayers().length;i++)
+			{
+				if(getPlayerShips(getPlayers()[i])<=0)
+				{
+					ships.remove(getPlayers()[i]);
+				}
+			}
 			return;
 		}
 
 		// check whether the planet has already been captured. If it has not, perform capture actions then end the cycle.
 		if(this.getPlayers().length == 1)
 		{
-			if (this.percentCaptured() < 100)
+			if (this.percentCaptured() < 100 || !belongsTo(getSinglePlayer()))
 			{
 				this.capturer = getPlayers()[0];
 				this.performCapture();
@@ -387,23 +396,33 @@ public class Planet extends GamePiece
 			return;
 		}
 
-		if (this.belongsTo(this.capturer)) {
-			this.setControllingPlayer(this.capturer);
-			return;
-		}
+		//if (this.belongsTo(this.capturer)) 
+		//{
+		//	this.setControllingPlayer(this.capturer);
+		//	return;
+		//}
 
 		// rate of capture is inversely proportional to the planet's resource value,
 		// i.e. it's faster to capture a less valuable planet
 		double rateOfCapture = Math.sqrt(getPlayerShips(getSinglePlayer()));
 		double capturedThisCycle = rateOfCapture / this.getResourceValue();
 
-		if (this.getControllingPlayer() != this.capturer) {
+		if (this.getOwner() != null) 
+		{
 			this.setPercentCaptured(this.percentCaptured() - capturedThisCycle);
-		} else {
+		} 
+		else 
+		{
 			this.setPercentCaptured(this.percentCaptured() + capturedThisCycle);
 		}
+		
+		if(percentCaptured()<=0)
+		{
+			setPercentCaptured(0);
+			setPlayer(null);
+		}
 
-		if (this.percentCaptured() >= 100) 
+		if (this.percentCaptured() >= 100 && getOwner()==null) 
 		{
 			this.setControllingPlayer(getSinglePlayer());
 			return;
