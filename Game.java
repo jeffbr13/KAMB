@@ -116,15 +116,28 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 			{
 				g2.setColor(p.getControllingPlayer().getColor());
 			}
-			g2.drawString("ships: "+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
+			//g2.drawString("ships: "+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
+			g2.drawString(""+ p.getPlayerShips(p.getControllingPlayer()), p.getX(), p.getY());
 
 
 			//Draw the % of capture in the middle of the Planet.
 			g2.drawString((int)p.percentCaptured()+"%", p.getXCenter(), p.getYCenter());
+			
+			//Draw the number of ships of any other players on the planet.
+			g2.setColor(this.neutralUiColor);
+			Player[] a=p.getPlayers();
+			int i2;
+			for(i2=0;i2<a.length;i2++)
+				if(a[i2]!=p.getControllingPlayer())
+				{
+					g2.setColor(a[i2].getColor());
+					//g2.drawString("ships: "+ p.getPlayerShips(a[i2]), p.getX()+2*p.getRadius(), p.getY()+i2*10);
+					g2.drawString(""+p.getPlayerShips(a[i2]), p.getX()+2*p.getRadius(), p.getY()+i2*10);
+				}
 
 			// draw the number of Resource Units the planet has 
-			g2.setColor(Color.GRAY);
-			g2.drawString("RUs: "+ p.getResourceValue(), p.getX() + 2*p.getRadius(), p.getY());
+			//g2.setColor(Color.GRAY);
+			//g2.drawString("RUs: "+ p.getResourceValue(), p.getX() + 2*p.getRadius(), p.getY());
 		}
 
 		// draw Fleets
