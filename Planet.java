@@ -221,9 +221,9 @@ public class Planet extends GamePiece
 				return ships.get(p);
 			}
 
-			public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n
+			public void setPlayerShips(Player p, int n) // set the number of ships the given player has to be n, as long as n is less than 0
 			{
-				ships.put(p, n);
+				ships.put(p, Math.max(0, n));
 			}
 
 			public HashMap<Player,Integer> getShips()
@@ -320,11 +320,15 @@ public class Planet extends GamePiece
 				int[] damageDealtByPlayers = new int[this.getPlayers().length];
 
 				// calculate the amount of damage/ships each player does in total  
-				for (int playerNo=0; playerNo < this.getPlayers().length; playerNo++) {
+				for (int playerNo=0; playerNo < this.getPlayers().length; playerNo++)
+				{
 					Player p = this.getPlayers()[playerNo];
-
-					for (int i=0; i < this.getPlayerShips(p); i++) {
-						if (Planet.random.nextBoolean()) damageDealtByPlayers[playerNo] += 1;
+					for (int i=0; i < this.getPlayerShips(p); i++)
+					{
+						if (Planet.random.nextBoolean())
+						{
+							damageDealtByPlayers[playerNo] += 1;
+						}
 					}
 				}
 
