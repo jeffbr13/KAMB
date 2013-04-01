@@ -86,18 +86,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 
 		// draw the universe background
 		g2.drawImage(this.universe.getBackground(), 0, 0, null);
-
-		// load a fleet image, which is reused
-		// TODO: remove this, as fleets provide their own images
-		BufferedImage b;
-		try {
-			File f = new File("resources/images/fleets/fleet1.png");
-			b = ImageIO.read(f);
-			bufferedImage=GamePiece.resize(b, 10);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 
 		// set the Swing component to be opaque
 		setOpaque(true);
@@ -373,7 +362,7 @@ public class Game extends JComponent implements Runnable, MouseListener, MouseMo
 							if(p.canReach(g) && p.getPlayerShips(humanPlayer)>0 && p.getOwner()==humanPlayer)
 							{
 								System.out.println(this.selected + "\n" + g);
-								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
+								Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 								String s = (String)JOptionPane.showInputDialog(this.getParent(), "Number of ships to be sent: ","ATTACK",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
 
 								int startingShips = p.getPlayerShips(humanPlayer);
