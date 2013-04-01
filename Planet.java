@@ -24,6 +24,7 @@ public class Planet extends GamePiece
 	private Player capturer;
 	private double percentCaptured;
 	private int newShip;
+	private Player lastCapturer;
 
 	HashMap<Player, Integer> ships= new HashMap<Player, Integer>();
 
@@ -359,6 +360,11 @@ public class Planet extends GamePiece
 			this.setPlayerShips(p, Math.max(0, shipsLastCycle - damageDealtToPlayers[i]));
 		}
 	}
+	
+	public Player getLastCapturer()
+	{
+		return lastCapturer;
+	}
 
 
 	public boolean belongsTo(Player p)
@@ -407,7 +413,7 @@ public class Planet extends GamePiece
 		double rateOfCapture = Math.sqrt(getPlayerShips(getSinglePlayer()));
 		double capturedThisCycle = rateOfCapture / this.getResourceValue();
 
-		if (this.getOwner() != null) 
+		if (lastCapturer!=getSinglePlayer()) 
 		{
 			this.setPercentCaptured(this.percentCaptured() - capturedThisCycle);
 		} 
@@ -420,6 +426,8 @@ public class Planet extends GamePiece
 		{
 			setPercentCaptured(0);
 			setPlayer(null);
+			newShip=0;
+			lastCapturer=getSinglePlayer();
 		}
 
 		if (this.percentCaptured() >= 100 && getOwner()==null) 

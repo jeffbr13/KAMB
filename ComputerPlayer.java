@@ -62,6 +62,11 @@ public class ComputerPlayer extends Player
 
 	private boolean validTarget(Planet launchPlanet, Planet targetPlanet)
 	{
+		if(targetPlanet==launchPlanet)
+		{
+			return false;
+		}
+		
 		if (targetPlanet.belongsTo(this)) {
 			return false;
 		}
