@@ -78,8 +78,8 @@ public class Main
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e)
 			{
-				Object[] possibilities = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"};
-				String s = (String)JOptionPane.showInputDialog(mainWindow, "Select Number of planets","NUMBER OF PLANETS",JOptionPane.PLAIN_MESSAGE, null, possibilities, "2");
+				Object[] possibilities = {"5", "10", "12", "15", "20", "25"};
+				String s = (String)JOptionPane.showInputDialog(mainWindow, "Select Number of planets","NUMBER OF PLANETS",JOptionPane.PLAIN_MESSAGE, null, possibilities, "15");
 				planets = Integer.parseInt(s);
 				JOptionPane.showMessageDialog(mainWindow, "DONE", "Enjoy your game!", JOptionPane.PLAIN_MESSAGE);
 
